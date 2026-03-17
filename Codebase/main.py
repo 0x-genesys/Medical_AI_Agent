@@ -68,6 +68,17 @@ class MedicalAssistantSetup:
         self.is_windows = platform.system() == "Windows"
         self.python_cmd = "python" if self.is_windows else "python3"
         
+        # Detect Google Colab environment
+        self.is_colab = self._detect_colab()
+    
+    def _detect_colab(self):
+        """Detect if running in Google Colab"""
+        try:
+            import google.colab
+            return True
+        except ImportError:
+            return False
+        
     def check_python_version(self):
         """Check if Python version is compatible"""
         print_header("📋 Checking Python Version")
@@ -93,6 +104,11 @@ class MedicalAssistantSetup:
         """Create and activate virtual environment"""
         print_header("📦 Setting Up Virtual Environment")
         
+        if self.is_colab:
+            print_info("Running in Google Colab - using system Python")
+            print_success("✓ Virtual environment not needed in Colab")
+            return True
+        
         if self.venv_dir.exists():
             print_success("Virtual environment already exists")
             return True
@@ -113,6 +129,8 @@ class MedicalAssistantSetup:
     
     def get_venv_python(self):
         """Get path to Python executable in venv"""
+        if self.is_colab:
+            return sys.executable  # Use system Python in Colab
         if self.is_windows:
             return str(self.venv_dir / "Scripts" / "python.exe")
         else:
@@ -120,6 +138,8 @@ class MedicalAssistantSetup:
     
     def get_venv_pip(self):
         """Get path to pip in venv"""
+        if self.is_colab:
+            return "pip"  # Use system pip in Colab
         if self.is_windows:
             return str(self.venv_dir / "Scripts" / "pip.exe")
         else:
