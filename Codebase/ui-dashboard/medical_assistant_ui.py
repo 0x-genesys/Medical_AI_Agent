@@ -371,18 +371,21 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                 """)
                 for dx in dx_list:
                     if isinstance(dx, dict):
-                        diagnosis = dx.get('diagnosis', '')
-                        probability = dx.get('probability', 0)
-                        prob_percent = int(probability * 100) if probability <= 1 else int(probability)
-                        prob_color = '#4CAF50' if prob_percent > 70 else '#f39c12' if prob_percent > 40 else '#e74c3c'
-                        html_parts.append(f"""
-                        <li style="color: #34495e; margin: 8px 0;">
-                            <strong style="color: #34495e;">{diagnosis}</strong>
-                            <span style="margin-left: 10px; background: {prob_color}20; padding: 2px 8px; border-radius: 10px; color: {prob_color}; font-weight: bold; font-size: 12px;">
-                                {prob_percent}%
-                            </span>
-                        </li>
-                        """)
+                        # Handle multiple formats: diagnosis/probability OR value/confidence
+                        diagnosis = dx.get('diagnosis') or dx.get('value') or ''
+                        probability = dx.get('probability') or dx.get('confidence') or dx.get('confidence_score') or 0
+                        
+                        if diagnosis:
+                            prob_percent = int(probability * 100) if probability <= 1 else int(probability)
+                            prob_color = '#4CAF50' if prob_percent > 70 else '#f39c12' if prob_percent > 40 else '#e74c3c'
+                            html_parts.append(f"""
+                            <li style="color: #34495e; margin: 8px 0;">
+                                <strong style="color: #34495e;">{diagnosis}</strong>
+                                <span style="margin-left: 10px; background: {prob_color}20; padding: 2px 8px; border-radius: 10px; color: {prob_color}; font-weight: bold; font-size: 12px;">
+                                    {prob_percent}%
+                                </span>
+                            </li>
+                            """)
                     else:
                         html_parts.append(f'<li style="color: #34495e;"><strong style="color: #34495e;">{dx}</strong></li>')
                 html_parts.append('</ol></div>')
