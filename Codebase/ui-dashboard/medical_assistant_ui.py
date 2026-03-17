@@ -15,6 +15,16 @@ codebase_path = str(Path(__file__).parent.parent)
 if codebase_path not in sys.path:
     sys.path.insert(0, codebase_path)
 
+# Detect Google Colab
+def _is_colab():
+    try:
+        import google.colab
+        return True
+    except ImportError:
+        return False
+
+IS_COLAB = _is_colab()
+
 # Import from Codebase directory
 from cli_main import MedicalAssistantOrchestrator  # noqa: E402
 from models import ImageModality  # noqa: E402
@@ -699,9 +709,20 @@ def create_ui():
 if __name__ == "__main__":
     print("🏥 Initializing Multimodal Medical Assistant UI...")
     demo = create_ui()
-    demo.launch(
-        server_name="0.0.0.0",
-        server_port=7860,
-        share=False,
-        show_error=True
-    )
+    
+    # Enable public URL for Colab
+    if IS_COLAB:
+        print("🔗 Running in Google Colab - creating public URL...")
+        demo.launch(
+            server_name="0.0.0.0",
+            server_port=7860,
+            share=True,  # Create public URL for Colab
+            show_error=True
+        )
+    else:
+        demo.launch(
+            server_name="0.0.0.0",
+            server_port=7860,
+            share=False,
+            show_error=True
+        )

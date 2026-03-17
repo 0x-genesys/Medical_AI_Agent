@@ -19,6 +19,11 @@ from logger import get_logger
 from config import config
 from session_manager import SessionManager
 
+# Suppress verbose BERT model loading messages
+import warnings
+import logging
+warnings.filterwarnings('ignore', message='.*UNEXPECTED.*')
+logging.getLogger("transformers.modeling_utils").setLevel(logging.ERROR)
 
 class TextProcessor:
     """
