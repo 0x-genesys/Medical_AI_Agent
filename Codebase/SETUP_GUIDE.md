@@ -4,6 +4,44 @@ Complete setup instructions for LangChain + BioBERT + BiomedCLIP architecture.
 
 ## Quick Start (Automated Setup)
 
+# Simplest colab Run :
+
+Add this to colab cell and run , a public url will be generated
+
+```bash
+import os
+
+# Navigate to /content to ensure a consistent starting point
+%cd /content
+
+# Remove existing Medical_AI_Agent directory to ensure a clean clone
+!rm -rf Medical_AI_Agent
+
+# Clone the repository
+!git clone https://github.com/0x-genesys/Medical_AI_Agent.git
+
+# Navigate into the cloned repository
+%cd Medical_AI_Agent
+!git pull origin main
+
+# Navigate into the Codebase directory
+%cd Codebase
+
+!pip install -r requirements.txt
+
+# Enable GPU for BiomedCLIP
+!sed -i 's/torch.device("cpu")/torch.device("cuda")/' image_processor.py
+!apt-get install -y zstd
+!curl -fsSL https://ollama.com/install.sh | sh
+!nohup ollama serve > /dev/null 2>&1 &
+!sleep 5 && ollama pull llama3.2
+
+# Run test
+# !python test_cuda_devices.py
+# !python test_biomedclip.py
+!python main.py --ui
+```
+
 ```bash
 cd Codebase
 python main.py

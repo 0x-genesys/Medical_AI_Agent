@@ -397,8 +397,18 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                 """)
                 for workup in workup_list:
                     if isinstance(workup, dict):
-                        test = workup.get('test', workup.get('name', ''))
-                        html_parts.append(f'<li style="color: #34495e;">{test}</li>')
+                        # Handle different dict formats: test_name, test, name, consultation
+                        test = (workup.get('test_name') or 
+                               workup.get('test') or 
+                               workup.get('name') or 
+                               workup.get('consultation') or '')
+                        interpretation = workup.get('interpretation', '')
+                        
+                        if test:
+                            if interpretation:
+                                html_parts.append(f'<li style="color: #34495e;"><strong>{test}</strong>: {interpretation}</li>')
+                            else:
+                                html_parts.append(f'<li style="color: #34495e;">{test}</li>')
                     else:
                         html_parts.append(f'<li style="color: #34495e;">{workup}</li>')
                 html_parts.append('</ul></div>')
