@@ -23,7 +23,7 @@ from session_manager import SessionManager
 import warnings
 import logging
 warnings.filterwarnings('ignore', message='.*UNEXPECTED.*')
-logging.getLogger("transformers.modeling_utils").setLevel(logging.ERROR)
+logging.getLogger("transformers.modeling_utils").setLevel(logging.DEBUG)
 
 class TextProcessor:
     """

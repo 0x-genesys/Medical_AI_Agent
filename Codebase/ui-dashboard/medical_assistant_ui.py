@@ -2,16 +2,15 @@
 Multimodal Medical Assistant - Beautiful Web UI
 Single-file Gradio interface with intelligent medical output parsing
 """
+# CRITICAL FIX: Disable tokenizers parallelism BEFORE imports to prevent BiomedCLIP crash
+import os
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
+
 import gradio as gr
 import sys
-import os
 from pathlib import Path
 from typing import Optional, Dict, Any, List, Tuple
 import json
-import warnings
-
-# Suppress harmless multiprocessing resource tracker warnings (Gradio/multiprocessing cleanup)
-warnings.filterwarnings('ignore', category=UserWarning, module='multiprocessing.resource_tracker')
 
 # Add Codebase directory to path for imports
 # ui-dashboard is inside Codebase, so parent.parent is project root, parent is Codebase
@@ -127,7 +126,7 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                 <div style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #e74c3c;">
                     <h4 style="color: #2c3e50; margin-top: 0;">🔍 Chief Complaints</h4>
                     <ul style="margin: 0; color: #34495e;">
-                        {''.join(f'<li style="color: #34495e;">{item}</li>' for item in result['chief_complaints'])}
+                        {''.join(f'<li style="color: #34495e;">{str(item)}</li>' for item in result['chief_complaints'])}
                     </ul>
                 </div>
                 """)
@@ -138,7 +137,7 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                 <div style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #f39c12;">
                     <h4 style="color: #2c3e50; margin-top: 0;">🩺 Symptoms</h4>
                     <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                        {''.join(f'<span style="background: #fff3cd; padding: 5px 12px; border-radius: 15px; font-size: 14px; color: #856404;">{item}</span>' for item in result['symptoms'])}
+                        {''.join(f'<span style="background: #fff3cd; padding: 5px 12px; border-radius: 15px; font-size: 14px; color: #856404;">{str(item)}</span>' for item in result['symptoms'])}
                     </div>
                 </div>
                 """)
@@ -149,7 +148,7 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                 <div style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #9b59b6;">
                     <h4 style="color: #2c3e50; margin-top: 0;">💊 Medications</h4>
                     <ul style="margin: 0; color: #34495e;">
-                        {''.join(f'<li style="color: #34495e;"><strong style="color: #34495e;">{item}</strong></li>' for item in result['medications'])}
+                        {''.join(f'<li style="color: #34495e;"><strong style="color: #34495e;">{str(item)}</strong></li>' for item in result['medications'])}
                     </ul>
                 </div>
                 """)
@@ -160,7 +159,7 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                 <div style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #3498db;">
                     <h4 style="color: #2c3e50; margin-top: 0;">🔬 Laboratory Findings</h4>
                     <ul style="margin: 0; color: #34495e;">
-                        {''.join(f'<li style="color: #34495e;">{item}</li>' for item in result['lab_findings'])}
+                        {''.join(f'<li style="color: #34495e;">{str(item)}</li>' for item in result['lab_findings'])}
                     </ul>
                 </div>
                 """)
@@ -481,10 +480,27 @@ def process_report(file_obj):
         yield "❌ Please upload a file", get_session_info(), gr.update(value="Analyze Report", interactive=True)
         return
     
-    # Initial processing message
-    processing_msg = """<div style='padding: 20px; background: #fff3e0; border-radius: 8px; text-align: center;'>
-        <h3 style='color: #e65100; margin: 0;'>📋 Analyzing clinical report...</h3>
-        <p style='color: #555; margin-top: 10px;'>Extracting entities with BioBERT</p>
+    # Animated loading indicator
+    processing_msg = """
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #e65100;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+    </style>
+    <div style='padding: 30px; background: #fff3e0; border-radius: 8px; text-align: center;'>
+        <div class='loader'></div>
+        <h3 style='color: #e65100; margin: 15px 0 0 0;'>📋 Analyzing clinical report...</h3>
+        <p style='color: #555; margin-top: 10px;'>Extracting entities with BioBERT • Consulting Llama 3</p>
     </div>"""
     yield processing_msg, get_session_info(), gr.update(value="⏳ Analyzing...", interactive=False)
     
@@ -505,10 +521,27 @@ def process_report(file_obj):
 
 def process_query(query: str):
     """Process medical query with RAG - yields progress updates"""
-    # Initial processing message
-    processing_msg = """<div style='padding: 20px; background: #e3f2fd; border-radius: 8px; text-align: center;'>
-        <h3 style='color: #1976d2; margin: 0;'>🔍 Processing your query...</h3>
-        <p style='color: #555; margin-top: 10px;'>Searching knowledge base with BioBERT embeddings</p>
+    # Animated loading indicator
+    processing_msg = """
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1976d2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+    </style>
+    <div style='padding: 30px; background: #e3f2fd; border-radius: 8px; text-align: center;'>
+        <div class='loader'></div>
+        <h3 style='color: #1976d2; margin: 15px 0 0 0;'>🔍 Processing your query...</h3>
+        <p style='color: #555; margin-top: 10px;'>Searching knowledge base with BioBERT • Consulting Llama 3</p>
     </div>"""
     yield processing_msg, get_session_info(), gr.update(value="⏳ Processing...", interactive=False)
     
@@ -526,10 +559,27 @@ def process_query(query: str):
 
 def process_image(image_path: str, modality: str, body_part: str):
     """Process medical image - yields progress updates"""
-    # Initial processing message
-    processing_msg = """<div style='padding: 20px; background: #e8f5e9; border-radius: 8px; text-align: center;'>
-        <h3 style='color: #388e3c; margin: 0;'>🖼️ Analyzing medical image...</h3>
-        <p style='color: #555; margin-top: 10px;'>Extracting features with BiomedCLIP vision model</p>
+    # Animated loading indicator
+    processing_msg = """
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #388e3c;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+    </style>
+    <div style='padding: 30px; background: #e8f5e9; border-radius: 8px; text-align: center;'>
+        <div class='loader'></div>
+        <h3 style='color: #388e3c; margin: 15px 0 0 0;'>🖼️ Analyzing medical image...</h3>
+        <p style='color: #555; margin-top: 10px;'>Extracting features with BiomedCLIP • Consulting Llama 3</p>
     </div>"""
     yield processing_msg, get_session_info(), gr.update(value="⏳ Analyzing...", interactive=False)
     
@@ -551,11 +601,27 @@ def process_multimodal(report_file, image_file, modality: str, body_part: str):
         yield "❌ Please upload both report and image files", get_session_info(), gr.update(value="Fuse & Analyze", interactive=True)
         return
     
-    # Initial processing message
-    processing_msg = """<div style='padding: 20px; background: #f3e5f5; border-radius: 8px; text-align: center;'>
-        <h3 style='color: #7b1fa2; margin: 0;'>🔬 Performing multimodal fusion...</h3>
-        <p style='color: #555; margin-top: 10px;'>Analyzing text with BioBERT + image with BiomedCLIP</p>
-        <p style='color: #555; margin-top: 5px;'>Generating integrated clinical assessment</p>
+    # Animated loading indicator
+    processing_msg = """
+    <style>
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #7b1fa2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+    </style>
+    <div style='padding: 30px; background: #f3e5f5; border-radius: 8px; text-align: center;'>
+        <div class='loader'></div>
+        <h3 style='color: #7b1fa2; margin: 15px 0 0 0;'>🔬 Performing multimodal fusion...</h3>
+        <p style='color: #555; margin-top: 10px;'>BioBERT + BiomedCLIP + Llama 3 • Integrated analysis</p>
     </div>"""
     yield processing_msg, get_session_info(), gr.update(value="⏳ Processing...", interactive=False)
     
@@ -771,23 +837,75 @@ def create_ui():
     
     return demo
 
+def cleanup_resources():
+    """Cleanup models and resources to prevent semaphore leaks"""
+    global orchestrator
+    try:
+        print("🧹 Cleaning up resources...")
+        
+        if orchestrator:
+            # Clear CUDA cache if available
+            import torch
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                print("  ✓ Cleared CUDA cache")
+            
+            # Clear session manager
+            if orchestrator._session_id:
+                orchestrator.shared_session_manager.clear_session(orchestrator._session_id)
+            
+            # Delete heavy model references
+            del orchestrator.text_processor
+            del orchestrator.image_processor
+            del orchestrator.multimodal_fusion
+            orchestrator = None
+            
+            print("  ✓ Cleanup complete")
+    except Exception as e:
+        print(f"  ⚠️ Cleanup warning (non-critical): {e}")
+
+
 if __name__ == "__main__":
     print("🏥 Initializing Multimodal Medical Assistant UI...")
-    demo = create_ui()
     
-    # Enable public URL for Colab
-    if IS_COLAB:
-        print("🔗 Running in Google Colab - creating public URL...")
-        demo.launch(
-            server_name="0.0.0.0",
-            server_port=7860,
-            share=True,  # Create public URL for Colab
-            show_error=True
-        )
-    else:
-        demo.launch(
-            server_name="0.0.0.0",
-            server_port=7860,
-            share=False,
-            show_error=True
-        )
+    demo = None
+    try:
+        print("Creating UI components...")
+        demo = create_ui()
+        print("✓ UI components created")
+        
+        # Enable public URL for Colab
+        if IS_COLAB:
+            print("🔗 Running in Google Colab - creating public URL...")
+            demo.launch(
+                server_name="0.0.0.0",
+                server_port=7860,
+                share=True,
+                show_error=True
+            )
+        else:
+            print("🌐 Launching Gradio UI...")
+            demo.launch(
+                server_name="0.0.0.0",
+                server_port=7860,
+                share=False,
+                show_error=True
+            )
+        print("✓ Server should be running now")
+        
+    except KeyboardInterrupt:
+        print("\n👋 Shutting down gracefully...")
+    except Exception as e:
+        print(f"\n❌ LAUNCH ERROR: {e}")
+        import traceback
+        traceback.print_exc()
+    finally:
+        print("Entering cleanup...")
+        # Clean up resources
+        if demo is not None:
+            try:
+                demo.close()
+            except Exception as e:
+                print(f"Demo close error: {e}")
+        cleanup_resources()
+        print("Cleanup done")

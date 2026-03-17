@@ -9,10 +9,12 @@ Features:
 4. HIPAA-compliant PHI handling
 5. Multimodal analysis: text, images, and integrated assessments
 """
-# CRITICAL: Set OpenMP environment BEFORE any imports
+# CRITICAL: Set environment variables BEFORE any imports
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 os.environ['OMP_NUM_THREADS'] = '4'
+# CRITICAL FIX: Disable tokenizers parallelism to prevent BiomedCLIP crash
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 from datetime import datetime
 from typing import Optional, Dict
@@ -101,6 +103,30 @@ class MedicalAssistantOrchestrator:
     def increment_interaction(self):
         """Track interaction count for session"""
         self._interaction_count += 1
+    
+    def cleanup(self):
+        """Cleanup resources to prevent semaphore leaks"""
+        try:
+            logger.info("Cleaning up resources...")
+            
+            # Clear CUDA cache if available
+            import torch
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                logger.info("✓ Cleared CUDA cache")
+            
+            # Clear session manager
+            if self._session_id:
+                self.shared_session_manager.clear_session(self._session_id)
+            
+            # Delete heavy model references
+            del self.text_processor
+            del self.image_processor
+            del self.multimodal_fusion
+            
+            logger.info("✓ Cleanup complete")
+        except Exception as e:
+            logger.warning(f"Cleanup error (non-critical): {e}")
     
     def analyze_report_flow(self, file_path: str, data_type: str = "clinical_note") -> dict:
         """
@@ -526,6 +552,11 @@ def run_cli_mode():
         except Exception as e:
             logger.error(f"Error in CLI: {str(e)}", exc_info=True)
             print(f"\n❌ Error: {str(e)}")
+    
+    # Cleanup resources before exit
+    print("\n🧹 Cleaning up resources...")
+    orchestrator.cleanup()
+    print("✓ Cleanup complete. Goodbye!\n")
 
 
 if __name__ == "__main__":
@@ -537,4 +568,9 @@ if __name__ == "__main__":
         print("Usage: python main.py")
         sys.exit(1)
     
-    run_cli_mode()
+    try:
+        run_cli_mode()
+    except Exception as e:
+        print(f"\n❌ Fatal error: {e}")
+        import traceback
+        traceback.print_exc()
