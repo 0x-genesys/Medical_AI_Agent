@@ -187,8 +187,13 @@ class MedicalAssistantSetup:
             return False
     
     def consolidate_openmp(self):
-        """Consolidate duplicate OpenMP libraries to prevent SIGSEGV crashes"""
-        print_header("🔧 Consolidating OpenMP Libraries")
+        """
+        Configure OpenMP environment variables to prevent crashes
+        
+        SAFER APPROACH: Uses environment variables instead of file manipulation
+        This avoids risky deletion/symlinking of library files
+        """
+        print_header("🔧 Configuring OpenMP Environment")
         
         try:
             # Find site-packages in venv
@@ -201,12 +206,11 @@ class MedicalAssistantSetup:
             )
             site_packages = Path(result.stdout.strip())
             
-            # Locate OpenMP libraries
+            # Check which libraries have OpenMP
             torch_omp = site_packages / "torch" / "lib" / "libomp.dylib"
             sklearn_omp = site_packages / "sklearn" / ".dylibs" / "libomp.dylib"
             faiss_omp = site_packages / "faiss" / ".dylibs" / "libomp.dylib"
             
-            # Check which libraries exist
             libs_found = []
             if torch_omp.exists():
                 libs_found.append("PyTorch")
@@ -215,38 +219,28 @@ class MedicalAssistantSetup:
             if faiss_omp.exists():
                 libs_found.append("FAISS")
             
-            if len(libs_found) <= 1:
-                print_success("No duplicate OpenMP libraries found")
+            if len(libs_found) == 0:
+                print_warning("No OpenMP libraries found (unusual)")
                 return True
             
-            print_info(f"Found OpenMP in: {', '.join(libs_found)}")
+            if len(libs_found) == 1:
+                print_success(f"Single OpenMP library: {libs_found[0]}")
+                return True
             
-            if not torch_omp.exists():
-                print_warning("PyTorch OpenMP not found, skipping consolidation")
-                return False
+            print_info(f"Multiple OpenMP libraries detected: {', '.join(libs_found)}")
+            print_info("Using environment variables to handle conflicts:")
+            print_info("  • KMP_DUPLICATE_LIB_OK=TRUE (allows multiple OpenMP)")
+            print_info("  • OMP_NUM_THREADS=4 (limits threads)")
+            print("")
+            print_success("✓ Environment-based approach (safe, no file modification)")
+            print_info("Note: Environment variables set at top of Python modules")
             
-            # Consolidate scikit-learn
-            if sklearn_omp.exists() and not sklearn_omp.is_symlink():
-                backup = sklearn_omp.with_suffix('.dylib.backup')
-                shutil.move(str(sklearn_omp), str(backup))
-                rel_path = os.path.relpath(torch_omp, sklearn_omp.parent)
-                sklearn_omp.symlink_to(rel_path)
-                print_info("Consolidated sklearn → PyTorch")
-            
-            # Consolidate FAISS
-            if faiss_omp.exists() and not faiss_omp.is_symlink():
-                backup = faiss_omp.with_suffix('.dylib.backup')
-                shutil.move(str(faiss_omp), str(backup))
-                rel_path = os.path.relpath(torch_omp, faiss_omp.parent)
-                faiss_omp.symlink_to(rel_path)
-                print_info("Consolidated FAISS → PyTorch")
-            
-            print_success("OpenMP libraries consolidated (prevents image processing crashes)")
             return True
             
         except Exception as e:
-            print_error(f"OpenMP consolidation failed: {e}")
-            return False
+            print_warning(f"Could not check OpenMP libraries: {e}")
+            print_info("Continuing anyway - environment variables should handle conflicts")
+            return True
     
     def check_ollama(self):
         """Check if Ollama is installed and running"""

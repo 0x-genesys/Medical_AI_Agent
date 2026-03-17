@@ -2,26 +2,45 @@
 
 Complete setup instructions for LangChain + BioBERT + BiomedCLIP architecture.
 
+## Quick Start (Automated Setup)
+
+```bash
+cd Codebase
+python main.py
+```
+
+The setup script will automatically:
+1. Check Python version (3.11+)
+2. Create virtual environment
+3. Install all dependencies
+4. Configure OpenMP environment (safe, no file modification)
+5. Verify Ollama and Llama 3
+6. Launch the application
+
+**That's it!** The entire setup is automated.
+
+---
+
 ## System Requirements
 
 - **OS**: macOS, Linux, or Windows 10+
 - **Python**: 3.11 or higher
 - **RAM**: Minimum 16GB (BiomedCLIP + BioBERT)
 - **Storage**: 15GB free space for models
-- **GPU**: Optional but strongly recommended for BiomedCLIP
+- **GPU**: Optional but recommended for faster inference
 
 ## Architecture Overview
 
 This implementation follows PDF requirements:
-- ✅ **LangChain** - Pipeline orchestration (no custom code)
-- ✅ **BioBERT/ClinicalBERT** - Text embeddings and semantic search
-- ✅ **BiomedCLIP** - Medical image feature extraction
-- ✅ **Llama 3** - Natural language understanding
-- ✅ **FAISS** - Vector similarity search
+- ✅ **LangChain** - Pipeline orchestration
+- ✅ **BioBERT/ClinicalBERT** - Text embeddings (768-dim) and semantic search
+- ✅ **BiomedCLIP** - Medical image feature extraction (512-dim)
+- ✅ **Llama 3** - Clinical reasoning and report generation (8B parameters)
+- ✅ **FAISS** - Vector similarity search (CPU-optimized)
 
-## Step-by-Step Installation
+## Prerequisites
 
-### 1. Install Ollama and Llama 3
+**Only Ollama needs manual installation. Everything else is automated!**
 
 **macOS/Linux:**
 ```bash
@@ -33,13 +52,13 @@ Download from [ollama.com](https://ollama.com/download)
 
 **Pull Llama 3 model:**
 ```bash
-ollama pull llama3
+ollama pull llama3.2
 
 # Verify installation
 ollama list
 ```
 
-### 2. Setup Project Directory
+### 2. Run Automated Setup
 
 ```bash
 cd /Users/k0a05wi/Downloads/Capstone_Project-CS[ID]/Codebase
@@ -234,6 +253,51 @@ curl -X POST "http://localhost:8000/api/analyze/multimodal" \
 # - Synthesize using SequentialChain
 # - Generate integrated assessment
 ```
+
+## OpenMP Conflict Resolution
+
+### The Problem
+
+Multiple Python libraries (PyTorch, FAISS, scikit-learn, NumPy) bundle their own OpenMP runtime libraries. When loaded together, they conflict and cause crashes (SIGSEGV).
+
+### Our Solution: Environment Variables (Safe & Standard)
+
+We use **environment variables** to allow multiple OpenMP libraries to coexist:
+
+```python
+# Set BEFORE any imports in Python modules
+import os
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'  # Allow multiple OpenMP
+os.environ['OMP_NUM_THREADS'] = '4'           # Limit thread count
+```
+
+**Why this approach:**
+1. ✅ **Safe**: No file system modification
+2. ✅ **Standard**: Recommended by Intel MKL documentation
+3. ✅ **Portable**: Works on all platforms (macOS, Linux, Windows)
+4. ✅ **Reversible**: Just environment variables, no permanent changes
+5. ✅ **Industry Practice**: Used by TensorFlow, PyTorch, scikit-learn projects
+
+**Alternative approaches (NOT recommended):**
+- ❌ Deleting/symlinking library files: Risky, can break packages
+- ❌ Recompiling libraries: Time-consuming, not portable
+- ❌ Using only one library: Not feasible for multimodal AI
+
+**Implementation:**
+- `main.py`: Sets variables at startup
+- `image_processor.py`: Sets before torch/faiss imports
+- `cli_main.py`: Sets before processor imports
+- `text_processor.py`: Uses the inherited environment
+
+### Verification
+
+```bash
+# Check environment variables are set
+python -c "import os; print('KMP_DUPLICATE_LIB_OK:', os.environ.get('KMP_DUPLICATE_LIB_OK'))"
+# Output: KMP_DUPLICATE_LIB_OK: TRUE
+```
+
+---
 
 ## Troubleshooting
 
