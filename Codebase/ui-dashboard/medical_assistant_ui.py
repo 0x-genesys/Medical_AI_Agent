@@ -8,6 +8,10 @@ import os
 from pathlib import Path
 from typing import Optional, Dict, Any, List, Tuple
 import json
+import warnings
+
+# Suppress harmless multiprocessing resource tracker warnings (Gradio/multiprocessing cleanup)
+warnings.filterwarnings('ignore', category=UserWarning, module='multiprocessing.resource_tracker')
 
 # Add Codebase directory to path for imports
 # ui-dashboard is inside Codebase, so parent.parent is project root, parent is Codebase
@@ -286,7 +290,9 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                             html_parts.append('<h5 style="color: #7f8c8d; margin: 15px 0 8px 0;">Chief Complaints</h5>')
                             html_parts.append('<ul style="margin: 0 0 10px 0; color: #34495e;">')
                             for c in complaints:
-                                html_parts.append(f'<li style="color: #34495e;">{c}</li>')
+                                # Ensure string conversion for dict or other types
+                                c_str = str(c) if not isinstance(c, str) else c
+                                html_parts.append(f'<li style="color: #34495e;">{c_str}</li>')
                             html_parts.append('</ul>')
                     
                     # Symptoms
@@ -296,7 +302,9 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                             html_parts.append('<h5 style="color: #7f8c8d; margin: 15px 0 8px 0;">Symptoms</h5>')
                             html_parts.append('<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">')
                             for s in symptoms:
-                                html_parts.append(f'<span style="background: #fff3cd; padding: 5px 12px; border-radius: 15px; font-size: 14px; color: #856404;">{s}</span>')
+                                # Ensure string conversion for dict or other types
+                                s_str = str(s) if not isinstance(s, str) else s
+                                html_parts.append(f'<span style="background: #fff3cd; padding: 5px 12px; border-radius: 15px; font-size: 14px; color: #856404;">{s_str}</span>')
                             html_parts.append('</div>')
                     
                     # Medical History
@@ -306,7 +314,9 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                             html_parts.append('<h5 style="color: #7f8c8d; margin: 15px 0 8px 0;">Medical History</h5>')
                             html_parts.append('<ul style="margin: 0 0 10px 0; color: #34495e;">')
                             for h in history:
-                                html_parts.append(f'<li style="color: #34495e;">{h}</li>')
+                                # Ensure string conversion for dict or other types
+                                h_str = str(h) if not isinstance(h, str) else h
+                                html_parts.append(f'<li style="color: #34495e;">{h_str}</li>')
                             html_parts.append('</ul>')
                     
                     # Medications
@@ -320,7 +330,9 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                                 med_dose = med.get('dose', '')
                                 html_parts.append(f'<li style="color: #34495e;"><strong>{med_name}</strong> - {med_dose}</li>')
                             else:
-                                html_parts.append(f'<li style="color: #34495e;">{med}</li>')
+                                # Ensure string conversion
+                                med_str = str(med) if not isinstance(med, str) else med
+                                html_parts.append(f'<li style="color: #34495e;">{med_str}</li>')
                         html_parts.append('</ul>')
                     
                     # Lab Findings
@@ -334,7 +346,9 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                                 result_val = lab.get('result', '')
                                 html_parts.append(f'<div style="margin: 5px 0; color: #34495e;"><strong>{test}:</strong> {result_val}</div>')
                             else:
-                                html_parts.append(f'<div style="margin: 5px 0; color: #34495e;">{lab}</div>')
+                                # Ensure string conversion
+                                lab_str = str(lab) if not isinstance(lab, str) else lab
+                                html_parts.append(f'<div style="margin: 5px 0; color: #34495e;">{lab_str}</div>')
                         html_parts.append('</div>')
                     
                     # Imaging Findings
@@ -344,9 +358,13 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
                         html_parts.append('<ul style="margin: 0 0 10px 0; color: #34495e;">')
                         if isinstance(imaging, list):
                             for img in imaging:
-                                html_parts.append(f'<li style="color: #34495e;">{img}</li>')
+                                # Ensure string conversion for dict or other types
+                                img_str = str(img) if not isinstance(img, str) else img
+                                html_parts.append(f'<li style="color: #34495e;">{img_str}</li>')
                         else:
-                            html_parts.append(f'<li style="color: #34495e;">{imaging}</li>')
+                            # Ensure string conversion
+                            imaging_str = str(imaging) if not isinstance(imaging, str) else imaging
+                            html_parts.append(f'<li style="color: #34495e;">{imaging_str}</li>')
                         html_parts.append('</ul>')
                     
                     html_parts.append('</div>')
@@ -457,59 +475,92 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
     
     return ''.join(html_parts)
 
-def process_report(file_obj) -> Tuple[str, str]:
-    """Process clinical report file"""
+def process_report(file_obj):
+    """Process clinical report file - yields progress updates"""
+    if file_obj is None:
+        yield "❌ Please upload a file", get_session_info(), gr.update(value="Analyze Report", interactive=True)
+        return
+    
+    # Initial processing message
+    processing_msg = """<div style='padding: 20px; background: #fff3e0; border-radius: 8px; text-align: center;'>
+        <h3 style='color: #e65100; margin: 0;'>📋 Analyzing clinical report...</h3>
+        <p style='color: #555; margin-top: 10px;'>Extracting entities with BioBERT</p>
+    </div>"""
+    yield processing_msg, get_session_info(), gr.update(value="⏳ Analyzing...", interactive=False)
+    
     orch = initialize_orchestrator()
     try:
-        # Gradio file upload returns file object with .name attribute
-        if file_obj is None:
-            return "❌ Please upload a file", get_session_info()
-        
         # Extract file path from Gradio file object
         file_path = file_obj.name if hasattr(file_obj, 'name') else str(file_obj)
         
         result = orch.analyze_report_flow(file_path)
         if 'error' in result:
-            return f"❌ Error: {result['error']}", get_session_info()
+            yield f"❌ Error: {result['error']}", get_session_info(), gr.update(value="Analyze Report", interactive=True)
+            return
         
         html_output = parse_medical_output(result, "report_analysis")
-        return html_output, get_session_info()
+        yield html_output, get_session_info(), gr.update(value="Analyze Report", interactive=True)
     except Exception as e:
-        return f"❌ Error processing report: {str(e)}", get_session_info()
+        yield f"❌ Error processing report: {str(e)}", get_session_info(), gr.update(value="Analyze Report", interactive=True)
 
-def process_query(query: str) -> Tuple[str, str]:
-    """Process medical query with RAG"""
+def process_query(query: str):
+    """Process medical query with RAG - yields progress updates"""
+    # Initial processing message
+    processing_msg = """<div style='padding: 20px; background: #e3f2fd; border-radius: 8px; text-align: center;'>
+        <h3 style='color: #1976d2; margin: 0;'>🔍 Processing your query...</h3>
+        <p style='color: #555; margin-top: 10px;'>Searching knowledge base with BioBERT embeddings</p>
+    </div>"""
+    yield processing_msg, get_session_info(), gr.update(value="⏳ Processing...", interactive=False)
+    
     orch = initialize_orchestrator()
     try:
         result = orch.answer_query_flow(query)
         if 'error' in result:
-            return f"❌ Error: {result['error']}", get_session_info()
+            yield f"❌ Error: {result['error']}", get_session_info(), gr.update(value="Ask Question", interactive=True)
+            return
         
         html_output = parse_medical_output(result, "query")
-        return html_output, get_session_info()
+        yield html_output, get_session_info(), gr.update(value="Ask Question", interactive=True)
     except Exception as e:
-        return f"❌ Error processing query: {str(e)}", get_session_info()
+        yield f"❌ Error processing query: {str(e)}", get_session_info(), gr.update(value="Ask Question", interactive=True)
 
-def process_image(image_path: str, modality: str, body_part: str) -> Tuple[str, str]:
-    """Process medical image"""
+def process_image(image_path: str, modality: str, body_part: str):
+    """Process medical image - yields progress updates"""
+    # Initial processing message
+    processing_msg = """<div style='padding: 20px; background: #e8f5e9; border-radius: 8px; text-align: center;'>
+        <h3 style='color: #388e3c; margin: 0;'>🖼️ Analyzing medical image...</h3>
+        <p style='color: #555; margin-top: 10px;'>Extracting features with BiomedCLIP vision model</p>
+    </div>"""
+    yield processing_msg, get_session_info(), gr.update(value="⏳ Analyzing...", interactive=False)
+    
     orch = initialize_orchestrator()
     try:
         result = orch.analyze_image_flow(image_path, modality.lower(), body_part if body_part else None)
         if 'error' in result:
-            return f"❌ Error: {result['error']}", get_session_info()
+            yield f"❌ Error: {result['error']}", get_session_info(), gr.update(value="Analyze Image", interactive=True)
+            return
         
         html_output = parse_medical_output(result, "image_analysis")
-        return html_output, get_session_info()
+        yield html_output, get_session_info(), gr.update(value="Analyze Image", interactive=True)
     except Exception as e:
-        return f"❌ Error processing image: {str(e)}", get_session_info()
+        yield f"❌ Error processing image: {str(e)}", get_session_info(), gr.update(value="Analyze Image", interactive=True)
 
-def process_multimodal(report_file, image_file, modality: str, body_part: str) -> Tuple[str, str]:
-    """Process multimodal fusion (text + image)"""
+def process_multimodal(report_file, image_file, modality: str, body_part: str):
+    """Process multimodal fusion (text + image) - yields progress updates"""
+    if report_file is None or image_file is None:
+        yield "❌ Please upload both report and image files", get_session_info(), gr.update(value="Fuse & Analyze", interactive=True)
+        return
+    
+    # Initial processing message
+    processing_msg = """<div style='padding: 20px; background: #f3e5f5; border-radius: 8px; text-align: center;'>
+        <h3 style='color: #7b1fa2; margin: 0;'>🔬 Performing multimodal fusion...</h3>
+        <p style='color: #555; margin-top: 10px;'>Analyzing text with BioBERT + image with BiomedCLIP</p>
+        <p style='color: #555; margin-top: 5px;'>Generating integrated clinical assessment</p>
+    </div>"""
+    yield processing_msg, get_session_info(), gr.update(value="⏳ Processing...", interactive=False)
+    
     orch = initialize_orchestrator()
     try:
-        if report_file is None or image_file is None:
-            return "❌ Please upload both report and image files", get_session_info()
-        
         # Extract file paths from Gradio file objects
         report_path = report_file.name if hasattr(report_file, 'name') else str(report_file)
         image_path = image_file.name if hasattr(image_file, 'name') else str(image_file)
@@ -522,12 +573,13 @@ def process_multimodal(report_file, image_file, modality: str, body_part: str) -
             image_file=image_path
         )
         if 'error' in result:
-            return f"❌ Error: {result['error']}", get_session_info()
+            yield f"❌ Error: {result['error']}", get_session_info(), gr.update(value="Fuse & Analyze", interactive=True)
+            return
         
         html_output = parse_medical_output(result, "multimodal_fusion")
-        return html_output, get_session_info()
+        yield html_output, get_session_info(), gr.update(value="Fuse & Analyze", interactive=True)
     except Exception as e:
-        return f"❌ Error processing multimodal: {str(e)}", get_session_info()
+        yield f"❌ Error processing multimodal: {str(e)}", get_session_info(), gr.update(value="Fuse & Analyze", interactive=True)
 
 def reset_session() -> Tuple[str, str]:
     """Reset current session"""
@@ -617,7 +669,7 @@ def create_ui():
                 report_btn.click(
                     fn=process_report,
                     inputs=[report_file],
-                    outputs=[report_output, session_display]
+                    outputs=[report_output, session_display, report_btn]
                 )
             
             # Tab 2: Medical Query (RAG)
@@ -634,7 +686,7 @@ def create_ui():
                 query_btn.click(
                     fn=process_query,
                     inputs=[query_input],
-                    outputs=[query_output, session_display]
+                    outputs=[query_output, session_display, query_btn]
                 )
             
             # Tab 3: Image Analysis
@@ -656,7 +708,7 @@ def create_ui():
                 image_btn.click(
                     fn=process_image,
                     inputs=[image_file, image_modality, image_body_part],
-                    outputs=[image_output, session_display]
+                    outputs=[image_output, session_display, image_btn]
                 )
             
             # Tab 4: Multimodal Fusion
@@ -687,7 +739,7 @@ def create_ui():
                 mm_btn.click(
                     fn=process_multimodal,
                     inputs=[mm_report, mm_image, mm_modality, mm_body_part],
-                    outputs=[mm_output, session_display]
+                    outputs=[mm_output, session_display, mm_btn]
                 )
             
             # Tab 5: Session Management
