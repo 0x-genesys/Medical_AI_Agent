@@ -1,0 +1,63 @@
+PATIENT CLINICAL NOTE
+
+Date: March 10, 2026
+Patient ID: PT-2024-1234
+Age: 52 years
+Gender: Male
+Weight: 95 kg
+Height: 175 cm
+BMI: 31.0
+
+CHIEF COMPLAINT:
+Increased thirst and frequent urination for the past 3 months
+
+HISTORY OF PRESENT ILLNESS:
+Patient reports progressive polyuria and polydipsia over the past 3 months. States he wakes up 4-5 times at night to urinate. Also experiencing unexplained fatigue and blurred vision. Reports unintentional weight loss of 8 kg despite increased appetite. No fever, no chest pain, no shortness of breath.
+
+PAST MEDICAL HISTORY:
+- Hypertension (diagnosed 5 years ago)
+- Dyslipidemia
+- Family history of Type 2 Diabetes (father, maternal grandfather)
+
+CURRENT MEDICATIONS:
+- Lisinopril 10 mg daily
+- Atorvastatin 20 mg nightly
+
+PHYSICAL EXAMINATION:
+- Blood Pressure: 145/92 mmHg
+- Heart Rate: 88 bpm
+- Temperature: 98.2°F
+- Respiratory Rate: 16/min
+- General: Alert and oriented, appears tired
+- HEENT: Dry mucous membranes
+- Cardiovascular: Regular rate and rhythm, no murmurs
+- Respiratory: Clear to auscultation bilaterally
+- Abdomen: Soft, non-tender, no organomegaly
+- Extremities: No edema, peripheral pulses intact
+
+LABORATORY RESULTS:
+- Fasting Blood Glucose: 248 mg/dL (normal: <100)
+- HbA1c: 8.9% (normal: <5.7%)
+- Random Blood Glucose: 312 mg/dL
+- Creatinine: 1.1 mg/dL (normal)
+- BUN: 18 mg/dL (normal)
+- Total Cholesterol: 225 mg/dL
+- LDL: 145 mg/dL
+- HDL: 38 mg/dL
+- Triglycerides: 210 mg/dL
+- Urinalysis: Glucose present, no ketones, no protein
+
+ASSESSMENT:
+1. Type 2 Diabetes Mellitus - newly diagnosed
+2. Hypertension - inadequately controlled
+3. Dyslipidemia
+
+PLAN:
+1. Start Metformin 500 mg twice daily, titrate up as tolerated
+2. Diabetes education regarding diet, exercise, glucose monitoring
+3. Increase Lisinopril to 20 mg daily for better BP control
+4. Refer to ophthalmology for diabetic eye exam
+5. Refer to podiatry for diabetic foot care
+6. Order baseline renal function tests and microalbuminuria
+7. Follow-up in 2 weeks to assess glucose control and medication tolerance
+8. Target HbA1c <7% within 3-6 months

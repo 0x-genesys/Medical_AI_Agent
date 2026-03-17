@@ -1,0 +1,107 @@
+OUTPATIENT CLINIC NOTE
+
+Date: March 10, 2026
+Patient ID: PT-2024-3456
+Age: 45 years
+Gender: Female
+Weight: 88 kg
+Height: 165 cm
+BMI: 32.3
+
+CHIEF COMPLAINT:
+Follow-up for hypertension and headaches
+
+HISTORY OF PRESENT ILLNESS:
+45-year-old female returns for follow-up of newly diagnosed hypertension. Diagnosed 3 months ago during routine physical when BP was 168/98. Patient reports persistent morning headaches, occasional dizziness, and fatigue. Denies chest pain, palpitations, or shortness of breath. Started on lisinopril 10 mg daily 6 weeks ago. Home BP readings range 145-160/90-95 mmHg. Patient admits to high sodium diet and sedentary lifestyle. No current exercise routine.
+
+PAST MEDICAL HISTORY:
+- Hypertension (newly diagnosed)
+- Obesity
+- Prediabetes (HbA1c 6.2% three months ago)
+- No known drug allergies
+
+FAMILY HISTORY:
+- Mother: Hypertension, Type 2 Diabetes, Stroke at age 62
+- Father: Hypertension, Coronary Artery Disease
+- Sister: Type 2 Diabetes
+
+SOCIAL HISTORY:
+- Non-smoker
+- Occasional alcohol use (2-3 drinks per week)
+- Works desk job (accountant)
+- Married, 2 children
+- High-stress work environment
+
+CURRENT MEDICATIONS:
+- Lisinopril 10 mg daily
+- Multivitamin daily
+
+PHYSICAL EXAMINATION:
+- Blood Pressure: 152/94 mmHg (repeated: 148/92 mmHg)
+- Heart Rate: 78 bpm (regular)
+- Temperature: 98.4°F
+- Respiratory Rate: 16/min
+- BMI: 32.3
+- General: Well-appearing, anxious about diagnosis
+- HEENT: Fundoscopic exam - no papilledema, mild AV nicking
+- Cardiovascular: Regular rate and rhythm, normal S1 S2, no murmurs
+- Respiratory: Clear to auscultation bilaterally
+- Abdomen: Obese, soft, non-tender, no bruits
+- Extremities: No edema, peripheral pulses 2+ bilaterally
+- Neurologic: Alert and oriented x3, no focal deficits
+
+RECENT LABORATORY RESULTS:
+- Comprehensive Metabolic Panel: All within normal limits
+- Creatinine: 0.9 mg/dL
+- Potassium: 4.2 mEq/L
+- Lipid Panel: Total Cholesterol 215, LDL 135, HDL 45, Triglycerides 175
+- HbA1c: 6.3% (prediabetic range)
+- TSH: 2.1 mIU/L (normal)
+- Urinalysis: No protein, no glucose
+- ECG: Normal sinus rhythm, no LVH
+
+ASSESSMENT:
+1. Stage 2 Hypertension - inadequately controlled on current therapy
+2. Obesity (BMI 32.3)
+3. Prediabetes
+4. Dyslipidemia
+
+PLAN:
+1. HYPERTENSION MANAGEMENT:
+   - Increase Lisinopril to 20 mg daily
+   - Add Amlodipine 5 mg daily (calcium channel blocker for better BP control)
+   - Target BP <130/80 mmHg
+   - Patient education on home BP monitoring (check BP twice daily)
+   
+2. LIFESTYLE MODIFICATIONS:
+   - Dietary consultation: DASH diet, reduce sodium to <2300 mg/day
+   - Weight loss goal: 5-10% over next 6 months
+   - Exercise prescription: 30 minutes moderate activity 5 days/week (walking, swimming)
+   - Stress management: consider mindfulness or relaxation techniques
+   
+3. PREDIABETES:
+   - Continue lifestyle modifications
+   - Repeat HbA1c in 3 months
+   - Consider metformin if no improvement with lifestyle changes
+   
+4. LIPID MANAGEMENT:
+   - Start Atorvastatin 10 mg nightly (for ASCVD risk reduction)
+   - Repeat lipid panel in 6 weeks
+   
+5. FOLLOW-UP:
+   - Return in 4 weeks to assess BP response to medication changes
+   - Bring home BP log
+   - Repeat metabolic panel in 2 weeks (check potassium and creatinine on ACE inhibitor)
+   
+6. PREVENTIVE CARE:
+   - Continue annual wellness visits
+   - Consider sleep apnea screening if BP remains elevated
+
+PATIENT EDUCATION:
+- Discussed importance of medication compliance
+- Reviewed warning signs of hypertensive emergency (severe headache, chest pain, vision changes)
+- Provided written materials on DASH diet and exercise
+- Patient verbalized understanding and agreed to treatment plan
+
+PROGNOSIS:
+Good with lifestyle modifications and medication adherence. Patient motivated to make changes.

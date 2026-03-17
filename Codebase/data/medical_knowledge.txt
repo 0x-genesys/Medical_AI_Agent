@@ -1,0 +1,625 @@
+Hypertension: High blood pressure >140/90. Symptoms: headaches, dizziness. Treatment: ACE inhibitors, ARBs, diuretics, lifestyle changes.
+---
+Type 2 Diabetes: Insulin resistance. Symptoms: polyuria, polydipsia, fatigue. Diagnosis: fasting glucose >126, HbA1c >6.5%. Treatment: metformin, lifestyle, insulin.
+---
+Type 1 Diabetes: Autoimmune beta cell destruction. Symptoms: DKA, weight loss. Treatment: insulin therapy, glucose monitoring.
+---
+Pneumonia: Lung infection. Symptoms: fever, cough, chest pain, dyspnea. Diagnosis: chest X-ray. Treatment: antibiotics, oxygen.
+---
+CAP: Community-acquired pneumonia. Streptococcus pneumoniae common. Symptoms: fever, productive cough, pleuritic chest pain, dyspnea. CURB-65 score. Treatment: beta-lactam plus macrolide.
+---
+Myocardial Infarction: Heart attack. Symptoms: chest pain, arm pain, diaphoresis. Diagnosis: ECG, troponin. Treatment: PCI, aspirin, anticoagulants.
+---
+STEMI vs NSTEMI: ST elevation vs non-elevation MI. Symptoms: severe chest pain, diaphoresis, nausea, dyspnea. Emergency PCI for STEMI.
+---
+COPD: Chronic airflow limitation. Symptoms: dyspnea, cough, sputum. Diagnosis: spirometry FEV1/FVC <0.7. Treatment: bronchodilators, ICS, oxygen.
+---
+Asthma: Reversible airway obstruction. Symptoms: wheezing, dyspnea, cough. Triggers: allergens, exercise. Treatment: SABA rescue, ICS control.
+---
+CHF: Heart failure. Symptoms: dyspnea, orthopnea, edema. Diagnosis: echo, BNP. Treatment: ACE inhibitors, beta-blockers, diuretics.
+---
+HFrEF vs HFpEF: Heart failure subtypes. Symptoms: dyspnea, orthopnea, edema, fatigue. HFrEF: reduced ejection fraction. HFpEF: preserved ejection fraction.
+---
+Atrial Fibrillation: Irregular rhythm. Symptoms: palpitations, stroke risk. Treatment: rate control, anticoagulation (CHA2DS2-VASc).
+---
+CKD: Chronic kidney disease stages 1-5 by GFR. Causes: diabetes, hypertension. Complications: anemia, bone disease. Treatment: ACE inhibitors, manage complications.
+---
+AKI: Acute kidney injury. Symptoms: oliguria, edema, confusion, nausea. Causes: pre-renal, intrinsic, post-renal. Elevated creatinine. Treatment: treat cause, fluids, avoid nephrotoxins.
+---
+GERD: Acid reflux. Symptoms: heartburn, regurgitation. Treatment: PPIs, H2 blockers, lifestyle modifications.
+---
+Peptic Ulcer: Stomach/duodenal erosion. Causes: H. pylori, NSAIDs. Symptoms: epigastric pain. Treatment: PPIs, H. pylori eradication.
+---
+IBS: Irritable bowel syndrome. Symptoms: abdominal pain, bloating, diarrhea or constipation, mucus in stool. Treatment: low FODMAP diet, fiber, antispasmodics.
+---
+Crohns Disease: IBD affecting GI tract. Symptoms: pain, diarrhea, weight loss. Treatment: 5-ASA, corticosteroids, biologics.
+---
+Ulcerative Colitis: IBD limited to colon. Bloody diarrhea, urgency. Treatment: 5-ASA, corticosteroids, biologics, colectomy.
+---
+Celiac Disease: Gluten autoimmune disorder. Symptoms: diarrhea, anemia. Diagnosis: tTG-IgA, biopsy. Treatment: gluten-free diet.
+---
+Hyperthyroidism: Excess thyroid hormone. Graves disease common. Symptoms: weight loss, tremor, palpitations. Treatment: antithyroid drugs, RAI, surgery.
+---
+Hypothyroidism: Low thyroid hormone. Hashimoto thyroiditis common. Symptoms: fatigue, weight gain, cold intolerance. Treatment: levothyroxine.
+---
+Rheumatoid Arthritis: Autoimmune arthritis. Symmetric joint involvement. Diagnosis: RF, anti-CCP. Treatment: methotrexate, DMARDs, biologics.
+---
+Osteoarthritis: Degenerative joint disease. DIP, PIP, knees, hips. X-ray: joint space narrowing, osteophytes. Treatment: weight loss, NSAIDs.
+---
+Gout: Urate crystal arthritis. Podagra common. Diagnosis: joint aspiration. Treatment: colchicine, NSAIDs, allopurinol prophylaxis.
+---
+SLE: Systemic lupus. Malar rash, photosensitivity, arthritis, renal disease. ANA, anti-dsDNA. Treatment: hydroxychloroquine, corticosteroids, immunosuppressants.
+---
+Multiple Sclerosis: CNS demyelination. Optic neuritis, weakness, ataxia. MRI lesions. Treatment: disease-modifying therapies, steroids for relapses.
+---
+Parkinsons Disease: Dopaminergic neuron loss. Resting tremor, bradykinesia, rigidity. Treatment: levodopa/carbidopa, dopamine agonists.
+---
+Alzheimers Disease: Progressive dementia. Memory loss, confusion. Treatment: cholinesterase inhibitors, memantine, behavioral interventions.
+---
+Ischemic Stroke: Arterial occlusion. Sudden focal deficits. Treatment: tPA within 4.5 hours, thrombectomy, antiplatelet therapy.
+---
+Hemorrhagic Stroke: ICH or SAH. Severe headache, altered consciousness. Treatment: BP control, reversal of anticoagulation, neurosurgery.
+---
+Epilepsy: Recurrent seizures. Symptoms: convulsions, loss of consciousness, aura, post-ictal confusion. Focal vs generalized. EEG, MRI. Treatment: antiepileptic drugs.
+---
+Migraine: Recurrent headaches. Unilateral, throbbing, photophobia, aura. Treatment: triptans acute, beta-blockers preventive.
+---
+Depression: MDD. Depressed mood, anhedonia, sleep/appetite changes. DSM-5 criteria. Treatment: SSRIs, SNRIs, CBT.
+---
+GAD: Generalized anxiety disorder. Excessive worry ≥6 months. Restlessness, fatigue, poor concentration. Treatment: SSRIs, SNRIs, CBT.
+---
+Bipolar Disorder: Mood disorder. Symptoms: Manic episodes with elevated mood, decreased sleep, impulsivity. Depressive episodes with low mood, anhedonia. Treatment: mood stabilizers, antipsychotics.
+---
+Schizophrenia: Psychotic disorder. Hallucinations, delusions, negative symptoms. Treatment: antipsychotics, psychosocial interventions.
+---
+Iron Deficiency Anemia: Microcytic anemia. Symptoms: fatigue, weakness, pallor, pica, restless legs, brittle nails. Low ferritin. Treatment: oral iron supplementation.
+---
+B12 Deficiency: Macrocytic anemia. Symptoms: fatigue, glossitis, paresthesias, ataxia, memory loss. Pernicious anemia. Treatment: B12 supplementation.
+---
+Folate Deficiency: Macrocytic anemia. Symptoms: fatigue, pallor, glossitis, diarrhea. No neurologic symptoms. Treatment: folic acid.
+---
+Hemolytic Anemia: Premature RBC destruction. Symptoms: jaundice, dark urine, fatigue, splenomegaly. Elevated LDH, indirect bilirubin. Treatment: treat cause.
+---
+Sickle Cell Disease: HbSS. Symptoms: pain crises, dactylitis, fatigue, jaundice, priapism. Vaso-occlusive crises. Treatment: hydroxyurea, transfusions.
+---
+Thalassemia: Hemoglobin synthesis disorder. Symptoms: fatigue, pallor, jaundice, splenomegaly. Microcytic anemia. Treatment: transfusions, iron chelation.
+---
+ALL: Acute lymphoblastic leukemia. Symptoms: fever, fatigue, bruising, bone pain, lymphadenopathy. Childhood cancer. Treatment: chemotherapy, CNS prophylaxis.
+---
+CLL: Chronic lymphocytic leukemia. Symptoms: often asymptomatic, lymphadenopathy, fatigue, infections. Lymphocytosis, smudge cells. Treatment: watch and wait.
+---
+AML: Acute myeloid leukemia. Symptoms: fever, fatigue, bleeding, gum hypertrophy. Blasts, Auer rods. Treatment: chemotherapy, stem cell transplant.
+---
+CML: Chronic myeloid leukemia. Symptoms: often asymptomatic, fatigue, splenomegaly. Philadelphia chromosome BCR-ABL. Treatment: tyrosine kinase inhibitors.
+---
+Hodgkin Lymphoma: Lymphoid malignancy. Symptoms: painless lymphadenopathy, B symptoms, pruritus. Reed-Sternberg cells. Treatment: ABVD chemotherapy.
+---
+Non-Hodgkin Lymphoma: Lymphoid malignancy. Symptoms: lymphadenopathy, B symptoms, extranodal involvement. Treatment: R-CHOP, rituximab-based regimens.
+---
+Multiple Myeloma: Plasma cell malignancy. Symptoms: bone pain, fatigue, infections, hypercalcemia, renal failure. CRAB criteria. Treatment: proteasome inhibitors.
+---
+DVT: Deep vein thrombosis. Symptoms: unilateral leg pain, swelling, warmth, erythema. Wells score, D-dimer, ultrasound. Treatment: anticoagulation.
+---
+Pulmonary Embolism: Clot in pulmonary artery. Symptoms: sudden dyspnea, pleuritic chest pain, tachycardia, hemoptysis. CTPA. Treatment: anticoagulation.
+---
+Cirrhosis: End-stage liver disease. Symptoms: ascites, varices, encephalopathy, jaundice, spider angiomas. Causes: alcohol, hepatitis. Treatment: transplant.
+---
+Hepatitis B: DNA virus. Symptoms: jaundice, fatigue, nausea, RUQ pain, dark urine. HBsAg positive. Treatment: entecavir, tenofovir.
+---
+Hepatitis C: RNA virus. Symptoms: often asymptomatic, fatigue, jaundice. Anti-HCV. Treatment: direct-acting antivirals.
+---
+NAFLD: Non-alcoholic fatty liver. Symptoms: often asymptomatic, RUQ discomfort, fatigue. Obesity, diabetes risk. Treatment: weight loss, exercise.
+---
+Acute Pancreatitis: Pancreas inflammation. Symptoms: severe epigastric pain radiating to back, nausea, vomiting. Elevated lipase. Treatment: NPO, IV fluids.
+---
+Chronic Pancreatitis: Chronic pancreas inflammation. Symptoms: chronic pain, steatorrhea, weight loss, diabetes. Calcifications. Treatment: enzyme replacement.
+---
+Diverticulitis: Colonic diverticula inflammation. Symptoms: LLQ pain, fever, nausea, constipation. CT abdomen. Treatment: antibiotics.
+---
+Appendicitis: Appendix inflammation. Symptoms: RLQ pain, McBurney point tenderness, migratory pain, fever, nausea. Treatment: appendectomy.
+---
+Acute Cholecystitis: Gallbladder inflammation. Symptoms: RUQ pain, Murphy sign, fever, nausea. Ultrasound. Treatment: cholecystectomy.
+---
+Choledocholithiasis: CBD stones. Symptoms: jaundice, RUQ pain, fever (Charcot triad), dark urine. Elevated bilirubin. Treatment: ERCP.
+---
+UTI - Cystitis: Bladder infection. Symptoms: dysuria, frequency, urgency, suprapubic pain, hematuria. E. coli common. Treatment: nitrofurantoin, TMP-SMX.
+---
+Pyelonephritis: Kidney infection. Symptoms: fever, flank pain, CVA tenderness, nausea, dysuria. Treatment: fluoroquinolone or ceftriaxone.
+---
+BPH: Benign prostatic hyperplasia. Symptoms: weak stream, hesitancy, frequency, nocturia, incomplete emptying. Treatment: alpha-blockers, 5-ARI.
+---
+Prostate Cancer: Adenocarcinoma. Symptoms: often asymptomatic, LUTS, hematuria, bone pain if metastatic. PSA screening. Treatment: surveillance, prostatectomy.
+---
+Testicular Cancer: Germ cell tumor. Symptoms: painless testicular mass, heavy sensation, gynecomastia. Young men 15-35. Treatment: orchiectomy.
+---
+Erectile Dysfunction: Inability to maintain erection. Symptoms: difficulty with erections, reduced libido. Causes: vascular, neurogenic. Treatment: PDE-5 inhibitors.
+---
+Urolithiasis: Kidney stones. Symptoms: severe colicky flank pain radiating to groin, hematuria, nausea. Non-contrast CT. Treatment: hydration, lithotripsy.
+---
+Poststreptococcal GN: Immune complex GN. Symptoms: hematuria, edema, hypertension, oliguria, periorbital swelling. Low C3. Treatment: supportive.
+---
+IgA Nephropathy: Mesangial IgA deposition. Symptoms: episodic gross hematuria after URI, hypertension. Treatment: ACE inhibitors.
+---
+Nephrotic Syndrome: Glomerular disease. Symptoms: edema, foamy urine, fatigue. Proteinuria, hypoalbuminemia. Causes: minimal change, FSGS.
+---
+Nephritic Syndrome: Glomerular disease. Symptoms: hematuria, oliguria, hypertension, periorbital edema. RBC casts. Post-infectious GN.
+---
+ADPKD: Autosomal dominant PKD. Symptoms: hypertension, flank pain, hematuria, UTIs. Multiple bilateral cysts. Complications: ESRD.
+---
+Tuberculosis: Mycobacterium tuberculosis. Symptoms: chronic cough, hemoptysis, night sweats, weight loss, fever. AFB smear. Treatment: RIPE therapy.
+---
+HIV/AIDS: Human immunodeficiency virus. Symptoms: fever, rash, lymphadenopathy. AIDS with opportunistic infections. CD4 <200. Treatment: antiretroviral therapy.
+---
+PCP: Pneumocystis pneumonia. Symptoms: dyspnea, dry cough, fever, hypoxia. CD4 <200. Elevated LDH. Treatment: TMP-SMX, steroids.
+---
+Sepsis: Life-threatening organ dysfunction. Symptoms: fever, tachycardia, tachypnea, altered mental status, hypotension. SOFA score. Treatment: fluids, antibiotics.
+---
+Septic Shock: Sepsis with hypotension. Symptoms: hypotension requiring vasopressors, organ dysfunction, elevated lactate. Treatment: norepinephrine.
+---
+Infective Endocarditis: Heart valve infection. Symptoms: fever, new murmur, splinter hemorrhages, Osler nodes. Duke criteria. Treatment: prolonged IV antibiotics.
+---
+Bacterial Meningitis: Meninges infection. Symptoms: fever, headache, nuchal rigidity, photophobia, altered mental status. S. pneumoniae. Treatment: ceftriaxone, vancomycin.
+---
+Viral Meningitis: Meninges infection. Symptoms: fever, headache, neck stiffness, photophobia. Enteroviruses. Treatment: supportive.
+---
+Encephalitis: Brain inflammation. Symptoms: altered mental status, seizures, fever, headache, focal deficits. HSV common. Treatment: acyclovir.
+---
+Cellulitis: Skin infection. Symptoms: erythema, warmth, tenderness, swelling, fever. Streptococcus, Staphylococcus. Treatment: cephalexin.
+---
+Osteomyelitis: Bone infection. Symptoms: bone pain, fever, swelling, erythema over affected area. S. aureus. MRI. Treatment: prolonged antibiotics.
+---
+Lyme Disease: Tick-borne illness. Symptoms: erythema migrans, fever, headache, fatigue, facial palsy, arthritis. Borrelia burgdorferi. Treatment: doxycycline.
+---
+Malaria: Plasmodium infection. Symptoms: cyclic fever, rigors, sweats, headache, myalgias, anemia, splenomegaly. Blood smear. Treatment: artemisinin-based therapy.
+---
+Osteoporosis: Decreased bone density. Symptoms: often asymptomatic until fracture, back pain, height loss, kyphosis. T-score ≤-2.5. Treatment: bisphosphonates.
+---
+Vitamin D Deficiency: Low vitamin D. Symptoms: bone pain, muscle weakness, fatigue, depression. Treatment: vitamin D supplementation.
+---
+Hypercalcemia: Elevated calcium. Symptoms: stones, bones, groans, psychiatric overtones. Kidney stones, bone pain, constipation, confusion. Treatment: IV fluids.
+---
+Hypocalcemia: Low calcium. Symptoms: tetany, Chvostek sign, Trousseau sign, paresthesias, seizures. Hypoparathyroidism. Treatment: calcium supplementation.
+---
+Hyperkalemia: Elevated potassium. Symptoms: muscle weakness, paresthesias, palpitations. Peaked T waves, widened QRS. Treatment: calcium gluconate, insulin, dialysis.
+---
+Hypokalemia: Low potassium. Symptoms: muscle weakness, cramps, constipation, palpitations. U waves. GI losses, diuretics. Treatment: oral or IV potassium.
+---
+Hyponatremia: Low sodium. Symptoms: headache, confusion, seizures, nausea, lethargy. SIADH, CHF, cirrhosis. Treatment: fluid restriction, hypertonic saline.
+---
+Hypernatremia: Elevated sodium. Symptoms: thirst, confusion, lethargy, seizures, irritability. Water loss, diabetes insipidus. Treatment: free water replacement.
+---
+Metabolic Acidosis: Low pH, low HCO3. Symptoms: Kussmaul breathing, confusion, fatigue. Anion gap vs normal gap. Treatment: treat cause.
+---
+Metabolic Alkalosis: High pH, high HCO3. Symptoms: muscle cramps, tetany, arrhythmias. Vomiting, diuretics. Treatment: saline if volume depleted.
+---
+Respiratory Acidosis: Low pH, high PaCO2. Symptoms: confusion, drowsiness, headache. Hypoventilation, COPD. Treatment: improve ventilation.
+---
+Respiratory Alkalosis: High pH, low PaCO2. Symptoms: lightheadedness, paresthesias, tetany. Hyperventilation, anxiety. Treatment: treat cause.
+---
+DKA: Diabetic ketoacidosis. Symptoms: Kussmaul breathing, fruity breath, nausea, vomiting, abdominal pain, confusion. Glucose >250, pH <7.3. Treatment: IV fluids, insulin.
+---
+HHS: Hyperosmolar hyperglycemic state. Symptoms: altered mental status, severe dehydration, confusion, seizures. Glucose >600. Treatment: aggressive fluids, insulin.
+---
+Hypoglycemia: Low blood sugar. Symptoms: tremor, diaphoresis, palpitations, confusion, seizures, loss of consciousness. Treatment: oral glucose, IV dextrose, glucagon.
+---
+ACE Inhibitors: Lisinopril, enalapril. Hypertension, CHF, diabetic nephropathy. Side effects: cough, hyperkalemia, angioedema.
+---
+ARBs: Losartan, valsartan. Alternative to ACE inhibitors. No cough. Side effects: hyperkalemia.
+---
+Beta-Blockers: Metoprolol, atenolol, carvedilol. Hypertension, CHF, MI, atrial fibrillation. Side effects: bradycardia, fatigue, bronchospasm.
+---
+Calcium Channel Blockers: Amlodipine, diltiazem, verapamil. Hypertension, angina. Side effects: peripheral edema, constipation.
+---
+Diuretics - Thiazides: Hydrochlorothiazide. Hypertension. Side effects: hypokalemia, hyperuricemia, hyperglycemia.
+---
+Diuretics - Loop: Furosemide. CHF, edema. Side effects: hypokalemia, ototoxicity.
+---
+Spironolactone: Aldosterone antagonist. CHF, ascites. Side effects: hyperkalemia, gynecomastia.
+---
+Statins: Atorvastatin, simvastatin. Hyperlipidemia, cardiovascular disease prevention. Side effects: myopathy, elevated LFTs.
+---
+Aspirin: Antiplatelet. MI, stroke prevention. Side effects: GI bleeding, avoid in children (Reye syndrome).
+---
+Clopidogrel: P2Y12 inhibitor. Post-PCI, stroke prevention. Side effects: bleeding.
+---
+Warfarin: Vitamin K antagonist. Atrial fibrillation, DVT/PE. Monitor INR. Side effects: bleeding, teratogenic.
+---
+DOACs: Apixaban, rivaroxaban, dabigatran. Alternative to warfarin. Less monitoring. Side effects: bleeding.
+---
+Metformin: First-line T2DM. Decreases hepatic glucose production. Side effects: GI upset, lactic acidosis (rare), B12 deficiency.
+---
+Sulfonylureas: Glyburide, glipizide. Stimulate insulin release. Side effects: hypoglycemia, weight gain.
+---
+Insulin: Rapid (lispro, aspart), short (regular), intermediate (NPH), long (glargine, detemir). T1DM, T2DM. Side effects: hypoglycemia.
+---
+PPIs: Omeprazole, pantoprazole. GERD, peptic ulcer. Side effects: C. diff, osteoporosis, hypomagnesemia.
+---
+H2 Blockers: Ranitidine, famotidine. GERD, peptic ulcer. Less potent than PPIs.
+---
+Albuterol: SABA. Asthma, COPD rescue. Side effects: tachycardia, tremor.
+---
+Inhaled Corticosteroids: Fluticasone, budesonide. Asthma, COPD control. Side effects: oral candidiasis, hoarseness.
+---
+Corticosteroids: Prednisone, methylprednisolone. Asthma exacerbation, COPD exacerbation, autoimmune diseases. Side effects: hyperglycemia, osteoporosis, immunosuppression.
+---
+Levothyroxine: Hypothyroidism treatment. Synthetic T4. Dose adjusted by TSH.
+---
+Methimazole: Hyperthyroidism. Blocks thyroid hormone synthesis. Side effects: agranulocytosis.
+---
+Antibiotics - Penicillins: Amoxicillin, ampicillin. Streptococcal infections, H. pylori. Side effects: rash, diarrhea.
+---
+Antibiotics - Cephalosporins: Cephalexin, ceftriaxone. Broad spectrum. Side effects: allergic reactions, C. diff.
+---
+Antibiotics - Fluoroquinolones: Ciprofloxacin, levofloxacin. UTI, pneumonia. Side effects: tendon rupture, QT prolongation.
+---
+Antibiotics - Macrolides: Azithromycin, clarithromycin. Atypical pneumonia. Side effects: QT prolongation, GI upset.
+---
+Vancomycin: MRSA, C. diff. Side effects: red man syndrome, nephrotoxicity, ototoxicity.
+---
+SSRIs: Sertraline, fluoxetine, escitalopram. Depression, anxiety. Side effects: GI upset, sexual dysfunction, serotonin syndrome.
+---
+SNRIs: Venlafaxine, duloxetine. Depression, anxiety, neuropathic pain. Side effects: hypertension, discontinuation syndrome.
+---
+Benzodiazepines: Lorazepam, diazepam. Anxiety, seizures, alcohol withdrawal. Side effects: sedation, dependence, respiratory depression.
+---
+ECG: Electrocardiogram. Arrhythmias, MI, chamber enlargement. P wave (atrial depolarization), QRS (ventricular depolarization), T wave (repolarization).
+---
+Echocardiography: Ultrasound of heart. Assess ejection fraction, valve function, wall motion. TTE vs TEE.
+---
+Chest X-ray: Pneumonia, CHF, pneumothorax, masses. AP vs PA view. Lateral view for localization.
+---
+CT Scan: Computed tomography. Detailed cross-sectional imaging. Contrast vs non-contrast. PE, stroke, trauma, malignancy.
+---
+MRI: Magnetic resonance imaging. Soft tissue detail. Brain, spine, joints. T1 vs T2 weighted.
+---
+Ultrasound: Real-time imaging. Abdominal organs, thyroid, vessels, pregnancy. Doppler for blood flow.
+---
+CBC: Complete blood count. WBC (infection), hemoglobin (anemia), platelets (thrombocytopenia). Differential.
+---
+CMP: Comprehensive metabolic panel. Sodium, potassium, glucose, creatinine, BUN, calcium, liver enzymes.
+---
+Lipid Panel: Total cholesterol, LDL, HDL, triglycerides. Cardiovascular risk assessment.
+---
+Liver Function Tests: AST, ALT, alkaline phosphatase, bilirubin, albumin, PT/INR. Hepatocellular vs cholestatic pattern.
+---
+Troponin: Cardiac biomarker. Elevated in MI. Peak 12-24 hours, remains elevated 7-14 days.
+---
+BNP/NT-proBNP: Heart failure biomarker. Elevated in CHF. Guides diagnosis and prognosis.
+---
+D-dimer: Fibrin degradation product. Elevated in VTE. High sensitivity, low specificity. Negative rules out PE/DVT.
+---
+Urinalysis: WBCs (infection), RBCs (hematuria), protein (kidney disease), glucose (diabetes), ketones (DKA), nitrites/esterase (UTI).
+---
+Arterial Blood Gas: pH, PaCO2, PaO2, HCO3. Assess acid-base status and oxygenation.
+---
+Thyroid Function Tests: TSH, free T4, free T3. Primary hypothyroidism: high TSH, low T4. Hyperthyroidism: low TSH, high T4.
+---
+Hemoglobin A1c: Glycated hemoglobin. Reflects 3-month average glucose. Diabetes diagnosis ≥6.5%. Goal <7% for most diabetics.
+---
+PSA: Prostate-specific antigen. Prostate cancer screening (controversial). Elevated in BPH, prostatitis, cancer.
+---
+Tumor Markers: AFP (hepatocellular carcinoma, testicular), CEA (colon cancer), CA 19-9 (pancreatic), CA-125 (ovarian).
+---
+Blood Cultures: Bacteremia, endocarditis, sepsis. Draw before antibiotics. 2-3 sets from different sites.
+---
+Lumbar Puncture: Spinal tap. CSF analysis for meningitis, SAH, MS. Opening pressure, cell count, protein, glucose, Gram stain, culture.
+---
+Paracentesis: Abdominal fluid tap. Ascites analysis. SAAG >1.1 (portal hypertension) vs <1.1 (non-portal). Check for SBP.
+---
+Thoracentesis: Pleural fluid tap. Effusion analysis. Light criteria: exudative vs transudative.
+---
+Endoscopy: Upper (EGD) for esophagus/stomach/duodenum. Colonoscopy for colon. Biopsy, polypectomy.
+---
+ERCP: Endoscopic retrograde cholangiopancreatography. Bile duct stones, strictures. Sphincterotomy, stent placement.
+---
+Bronchoscopy: Airway visualization. BAL for infection, biopsy for malignancy.
+---
+Cardiac Catheterization: Coronary angiography. PCI with stenting for coronary stenosis.
+---
+Hemodialysis: Renal replacement therapy. ESRD, severe AKI, hyperkalemia, acidosis, uremic complications.
+---
+Central Line: Central venous catheter. Internal jugular, subclavian, femoral. IV access, hemodynamic monitoring.
+---
+Mechanical Ventilation: Invasive vs non-invasive (BiPAP). Respiratory failure, ARDS. Settings: PEEP, FiO2, tidal volume.
+---
+Blood Transfusion: PRBCs (anemia), platelets (thrombocytopenia), FFP (coagulopathy), cryoprecipitate (fibrinogen).
+---
+Bone Marrow Biopsy: Hematologic malignancies, cytopenias. Aspirate and core biopsy from posterior iliac crest.
+---
+Liver Biopsy: NASH, cirrhosis, malignancy. Percutaneous vs transjugular.
+---
+Renal Biopsy: Glomerulonephritis, nephrotic syndrome. Light, immunofluorescence, electron microscopy.
+---
+Arthrocentesis: Joint aspiration. Septic arthritis, gout, pseudogout. Cell count, Gram stain, crystal analysis.
+---
+Troponin timing: Repeat troponin at 0 and 3-6 hours for MI rule-out. Single troponin insufficient.
+---
+Anion gap acidosis: MUDPILES mnemonic - methanol, uremia, DKA, propylene glycol, iron/INH, lactic acidosis, ethylene glycol, salicylates.
+---
+SIADH diagnosis: Hyponatremia with inappropriately concentrated urine (Uosm >100). Euvolemic.
+---
+Wells Score: DVT/PE probability. Guide D-dimer and imaging decisions.
+---
+CHADS2-VASc: Atrial fibrillation stroke risk. CHF, hypertension, age ≥75 (2 points), diabetes, stroke (2 points), vascular disease, age 65-74, female.
+---
+CURB-65: Pneumonia severity. Confusion, urea >7 mmol/L, respiratory rate ≥30, BP <90/60, age ≥65. Score ≥2 consider admission.
+---
+Glasgow Coma Scale: Eye opening (4), verbal response (5), motor response (6). Total 15. <8 indicates severe brain injury, intubation.
+---
+Ranson Criteria: Pancreatitis severity. On admission: age >55, WBC >16000, glucose >200, AST >250, LDH >350.
+---
+Child-Pugh Score: Cirrhosis severity. Bilirubin, albumin, INR, ascites, encephalopathy. Class A/B/C.
+---
+MELD Score: Liver transplant allocation. Bilirubin, INR, creatinine, sodium.
+---
+NIH Stroke Scale: Stroke severity. LOC, gaze, visual fields, facial palsy, motor, ataxia, sensory, speech, neglect. 0-42 points.
+---
+PERC Rule: PE rule-out. Age <50, HR <100, SaO2 ≥95%, no hemoptysis, no estrogen, no prior VTE, no unilateral leg swelling, no surgery/trauma.
+---
+Ottawa Ankle Rules: Ankle X-ray if unable to bear weight or bone tenderness at malleolus or navicular/base 5th metatarsal.
+---
+Centor Criteria: Strep pharyngitis. Fever, tonsillar exudates, tender anterior cervical lymphadenopathy, absence of cough. Score ≥3 test or treat.
+---
+HEART Score: Chest pain risk stratification. History, ECG, age, risk factors, troponin. Low risk can discharge.
+---
+Rib Fracture: Common chest trauma. X-ray: cortical break, step deformity. Symptoms: localized pain, tenderness, crepitus. Treatment: pain control, incentive spirometry, avoid splinting.
+---
+Clavicle Fracture: Common in falls and sports. X-ray: middle third most common. Symptoms: deformity, pain, limited shoulder movement. Treatment: sling, surgery if displaced.
+---
+Scaphoid Fracture: Fall on outstretched hand. X-ray: may be negative initially, repeat at 10-14 days. Snuffbox tenderness. Risk: avascular necrosis. Treatment: thumb spica cast.
+---
+Colles Fracture: Distal radius fracture with dorsal angulation. Fall on outstretched hand. X-ray: dinner fork deformity. Treatment: closed reduction, casting.
+---
+Hip Fracture: Common in elderly with osteoporosis. X-ray: femoral neck or intertrochanteric. Symptoms: inability to bear weight, shortened externally rotated leg. Treatment: surgical fixation.
+---
+Ankle Fracture: Lateral malleolus most common. X-ray: Weber classification. Symptoms: swelling, deformity, inability to bear weight. Treatment: casting or ORIF depending on stability.
+---
+Vertebral Compression Fracture: Osteoporosis, trauma, malignancy. X-ray/CT: wedge deformity, loss of height. Symptoms: acute back pain. Treatment: bracing, pain control, vertebroplasty.
+---
+Skull Fracture: Head trauma. CT: linear, depressed, basilar types. Complications: CSF leak, intracranial hemorrhage. Treatment: observe, surgery if depressed or complications.
+---
+Pneumothorax: Air in pleural space. Chest X-ray: absent lung markings, visceral pleural line. Symptoms: chest pain, dyspnea, decreased breath sounds. Treatment: observation, needle decompression, chest tube.
+---
+Tension Pneumothorax: Medical emergency. Clinical diagnosis: tracheal deviation, hypotension, distended neck veins. Treatment: immediate needle decompression, then chest tube.
+---
+Pleural Effusion: Fluid in pleural space. Chest X-ray: blunted costophrenic angle, meniscus sign. Symptoms: dyspnea, dullness to percussion. Diagnosis: thoracentesis. Light criteria for exudate vs transudate.
+---
+Pulmonary Edema: Fluid in lungs. Chest X-ray: Kerley B lines, cephalization, bat wing appearance. Causes: cardiogenic, non-cardiogenic. Symptoms: dyspnea, orthopnea, crackles. Treatment: diuretics, oxygen, treat cause.
+---
+Pulmonary Nodule: Solitary lung lesion <3cm on chest X-ray/CT. Differential: benign granuloma, malignancy. Requires CT characterization, possible PET, biopsy or surveillance.
+---
+Lung Cancer: Leading cancer death. CT: mass, nodule, lymphadenopathy. Types: NSCLC (adenocarcinoma, squamous), SCLC. Symptoms: cough, hemoptysis, weight loss, dyspnea. Diagnosis: CT chest, biopsy. Staging: TNM.
+---
+Small Cell Lung Cancer: Aggressive neuroendocrine tumor. CT: central mass, mediastinal adenopathy. Strong smoking association. Treatment: chemotherapy, radiation. Poor prognosis.
+---
+Non-Small Cell Lung Cancer: Adenocarcinoma most common, peripheral. Squamous cell: central, cavitation. CT staging crucial. Treatment: surgery if resectable, chemotherapy, immunotherapy, targeted therapy.
+---
+Lung Metastases: Multiple pulmonary nodules on CT. Common primaries: breast, colon, kidney, melanoma. Cannon ball metastases. Treatment: depends on primary, systemic therapy.
+---
+Bone Metastases: Common in breast, prostate, lung, kidney, thyroid cancers. X-ray/CT: lytic or blastic lesions. Symptoms: bone pain, pathologic fractures, hypercalcemia. Treatment: radiation, bisphosphonates, surgery for fractures.
+---
+Osteosarcoma: Primary bone cancer, young adults. X-ray: sunburst pattern, Codman triangle, soft tissue mass. Location: metaphysis of long bones (distal femur, proximal tibia). Treatment: chemotherapy, surgery.
+---
+Ewing Sarcoma: Pediatric bone cancer. X-ray: onion skin periosteal reaction, lytic lesion. Location: diaphysis, pelvis. Treatment: chemotherapy, radiation, surgery.
+---
+Multiple Myeloma: Plasma cell malignancy. X-ray: punched out lytic lesions, pathologic fractures. Symptoms: bone pain, anemia, renal failure, hypercalcemia. Diagnosis: SPEP, bone marrow biopsy.
+---
+Ischemic Stroke: CT head: hypodense area, loss of gray-white differentiation. MRI more sensitive, DWI positive. Middle cerebral artery territory most common. Treatment: IV tPA <4.5 hours, thrombectomy <24 hours.
+---
+Hemorrhagic Stroke: CT head: hyperdense blood. Types: intraparenchymal, subarachnoid, subdural, epidural. Causes: hypertension, aneurysm, AVM, trauma. Treatment: BP control, reversal of anticoagulation, neurosurgery.
+---
+Subdural Hematoma: CT: crescent-shaped extra-axial hemorrhage. Causes: trauma, elderly, anticoagulation. Symptoms: headache, altered mental status, focal deficits. Treatment: observation vs craniotomy.
+---
+Epidural Hematoma: CT: biconvex lens-shaped hemorrhage. Middle meningeal artery injury. Classic: lucid interval then deterioration. Emergency neurosurgery.
+---
+Subarachnoid Hemorrhage: CT: blood in subarachnoid space, star pattern. Causes: ruptured aneurysm, trauma. Symptoms: thunderclap headache, meningismus. Diagnosis: CT, LP if negative. Treatment: aneurysm coiling/clipping.
+---
+Brain Tumor: CT/MRI: mass with edema, mass effect. Types: glioblastoma, meningioma, metastases. Symptoms: headache, seizures, focal deficits. Diagnosis: MRI with contrast, biopsy. Treatment: surgery, radiation, chemotherapy.
+---
+Acute Appendicitis: CT: dilated appendix >6mm, wall thickening, periappendiceal fat stranding. Symptoms: RLQ pain, fever, nausea. Treatment: appendectomy, antibiotics.
+---
+Bowel Obstruction: CT: dilated loops, transition point, air-fluid levels. Causes: adhesions, hernia, tumor. Symptoms: abdominal pain, distension, vomiting, obstipation. Treatment: NG tube, fluids, surgery.
+---
+Bowel Perforation: CT: free air (pneumoperitoneum), free fluid. Causes: ulcer, diverticulitis, trauma, ischemia. Symptoms: acute abdominal pain, peritonitis. Emergency surgery.
+---
+Diverticulitis: CT: colonic wall thickening, fat stranding, diverticula. Left-sided abdominal pain, fever. Treatment: antibiotics, bowel rest. Surgery for complications.
+---
+Aortic Dissection: CT angiography: intimal flap, true and false lumens. Stanford A (ascending) vs B (descending). Symptoms: tearing chest/back pain, pulse differential. Emergency surgery for type A.
+---
+Abdominal Aortic Aneurysm: CT: dilated aorta >3cm. Risk: rupture if >5.5cm. Symptoms: asymptomatic or pulsatile mass. Ruptured AAA: triad of hypotension, back pain, pulsatile mass. Emergency surgery.
+---
+Pulmonary Embolism: CT pulmonary angiography: filling defect in pulmonary artery. Risk factors: DVT, immobilization, malignancy, thrombophilia. Symptoms: dyspnea, chest pain, hypoxia, tachycardia. Treatment: anticoagulation, thrombolysis if massive.
+---
+Renal Cell Carcinoma: CT: enhancing renal mass. Triad: hematuria, flank pain, palpable mass. Paraneoplastic syndromes: polycythemia, hypercalcemia. Treatment: nephrectomy, targeted therapy for metastatic.
+---
+Pancreatic Cancer: CT: hypodense mass, dilated pancreatic duct, double duct sign. Symptoms: painless jaundice, weight loss, epigastric pain. Poor prognosis. Treatment: Whipple procedure if resectable, chemotherapy.
+---
+Hepatocellular Carcinoma: CT/MRI: arterial enhancement, washout, capsule. Risk: cirrhosis, hepatitis B/C. Alpha-fetoprotein elevated. Treatment: resection, transplant, ablation, chemoembolization.
+---
+Liver Metastases: CT: multiple hypoattenuating lesions. Common primaries: colorectal, breast, lung. Treatment: resection if limited, chemotherapy, ablation.
+---
+Cholecystitis: CT: gallbladder wall thickening, pericholecystic fluid, gallstones. Ultrasound: Murphy sign, wall thickening. RUQ pain, fever. Treatment: cholecystectomy, antibiotics.
+---
+Kidney Stone: CT: hyperdense stone in collecting system, hydronephrosis. Non-contrast CT gold standard. Symptoms: colicky flank pain, hematuria. Treatment: hydration, pain control, lithotripsy for large stones.
+---
+Hydronephrosis: CT: dilated renal pelvis and calyces. Causes: obstruction (stone, tumor, stricture). Symptoms: flank pain, decreased urine output. Treatment: relieve obstruction.
+---
+Spinal Cord Compression: MRI: mass compressing cord, vertebral collapse. Causes: metastases, abscess, trauma. Emergency: loss of bowel/bladder control, weakness. Treatment: steroids, radiation, surgery.
+---
+Intervertebral Disc Herniation: MRI: disc material compressing nerve root. CT: limited soft tissue visualization. Symptoms: radicular pain, weakness, sensory deficits. Treatment: conservative vs surgery for severe/progressive deficits.
+---
+Atelectasis: Chest X-ray: volume loss, increased opacity, displaced fissures. Causes: obstruction, compression, surfactant deficiency. Symptoms: dyspnea, decreased breath sounds. Treatment: incentive spirometry, chest PT, bronchoscopy.
+---
+Consolidation: Chest X-ray: airspace opacity with air bronchograms. Causes: pneumonia, pulmonary edema, hemorrhage. Lobar or patchy distribution. Treatment: depends on cause.
+---
+Cardiomegaly: Chest X-ray: cardiothoracic ratio >0.5 on PA film. Causes: heart failure, cardiomyopathy, valvular disease, pericardial effusion. Requires echocardiography for assessment.
+---
+Ground Glass Opacity: CT: hazy increased attenuation preserving bronchial/vascular margins. Causes: early pneumonia, atypical infections, pulmonary edema, interstitial disease, alveolar hemorrhage. May indicate COVID-19, viral pneumonia, or early lung injury.
+---
+Bronchiectasis: CT: dilated bronchi, bronchial wall thickening, tree-in-bud opacities. Causes: chronic infection, CF, COPD. Symptoms: chronic cough, purulent sputum, hemoptysis. Treatment: antibiotics, airway clearance, bronchodilators.
+---
+Emphysema: CT: bullae, decreased attenuation, loss of vascular markings. Part of COPD spectrum. Centrilobular or panlobular distribution. Symptoms: dyspnea, barrel chest. Treatment: smoking cessation, bronchodilators, oxygen.
+---
+Pulmonary Fibrosis: CT: reticular opacities, honeycombing, traction bronchiectasis. Idiopathic or secondary to drugs, radiation, CTD. Progressive dyspnea, dry cough. Treatment: antifibrotics, oxygen, transplant.
+---
+Mediastinal Mass: CT/MRI: anterior (thymus, thyroid, teratoma), middle (lymphoma, cyst), posterior (neurogenic tumors). Symptoms: chest pain, dyspnea, SVC syndrome. Requires biopsy for diagnosis.
+---
+Hilar Lymphadenopathy: CT: enlarged hilar nodes >1cm. Bilateral: sarcoidosis, lymphoma. Unilateral: lung cancer, TB, fungal infection. Requires clinical correlation and possible biopsy.
+---
+Pleural Thickening: CT: irregular pleural surface, calcification. Causes: prior infection, asbestos exposure, hemothorax. May cause restrictive lung disease. Differentiate from mesothelioma.
+---
+Pericardial Effusion: CT/Echo: fluid in pericardial space. Small to large volume. Symptoms: dyspnea, muffled heart sounds, pulsus paradoxus if tamponade. Treatment: pericardiocentesis if hemodynamically significant.
+---
+Interstitial Lung Disease: CT: reticular opacities, ground glass, honeycombing. Causes: IPF, CTD, hypersensitivity pneumonitis, sarcoidosis. Progressive dyspnea, dry cough, crackles. Requires HRCT and often biopsy.
+---
+Pelvic Fracture: X-ray/CT: disruption of pelvic ring. High-energy trauma. Associated with bladder, urethral, vascular injuries. Hemodynamically unstable if open book fracture. Treatment: resuscitation, pelvic binder, ORIF or external fixation.
+---
+Femoral Neck Fracture: X-ray: intracapsular hip fracture. Garden classification I-IV. Risk: AVN, nonunion. Elderly with osteoporosis or young with high-energy trauma. Treatment: hemiarthroplasty or ORIF depending on age and fracture pattern.
+---
+Osteomyelitis: MRI: bone marrow edema, periosteal reaction, soft tissue abscess. X-ray: lytic lesion, periosteal elevation (late). Causes: hematogenous spread, contiguous infection, diabetic foot. Treatment: prolonged IV antibiotics, surgical debridement.
+---
+Joint Effusion: MRI/US: fluid in joint space. Causes: trauma, infection, inflammatory arthritis, hemarthrosis. Arthrocentesis for diagnosis: cell count, Gram stain, crystals. Treatment depends on etiology.
+---
+Avascular Necrosis: MRI: crescent sign, double line sign. X-ray: sclerosis, collapse (late). Hip most common, also shoulder, knee. Causes: steroids, alcohol, trauma, sickle cell. Treatment: core decompression, arthroplasty.
+---
+Bone Lesion: X-ray/CT/MRI: lytic, blastic, or mixed. Differential: benign (enchondroma, osteochondroma, fibrous dysplasia) vs malignant (primary sarcoma, metastasis). Requires biopsy for definitive diagnosis.
+---
+Glioblastoma: MRI: ring-enhancing mass with central necrosis, surrounding edema, infiltrative borders. Grade IV astrocytoma. Symptoms: headache, seizures, focal neurologic deficits. Treatment: resection, radiation, temozolomide chemotherapy. Poor prognosis.
+---
+Meningioma: MRI: extra-axial dural-based mass, homogeneous enhancement, dural tail sign. Usually benign. Symptoms: seizures, headache, focal deficits depending on location. Treatment: observation vs surgical resection.
+---
+Cerebral Edema: CT/MRI: loss of gray-white differentiation, sulcal effacement, mass effect. Causes: trauma, stroke, tumor, infection. Vasogenic vs cytotoxic types. Treatment: osmotic agents (mannitol, hypertonic saline), treat underlying cause.
+---
+Hydrocephalus: CT/MRI: dilated ventricles. Communicating vs non-communicating (obstructive). Causes: tumor, hemorrhage, infection, congenital. Symptoms: headache, nausea, gait disturbance, cognitive decline. Treatment: ventriculoperitoneal shunt or EVD.
+---
+Brain Atrophy: MRI: volume loss, widened sulci, enlarged ventricles. Generalized or focal. Causes: aging, neurodegenerative disease (Alzheimer, FTD), chronic ischemia. Correlate with cognitive testing.
+---
+White Matter Disease: MRI: T2/FLAIR hyperintensities in periventricular and subcortical white matter. Causes: chronic small vessel ischemia, demyelination, leukoaraiosis. Associated with vascular risk factors and cognitive impairment.
+---
+Multiple Sclerosis: MRI: periventricular white matter plaques, Dawson fingers, corpus callosum involvement. Relapsing-remitting or progressive. Symptoms: optic neuritis, sensory deficits, weakness, ataxia. Treatment: disease-modifying therapies (interferon, glatiramer, natalizumab).
+---
+Cerebral Aneurysm: CTA/MRA: saccular outpouching of intracranial artery. Most common at circle of Willis. Risk: rupture causing SAH. Screening in polycystic kidney disease, family history. Treatment: coiling vs clipping if >7mm or symptomatic.
+---
+Arteriovenous Malformation: MRI/angiography: tangle of abnormal vessels without capillary bed. Risk: hemorrhage, seizures. Symptoms: headache, focal deficits. Treatment: embolization, surgical resection, stereotactic radiosurgery.
+---
+Infarction: CT: hypodense area with loss of gray-white differentiation. MRI DWI: restricted diffusion bright signal. Vascular territory distribution. Treat underlying cause and prevent recurrence.
+---
+Encephalitis: MRI: temporal lobe signal abnormality (HSV), diffuse edema. Symptoms: fever, altered mental status, seizures. CSF: lymphocytic pleocytosis, PCR for HSV. Treatment: acyclovir, supportive care.
+---
+Brain Abscess: CT/MRI: ring-enhancing lesion with central necrosis, surrounding edema. Causes: contiguous spread (sinusitis, otitis), hematogenous seeding. Symptoms: fever, headache, focal deficits. Treatment: antibiotics, surgical drainage.
+---
+Cholelithiasis: Ultrasound: echogenic foci with posterior acoustic shadowing in gallbladder. CT: calcified stones visible. Often asymptomatic. Biliary colic if obstructing cystic duct. Treatment: cholecystectomy if symptomatic.
+---
+Hepatic Steatosis: CT: decreased liver attenuation <spleen. Ultrasound: increased echogenicity. Fatty liver disease. Causes: alcohol, obesity, diabetes, metabolic syndrome. Treatment: lifestyle modification, treat underlying cause.
+---
+Liver Cirrhosis: CT/MRI: nodular liver surface, caudate lobe hypertrophy, splenomegaly, varices, ascites. End-stage liver disease. Complications: portal hypertension, hepatic encephalopathy, HCC. Treatment: treat cause, transplant evaluation.
+---
+Splenomegaly: CT: enlarged spleen >13cm. Causes: portal hypertension, hematologic disorders, infection, infiltrative disease. Symptoms: left upper quadrant fullness, early satiety. Risk: splenic rupture with trauma.
+---
+Renal Cyst: CT/US: well-defined fluid-filled structure. Bosniak classification I-IV based on complexity. Simple cysts benign. Complex cysts may require surveillance or resection for malignancy risk.
+---
+Ascites: CT: intraperitoneal fluid. Ultrasound confirms free fluid. Causes: cirrhosis, malignancy, heart failure, nephrotic syndrome. Diagnostic paracentesis: SAAG, cell count, culture. Treatment: diuretics, large-volume paracentesis, TIPS.
+---
+Peritonitis: CT: free fluid, bowel wall thickening, mesenteric fat stranding, free air if perforated. Primary (SBP) vs secondary (perforation, ischemia). Symptoms: diffuse abdominal pain, rebound, guarding. Treatment: antibiotics, surgery if secondary.
+---
+Ovarian Cyst: US/CT: fluid-filled adnexal mass. Simple vs complex (septations, solid components). Physiologic cysts resolve. Persistent complex cysts require evaluation for malignancy. Treatment: observation vs cystectomy.
+---
+Coronary Artery Disease: CT angiography: coronary calcification, stenosis. Calcium score predicts risk. Symptoms: chest pain, dyspnea. Risk factors: diabetes, hypertension, smoking, hyperlipidemia. Treatment: antiplatelet, statin, revascularization.
+---
+Cardiomyopathy: MRI/CT: dilated ventricles, reduced ejection fraction, wall thinning. Types: dilated, hypertrophic, restrictive. Symptoms: heart failure, arrhythmias. Treatment: ACE inhibitors, beta-blockers, ICD, transplant.
+---
+Cardiac Tamponade: Echo/CT: pericardial effusion with chamber collapse, IVC dilation. Beck's triad: hypotension, JVD, muffled heart sounds. Emergency: pulsus paradoxus. Treatment: emergent pericardiocentesis.
+---
+Valvular Heart Disease: Echo: valve thickening, calcification, regurgitation or stenosis. MRI for quantification. Symptoms depend on valve and severity. Treatment: medical management vs surgical repair/replacement.
+---
+Aortic Stenosis: Echo: thickened aortic valve, reduced opening, pressure gradient. Causes: degenerative calcification, bicuspid valve, rheumatic. Symptoms: angina, syncope, dyspnea. Treatment: valve replacement when symptomatic or severe.
+---
+Mitral Regurgitation: Echo: color Doppler jet into left atrium. Causes: MVP, ischemic, rheumatic, endocarditis. Chronic: LV dilation. Acute: pulmonary edema. Treatment: medical vs surgical repair/replacement.
+---
+Pulmonary Hypertension: Echo: elevated RV systolic pressure, RV dilation. Right heart catheterization for confirmation. Causes: left heart disease, lung disease, CTEPH, PAH. Treatment: treat underlying cause, vasodilators.
+---
+Congenital Heart Disease: Echo/CT/MRI: VSD, ASD, PDA, TOF, coarctation. Diagnosed in childhood or incidentally in adults. Symptoms vary by lesion. Treatment: observation, catheter-based, or surgical repair.
+---
+Deep Vein Thrombosis: Ultrasound: non-compressible vein, echogenic thrombus. Lower extremity most common. Risk: immobility, malignancy, thrombophilia. Symptoms: leg swelling, pain, warmth. Treatment: anticoagulation, thrombolysis if extensive.
+---
+Carotid Stenosis: Doppler ultrasound/CTA: narrowing of carotid artery. >70% stenosis significant. Risk: stroke, TIA. Often asymptomatic. Treatment: carotid endarterectomy or stenting if symptomatic or severe.
+---
+Peripheral Arterial Disease: CTA: arterial stenosis or occlusion. Ankle-brachial index <0.9. Symptoms: claudication, rest pain, ulcers. Treatment: risk factor modification, antiplatelet, revascularization.
+---
+Mesenteric Ischemia: CTA: arterial occlusion, bowel wall thickening, pneumatosis. Acute: severe abdominal pain out of proportion to exam. Chronic: postprandial pain, weight loss. Treatment: revascularization, resection if infarcted.
+---
+Renal Artery Stenosis: CTA/MRA: narrowing of renal artery. Causes: atherosclerosis, fibromuscular dysplasia. Resistant hypertension, flash pulmonary edema, renal insufficiency. Treatment: angioplasty/stenting vs medical management.
+---
+Venous Thrombosis: Ultrasound/CT: thrombus in vein. Sites: leg, arm, cerebral sinuses. Risk factors: immobility, malignancy, hypercoagulable states. Treatment: anticoagulation.
+---
+Arterial Occlusion: CTA: abrupt cutoff of arterial flow. Acute limb ischemia: pain, pallor, pulselessness, paresthesias, paralysis. Causes: embolism, thrombosis. Treatment: emergent revascularization, thrombolysis.
+---
+Disc Herniation: MRI: posterior or posterolateral disc protrusion compressing nerve root. Cervical or lumbar. Symptoms: radicular pain, weakness, numbness. Treatment: NSAIDs, PT, epidural steroid injection, microdiscectomy if severe.
+---
+Spinal Stenosis: MRI: narrowing of spinal canal. Congenital or acquired (degenerative, spondylolisthesis). Lumbar: neurogenic claudication. Cervical: myelopathy. Treatment: PT, epidural injections, decompression surgery.
+---
+Spondylolisthesis: X-ray/CT: anterior slippage of vertebral body. Graded I-V. Isthmic (pars defect) or degenerative. Symptoms: back pain, radiculopathy. Treatment: conservative vs fusion if severe or progressive.
+---
+Degenerative Disc Disease: MRI: disc desiccation, decreased height, endplate changes. Part of normal aging. May cause axial back pain. Treatment: PT, NSAIDs, rarely fusion.
+---
+Scoliosis: X-ray: lateral curvature of spine, Cobb angle measurement. Idiopathic, congenital, or neuromuscular. Pediatric: bracing if progressive. Adult: pain management vs surgery if severe.
+---
+Kyphosis: X-ray: excessive thoracic or thoracolumbar curvature. Scheuermann disease, compression fractures, postural. Symptoms: back pain, deformity. Treatment: PT, bracing, surgery if severe.
+---
+Muscle Tear: MRI: disruption of muscle fibers, hemorrhage, edema. Graded I-III. Common in hamstring, quadriceps, calf. Symptoms: pain, weakness, bruising. Treatment: RICE, PT, rarely surgical repair.
+---
+Tendon Rupture: MRI/US: discontinuity of tendon. Achilles and patellar tendons common. Acute: pop, inability to plantarflex/extend knee. Treatment: immobilization vs surgical repair depending on location and patient.
+---
+Ligament Injury: MRI: abnormal signal, discontinuity. Knee (ACL, MCL, PCL, LCL), ankle. Graded I-III. Symptoms: pain, instability, swelling. Treatment: conservative vs surgical reconstruction.
+---
+Rotator Cuff Tear: MRI: full or partial thickness tear of supraspinatus, infraspinatus, subscapularis, or teres minor. Acute trauma or chronic degeneration. Symptoms: shoulder pain, weakness, impingement. Treatment: PT vs surgical repair.
+---
+Meniscal Tear: MRI: linear signal through meniscus. Medial > lateral. Patterns: horizontal, vertical, bucket handle, flap. Symptoms: knee pain, locking, catching. Treatment: conservative vs arthroscopic repair or meniscectomy.
+---
+ACL Tear: MRI: discontinuity of anterior cruciate ligament, bone bruising. Noncontact pivot injury. Symptoms: pop, swelling, instability. Treatment: reconstruction vs conservative depending on activity level.
+---
+Soft Tissue Mass: MRI: evaluate for size, margins, enhancement. Differential: lipoma, ganglion cyst, sarcoma. Biopsy if concerning features. Treatment depends on diagnosis.
+---
+Normal Study: Imaging shows no acute abnormality. All structures within normal limits. No evidence of fracture, mass, or infiltrate. Clinical correlation recommended.
+---
+No Acute Findings: No acute traumatic, infectious, or vascular abnormality identified. Possible chronic or degenerative changes noted. Follow-up as clinically indicated.
+---
+Age-Related Changes: Degenerative changes appropriate for patient age. Disc desiccation, facet arthropathy, mild spinal stenosis, atherosclerotic calcifications. Likely not clinically significant.
+---
+Post-Surgical Changes: Expected postoperative appearance. Hardware in place, alignment satisfactory. No evidence of complication such as infection, hematoma, or hardware failure.
+---
+Foreign Body: Radio-opaque object visible on X-ray/CT. Location and nature determine clinical significance. May require removal if causing symptoms or risk of infection.
+---
+Calcification: Dystrophic, metastatic, or vascular calcification. Context determines significance. Vascular calcifications suggest atherosclerosis. Soft tissue calcifications may indicate prior injury or metabolic disorder.
+---
+Cyst: Well-defined fluid-filled structure. Simple cysts benign. Location determines differential: kidney, liver, pancreas, ovary. Complex features raise concern for malignancy.
+---
+Abscess: Rim-enhancing fluid collection. CT/MRI: central low density, peripheral enhancement. Causes: infection, post-surgical. Treatment: drainage and antibiotics.
+---
+Inflammation: Imaging findings of soft tissue edema, fat stranding, enhancement. Cellulitis, myositis, inflammatory arthritis. Clinical correlation essential for diagnosis.
+---
+Infection: Imaging depends on location. Pneumonia (consolidation), osteomyelitis (marrow edema), abscess (rim enhancement). Fever, elevated WBC. Treatment: antibiotics, source control.
+---
+Lung Nodule: CT: focal round opacity <3cm. Solitary or multiple. Differential: benign granuloma vs malignancy. Fleischner guidelines for management based on size and patient risk.
+---
+Lung Mass: CT: focal opacity >3cm. Higher malignancy risk than nodule. PET-CT for staging. Biopsy for tissue diagnosis. Treatment depends on pathology.
+---
+Metastatic Disease: Multiple lesions in multiple organs. Common sites: lung, liver, bone, brain. Primary workup if unknown. Staging and prognosis. Treatment: systemic therapy, radiation, palliative care.
+---
+Spinal Metastases: MRI: vertebral body replacement, epidural extension, pathologic fracture. Common primaries: breast, lung, prostate, kidney. Symptoms: back pain, radiculopathy, cord compression. Treatment: radiation, surgery for instability or compression.
+---
+Mediastinal Lymphadenopathy: CT: enlarged mediastinal nodes >1cm. Differential: lymphoma, sarcoidosis, metastases, infection. Requires biopsy for diagnosis in most cases.
+---
+Colorectal Cancer: CT: bowel wall thickening, mass, obstruction. Colonoscopy for diagnosis. Staging CT chest/abdomen/pelvis. Treatment: surgical resection, adjuvant chemotherapy.
+---
+Gastric Cancer: CT: gastric wall thickening, mass. Linitis plastica pattern in signet ring subtype. Endoscopy with biopsy for diagnosis. Poor prognosis. Treatment: gastrectomy, chemotherapy.
+---
+Esophageal Cancer: CT: esophageal wall thickening, mass. PET-CT for staging. Symptoms: dysphagia, weight loss. Types: adenocarcinoma (distal), squamous cell (mid). Treatment: chemoradiation, esophagectomy.
+---
+Lymphoma: CT: lymphadenopathy, solid organ involvement. Hodgkin vs non-Hodgkin. Staging Ann Arbor I-IV. PET-CT for staging and response assessment. Treatment: chemotherapy, radiation.
+---
+Breast Cancer: Mammography: mass, calcifications, architectural distortion. Ultrasound/MRI for further characterization. Biopsy for diagnosis. Treatment: lumpectomy vs mastectomy, chemotherapy, radiation, hormonal therapy.
+---
+Pancreatitis: CT: enlarged edematous pancreas, peripancreatic fluid, fat stranding. Acute or chronic. Causes: gallstones, alcohol. Complications: necrosis, pseudocyst, abscess. Treatment: NPO, IVF, pain control, treat underlying cause.
+---
+Fracture: X-ray: cortical disruption, displacement, angulation. Describe location, pattern (transverse, oblique, comminuted), displacement. Treatment: immobilization vs surgical fixation depending on stability.

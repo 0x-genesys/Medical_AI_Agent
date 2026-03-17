@@ -1,0 +1,71 @@
+EMERGENCY DEPARTMENT CLINICAL NOTE
+
+Date: March 10, 2026
+Patient ID: PT-2024-5678
+Age: 58 years
+Gender: Female
+Weight: 72 kg
+Height: 162 cm
+BMI: 27.4
+
+CHIEF COMPLAINT:
+Severe chest pain radiating to left arm for 2 hours
+
+HISTORY OF PRESENT ILLNESS:
+58-year-old female presents to ED with sudden onset of severe crushing substernal chest pain that started 2 hours ago while at rest. Pain is 9/10 in intensity, radiating to left arm and jaw. Associated with diaphoresis, nausea, and shortness of breath. Patient describes pain as "elephant sitting on chest." Denies any recent trauma or exertion. No relief with rest.
+
+PAST MEDICAL HISTORY:
+- Hypertension
+- Hyperlipidemia
+- Former smoker (quit 5 years ago, 20 pack-year history)
+- Family history: Father had MI at age 62
+
+CURRENT MEDICATIONS:
+- Amlodipine 5 mg daily
+- Simvastatin 40 mg nightly
+- Aspirin 81 mg daily
+
+PHYSICAL EXAMINATION:
+- Blood Pressure: 160/95 mmHg
+- Heart Rate: 105 bpm (regular)
+- Temperature: 98.6°F
+- Respiratory Rate: 22/min
+- SpO2: 94% on room air
+- General: Anxious, diaphoretic, in moderate distress
+- HEENT: Pale, diaphoretic
+- Cardiovascular: Tachycardic, regular rhythm, no murmurs or gallops
+- Respiratory: Mild tachypnea, clear lung fields bilaterally
+- Extremities: Cool, clammy, pulses intact
+
+INITIAL LABORATORY RESULTS:
+- Troponin I: 2.8 ng/mL (normal: <0.04) - ELEVATED
+- CK-MB: 45 U/L (elevated)
+- BNP: 320 pg/mL
+- Complete Blood Count: WBC 11,200, Hgb 13.5, Platelets 245,000
+- Basic Metabolic Panel: Within normal limits
+- Lipid Panel: Total Cholesterol 240, LDL 160, HDL 42, Triglycerides 190
+
+DIAGNOSTIC STUDIES:
+- ECG: ST segment elevation in leads II, III, aVF (inferior STEMI)
+- Chest X-ray: Normal cardiac silhouette, no infiltrates or effusions
+
+ASSESSMENT:
+ACUTE INFERIOR ST-ELEVATION MYOCARDIAL INFARCTION (STEMI)
+
+IMMEDIATE MANAGEMENT:
+1. Activate Cardiac Cath Lab - STEMI protocol
+2. Aspirin 325 mg chewed
+3. Clopidogrel 600 mg loading dose
+4. Heparin IV bolus and infusion
+5. Morphine 4 mg IV for pain
+6. Oxygen via nasal cannula to maintain SpO2 >94%
+7. Sublingual nitroglycerin 0.4 mg x3 doses
+8. Cardiology consulted - patient accepted for emergent PCI
+9. NPO
+10. Continuous cardiac monitoring
+
+DISPOSITION:
+Patient transferred to cardiac catheterization lab for emergent percutaneous coronary intervention (PCI). Family notified. Door-to-balloon time target: <90 minutes.
+
+PROGNOSIS:
+Guarded. Requires immediate revascularization. Will need intensive cardiac care and long-term secondary prevention strategies.

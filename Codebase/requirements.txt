@@ -1,0 +1,42 @@
+# Core Libraries
+pydantic>=2.7.0
+numpy>=1.26.3
+Pillow>=10.2.0
+python-dotenv>=1.0.1
+
+# LangChain Ecosystem (verified working versions)
+langchain==1.2.10
+langchain-classic==1.0.2
+langchain-community==0.4.1
+langchain-core==1.2.17
+langchain-ollama==1.0.1
+langchain-text-splitters==1.1.1
+
+# Ollama
+ollama==0.6.1
+
+# NLP & Transformers
+transformers>=4.35.2
+tokenizers>=0.19.1
+sentence-transformers>=2.3.1
+sentencepiece>=0.2.0
+
+# PyTorch
+torch>=2.6.0
+torchvision>=0.15.0
+
+# Medical Vision Model - Microsoft BiomedCLIP
+open_clip_torch==2.23.0
+
+# Medical Imaging
+pydicom>=2.4.4
+opencv-python>=4.9.0.80
+
+# Vector Search
+faiss-cpu>=1.7.4
+
+# Testing
+pytest>=7.4.4
+
+# Web UI (for dashboard)
+gradio>=4.16.0

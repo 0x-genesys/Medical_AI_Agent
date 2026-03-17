@@ -1,0 +1,162 @@
+# Medical Imaging Conditions for MedCLIP
+# Optimized list for CT, X-ray, and MRI image analysis
+# Format: Short clinical terms matching radiologist reporting style
+
+# Chest X-ray / CT Findings
+pneumonia
+atelectasis
+consolidation
+pneumothorax
+pleural effusion
+cardiomegaly
+pulmonary edema
+lung nodule
+lung mass
+ground glass opacity
+interstitial lung disease
+bronchiectasis
+emphysema
+pulmonary fibrosis
+mediastinal mass
+hilar lymphadenopathy
+pleural thickening
+pericardial effusion
+aortic aneurysm
+aortic dissection
+
+# Bone & Skeletal Imaging
+fracture
+wrist fracture
+hand fracture
+rib fracture
+shoulder fracture
+clavicle fracture
+hip fracture
+femoral fracture
+knee fracture
+ankle fracture
+foot fracture
+skull fracture
+facial fracture
+spine fracture
+pelvic fracture
+long bone fracture
+decreased bone density
+degenerative joint disease
+bone lesion
+bone tumor
+bone metastases
+bone infection
+joint effusion
+avascular necrosis
+
+# Brain & Neurological Imaging
+ischemic stroke
+hemorrhagic stroke
+subdural hematoma
+epidural hematoma
+subarachnoid hemorrhage
+intracerebral hemorrhage
+brain tumor
+glioblastoma
+meningioma
+brain metastases
+cerebral edema
+hydrocephalus
+brain atrophy
+white matter disease
+multiple sclerosis
+cerebral aneurysm
+arteriovenous malformation
+cerebral infarction
+encephalitis
+brain abscess
+
+# Abdominal & Pelvic Imaging
+appendicitis
+bowel obstruction
+bowel perforation
+diverticulitis
+cholecystitis
+cholelithiasis
+pancreatitis
+fatty liver
+liver cirrhosis
+hepatocellular carcinoma
+liver metastases
+splenomegaly
+kidney stone
+hydronephrosis
+renal cell carcinoma
+renal cyst
+abdominal aortic aneurysm
+ascites
+peritonitis
+ovarian cyst
+
+# Oncology Imaging
+lung cancer
+small cell lung cancer
+non-small cell lung cancer
+breast cancer
+pancreatic cancer
+colorectal cancer
+gastric cancer
+esophageal cancer
+lymphoma
+metastatic disease
+bone metastases
+liver metastases
+brain metastases
+spinal metastases
+mediastinal lymphadenopathy
+
+# Cardiac Imaging
+myocardial infarction
+coronary artery disease
+heart failure
+cardiomyopathy
+cardiac tamponade
+valvular heart disease
+aortic stenosis
+mitral regurgitation
+pulmonary hypertension
+congenital heart disease
+
+# Vascular Imaging
+deep vein thrombosis
+pulmonary embolism
+carotid stenosis
+peripheral arterial disease
+mesenteric ischemia
+renal artery stenosis
+venous thrombosis
+arterial occlusion
+
+# Spine & Musculoskeletal
+disc herniation
+spinal stenosis
+spondylolisthesis
+spinal cord compression
+degenerative disc disease
+scoliosis
+kyphosis
+muscle tear
+tendon rupture
+ligament injury
+rotator cuff tear
+meniscal tear
+ACL tear
+soft tissue mass
+
+# Other Common Findings
+normal
+no acute findings
+age-related changes
+postoperative changes
+foreign body
+calcification
+cyst
+abscess
+inflammation
+infection

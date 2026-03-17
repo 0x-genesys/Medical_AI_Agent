@@ -1,0 +1,80 @@
+INPATIENT PROGRESS NOTE
+
+Date: March 10, 2026
+Patient ID: PT-2024-9012
+Age: 68 years
+Gender: Male
+Weight: 78 kg
+Height: 170 cm
+BMI: 27.0
+
+CHIEF COMPLAINT:
+Cough, fever, and shortness of breath for 4 days
+
+HISTORY OF PRESENT ILLNESS:
+68-year-old male admitted 2 days ago with community-acquired pneumonia. Initially presented with 4-day history of productive cough with yellow-green sputum, fever up to 102°F, chills, and progressive dyspnea. Patient reports pleuritic chest pain on right side, worse with deep inspiration. No recent travel, sick contacts, or hospitalization.
+
+PAST MEDICAL HISTORY:
+- COPD (moderate, on home oxygen 2L NC)
+- Type 2 Diabetes Mellitus
+- Former smoker (quit 2 years ago, 40 pack-year history)
+- Chronic kidney disease Stage 3a
+
+CURRENT MEDICATIONS (INPATIENT):
+- Ceftriaxone 1g IV q24h (Day 3)
+- Azithromycin 500mg IV daily (Day 3)
+- Albuterol nebulizer q4h PRN
+- Ipratropium nebulizer q6h
+- Metformin 500mg BID (held during admission)
+- Insulin sliding scale
+- Oxygen 3L NC (increased from home dose)
+
+PHYSICAL EXAMINATION:
+- Blood Pressure: 128/76 mmHg
+- Heart Rate: 92 bpm
+- Temperature: 99.2°F (improved from 102°F on admission)
+- Respiratory Rate: 20/min
+- SpO2: 92% on 3L O2
+- General: Alert, mild respiratory distress improved from admission
+- HEENT: No cyanosis, moist mucous membranes
+- Cardiovascular: Regular rate and rhythm
+- Respiratory: Decreased breath sounds right lower lobe, dullness to percussion right base, inspiratory crackles right lower lobe
+- Abdomen: Soft, non-tender, active bowel sounds
+- Extremities: No edema, warm and well-perfused
+
+LABORATORY RESULTS (Admission):
+- WBC: 16,800/μL with left shift (now 11,200/μL - improving)
+- Hemoglobin: 13.2 g/dL
+- Platelets: 245,000/μL
+- Creatinine: 1.6 mg/dL (at baseline)
+- Glucose: 185 mg/dL
+- Blood cultures: Pending (no growth at 48 hours)
+- Sputum culture: Streptococcus pneumoniae (sensitive to ceftriaxone)
+- Procalcitonin: 2.4 ng/mL (admission), now 0.8 ng/mL - improving
+
+IMAGING:
+- Chest X-ray (Admission): Right lower lobe consolidation consistent with pneumonia
+- Chest X-ray (Today): Persistent right lower lobe opacity, slight improvement
+
+ASSESSMENT:
+1. Community-acquired pneumonia (CAP) - Streptococcus pneumoniae - IMPROVING
+2. COPD exacerbation - STABLE on increased home oxygen
+3. Type 2 Diabetes - controlled on insulin
+4. CKD Stage 3a - STABLE
+
+CURB-65 Score: 2 (Age ≥65, Confusion=0, Urea=normal, RR=20, BP=normal)
+
+PLAN:
+1. Continue Ceftriaxone and Azithromycin - complete 7-day course
+2. Continue respiratory treatments with albuterol and ipratropium
+3. Monitor oxygen saturation - wean oxygen as tolerated
+4. Incentive spirometry q2h while awake
+5. Physical therapy evaluation for mobility and pulmonary hygiene
+6. Repeat chest X-ray in 48 hours
+7. If continues to improve, consider transitioning to oral antibiotics tomorrow
+8. Plan for discharge in 2-3 days if stable, with home health follow-up
+9. Pneumococcal vaccine prior to discharge (if not previously given)
+10. Smoking cessation counseling reinforcement
+
+PROGNOSIS:
+Good. Responding well to antibiotics. Expected full recovery with completion of therapy.
