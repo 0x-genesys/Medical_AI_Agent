@@ -342,7 +342,7 @@ class MedicalAssistantSetup:
             print_info("Please start manually: ollama serve")
     
     def check_llama_model(self):
-        """Check if llama3 model is available"""
+        """Check if llama3 model is available and auto-detect version"""
         print_header("🦙 Checking Llama 3 Model")
         
         try:
@@ -353,45 +353,82 @@ class MedicalAssistantSetup:
                 timeout=10
             )
             
+            # Auto-detect any llama3 variant (llama3, llama3.2, llama3.1, etc.)
             if "llama3" in result.stdout.lower():
-                print_success("Llama 3 model is available")
-                return True
-            else:
-                print_warning("Llama 3 model not found")
-                return self.pull_llama_model()
+                # Extract the actual model name
+                for line in result.stdout.split('\n'):
+                    if 'llama3' in line.lower():
+                        model_name = line.split()[0].split(':')[0]  # Get model name without :latest
+                        print_success(f"Llama 3 model is available: {model_name}")
+                        
+                        # Update config to use detected model
+                        self._update_config_model(model_name)
+                        return True
+            
+            print_warning("Llama 3 model not found")
+            return self.pull_llama_model()
                 
         except Exception as e:
             print_warning(f"Could not check models: {e}")
             return False
     
-    def pull_llama_model(self):
-        """Pull llama3 model"""
-        print_info("Pulling Llama 3 model (this may take several minutes)...")
-        print_info("Model size: ~4.7GB")
+    def _update_config_model(self, model_name: str):
+        """Update config and .env with detected model name"""
+        env_file = self.script_dir / ".env"
         
-        try:
-            process = subprocess.Popen(
-                ["ollama", "pull", "llama3"],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True
-            )
+        if env_file.exists():
+            # Update .env file
+            with open(env_file, 'r') as f:
+                lines = f.readlines()
             
-            for line in process.stdout:
-                print(f"  {line.strip()}")
-            
-            process.wait()
-            
-            if process.returncode == 0:
-                print_success("Llama 3 model downloaded successfully")
-                return True
-            else:
-                print_error("Failed to download model")
-                return False
+            with open(env_file, 'w') as f:
+                for line in lines:
+                    if line.startswith('LLM_MODEL='):
+                        f.write(f'LLM_MODEL={model_name}\n')
+                    else:
+                        f.write(line)
+        
+        # Update environment variable for current session
+        os.environ['LLM_MODEL'] = model_name
+        print_info(f"Updated config to use: {model_name}")
+    
+    def pull_llama_model(self):
+        """Pull llama3 model - tries llama3.2 first (newer/smaller), falls back to llama3"""
+        print_info("Pulling Llama 3 model (this may take several minutes)...")
+        
+        # Try llama3.2 first (2GB, newer)
+        models_to_try = ["llama3.2", "llama3"]
+        
+        for model in models_to_try:
+            try:
+                size = "~2GB" if model == "llama3.2" else "~4.7GB"
+                print_info(f"Trying {model} (size: {size})...")
                 
-        except Exception as e:
-            print_error(f"Error downloading model: {e}")
-            return False
+                process = subprocess.Popen(
+                    ["ollama", "pull", model],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
+                    text=True
+                )
+                
+                for line in process.stdout:
+                    print(f"  {line.strip()}")
+                
+                process.wait()
+                
+                if process.returncode == 0:
+                    print_success(f"{model} downloaded successfully")
+                    self._update_config_model(model)
+                    return True
+                else:
+                    print_warning(f"Failed to pull {model}, trying next...")
+                    
+            except Exception as e:
+                print_warning(f"Error downloading {model}: {e}")
+                continue
+        
+        print_error("Failed to download any Llama 3 variant")
+        return False
     
     def create_env_file(self):
         """Create .env file if it doesn't exist"""
@@ -550,6 +587,40 @@ class MedicalAssistantSetup:
     def launch_cli(self):
         """Launch CLI interface"""
         print_header("🚀 Launching CLI Interface")
+        
+        # Quick verification before launch
+        print_info("Verifying Ollama service and model...")
+        try:
+            result = subprocess.run(
+                ["ollama", "list"],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            
+            if result.returncode != 0:
+                print_error("Ollama service not responding")
+                print_info("Start Ollama: ollama serve")
+                return False
+            
+            if "llama3" not in result.stdout.lower():
+                print_error("Llama 3 model not found")
+                print_info("Pull model: ollama pull llama3.2")
+                print_info("Or: ollama pull llama3")
+                return False
+            
+            print_success("✓ Ollama and model ready")
+            
+        except subprocess.TimeoutExpired:
+            print_error("Ollama service not responding")
+            print_info("Start Ollama: ollama serve")
+            return False
+        except FileNotFoundError:
+            print_error("Ollama not installed")
+            return False
+        except Exception as e:
+            print_warning(f"Could not verify Ollama: {e}")
+            print_info("Proceeding anyway...")
         
         cli_script = self.script_dir / "cli_main.py"
         if not cli_script.exists():
