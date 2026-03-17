@@ -440,6 +440,40 @@ class MedicalAssistantSetup:
         """Launch Gradio UI"""
         print_header("🚀 Launching Web UI")
         
+        # Quick verification before launch
+        print_info("Verifying Ollama service and model...")
+        try:
+            result = subprocess.run(
+                ["ollama", "list"],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            
+            if result.returncode != 0:
+                print_error("Ollama service not responding")
+                print_info("Start Ollama: ollama serve")
+                return False
+            
+            if "llama3" not in result.stdout.lower():
+                print_error("Llama 3 model not found")
+                print_info("Pull model: ollama pull llama3.2")
+                print_info("Or: ollama pull llama3")
+                return False
+            
+            print_success("✓ Ollama and model ready")
+            
+        except subprocess.TimeoutExpired:
+            print_error("Ollama service not responding")
+            print_info("Start Ollama: ollama serve")
+            return False
+        except FileNotFoundError:
+            print_error("Ollama not installed")
+            return False
+        except Exception as e:
+            print_warning(f"Could not verify Ollama: {e}")
+            print_info("Proceeding anyway...")
+        
         ui_script = self.ui_dir / "medical_assistant_ui.py"
         if not ui_script.exists():
             print_error(f"UI script not found: {ui_script}")
