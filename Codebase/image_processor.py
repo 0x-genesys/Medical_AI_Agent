@@ -59,8 +59,13 @@ class ImageProcessor:
         
         self.logger.info(f"Loading vision model: {vision_model}")
         
-        # Device selection (CPU by default, MPS/CUDA if available)
-        self.device = torch.device("cpu")
+        # Device selection - auto-detect GPU (CUDA preferred, then MPS, then CPU)
+        if torch.cuda.is_available():
+            self.device = torch.device("cuda")
+            self.logger.info(f"BiomedCLIP will use CUDA GPU: {torch.cuda.get_device_name(0)}")
+        else:
+            self.device = torch.device("cpu")
+            self.logger.info("BiomedCLIP will use CPU (no GPU detected)")
         
         try:
             self.logger.info(f"Initializing BiomedCLIP on {self.device}")
