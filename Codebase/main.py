@@ -273,7 +273,14 @@ class MedicalAssistantSetup:
             print("")
             print_info("Ollama Installation Instructions:")
             print("")
-            if platform.system() == "Darwin":  # macOS
+            
+            if self.is_colab:
+                print("  Google Colab:")
+                print("  Run in a notebook cell:")
+                print("    !curl -fsSL https://ollama.com/install.sh | sh")
+                print("    !nohup ollama serve > /dev/null 2>&1 &")
+                print("    !sleep 5 && ollama pull llama3.2")
+            elif platform.system() == "Darwin":  # macOS
                 print("  macOS:   curl -fsSL https://ollama.com/install.sh | sh")
                 print("  Or:      brew install ollama")
             elif platform.system() == "Linux":
