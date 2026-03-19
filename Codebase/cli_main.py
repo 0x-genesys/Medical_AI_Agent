@@ -33,6 +33,166 @@ from logger import get_logger
 logger = get_logger(__name__)
 
 
+def safe_print_result(result: Dict, flow_name: str = "Analysis"):
+    """
+    Safe output formatter with automatic fallback to raw response.
+    
+    Attempts to format and display structured result output. If ANY formatting
+    error occurs (e.g., dict/list type mismatches, missing keys), automatically
+    falls back to dumping the raw LLM response instead of crashing.
+    
+    This ensures users always see the AI output, even when response formats
+    are unexpected or contain mixed types.
+    
+    Args:
+        result (Dict): Result dictionary from analysis flow
+        flow_name (str): Name of the flow for debug messages (default: "Analysis")
+    
+    Returns:
+        None
+    """
+    try:
+        # Handle error results
+        if "error" in result:
+            print(f"\n❌ Error: {result['error']}")
+            if result.get('raw_response'):
+                print("\n=== 🤖 Raw LLM Output (Debug) ===")
+                print("─" * 80)
+                print(result['raw_response'])
+                print("─" * 80)
+            return
+        
+        # Format based on flow type
+        flow_type = result.get('flow', flow_name.lower().replace(' ', '_'))
+        
+        if flow_type == 'report_analysis' or 'chief_complaints' in result:
+            print("\n=== 📊 Parsed Text Analysis ===")
+            
+            if result.get('chief_complaints'):
+                print(f"\n🔍 Chief Complaints ({len(result['chief_complaints'])}):")
+                for i, complaint in enumerate(result['chief_complaints'], 1):
+                    print(f"  {i}. {str(complaint)}")
+            
+            if result.get('symptoms'):
+                print(f"\n🩺 Symptoms ({len(result['symptoms'])}):")
+                for i, symptom in enumerate(result['symptoms'][:8], 1):
+                    print(f"  {i}. {str(symptom)}")
+            
+            if result.get('medications'):
+                print(f"\n💊 Medications ({len(result['medications'])}):")
+                for i, med in enumerate(result['medications'][:5], 1):
+                    print(f"  {i}. {str(med)}")
+            
+            if result.get('summary'):
+                print("\n📝 Summary:")
+                print(f"  {result['summary']}")
+        
+        elif flow_type == 'image_analysis' or 'observations' in result:
+            print("\n=== 📊 Parsed Image Analysis ===")
+            
+            if result.get('observations'):
+                print(f"\n👁️  Observations ({len(result['observations'])}):")
+                for i, obs in enumerate(result['observations'][:5], 1):
+                    print(f"  {i}. {str(obs)}")
+            
+            if result.get('potential_findings'):
+                print(f"\n🔍 Potential Findings ({len(result['potential_findings'])}):")
+                for i, finding in enumerate(result['potential_findings'][:3], 1):
+                    print(f"  {i}. {str(finding)}")
+            
+            if result.get('abnormalities'):
+                print(f"\n⚠️  Abnormalities ({len(result['abnormalities'])}):")
+                for i, abn in enumerate(result['abnormalities'][:3], 1):
+                    if isinstance(abn, dict):
+                        abn_type = abn.get('type', 'unknown')
+                        abn_conf = abn.get('confidence', 0)
+                        print(f"  {i}. {abn_type} (confidence: {abn_conf:.1f}%)")
+                    else:
+                        print(f"  {i}. {str(abn)}")
+            
+            if 'confidence_score' in result:
+                print(f"\n📊 Confidence: {result['confidence_score']}")
+        
+        elif flow_type == 'multimodal_fusion' or 'integrated_assessment' in result:
+            print("\n=== 🔬 Multimodal Fusion Analysis Results ===")
+            
+            if result.get('clinical_summary'):
+                print("\n📋 Clinical Summary:")
+                print(result['clinical_summary'])
+            
+            if result.get('integrated_assessment'):
+                print("\n🔬 Integrated Assessment:")
+                assessment = result['integrated_assessment']
+                if isinstance(assessment, dict):
+                    for key, value in assessment.items():
+                        print(f"\n  {key.replace('_', ' ').title()}:")
+                        if isinstance(value, list):
+                            for item in value[:5]:
+                                print(f"    • {str(item)}")
+                        else:
+                            print(f"    {value}")
+                else:
+                    print(assessment)
+            
+            if result.get('differential_diagnosis'):
+                print(f"\n🩺 Differential Diagnosis ({len(result['differential_diagnosis'])}):")
+                for i, dx in enumerate(result['differential_diagnosis'][:5], 1):
+                    if isinstance(dx, dict):
+                        dx_name = dx.get('diagnosis') or dx.get('value') or str(dx)
+                        dx_prob = dx.get('probability') or dx.get('confidence', '')
+                        if dx_prob:
+                            prob_val = int(dx_prob * 100) if dx_prob <= 1 else int(dx_prob)
+                            print(f"  {i}. {dx_name} ({prob_val}%)")
+                        else:
+                            print(f"  {i}. {dx_name}")
+                    else:
+                        print(f"  {i}. {str(dx)}")
+            
+            if result.get('recommended_workup'):
+                print(f"\n🔍 Recommended Workup ({len(result['recommended_workup'])}):")
+                for i, test in enumerate(result['recommended_workup'][:5], 1):
+                    if isinstance(test, dict):
+                        test_name = test.get('test_name') or test.get('test') or test.get('name') or str(test)
+                        print(f"  {i}. {test_name}")
+                    else:
+                        print(f"  {i}. {str(test)}")
+            
+            if result.get('confidence_level'):
+                print(f"\n🎯 Confidence: {result['confidence_level']}")
+        
+        elif flow_type == 'query' or 'answer' in result:
+            print(f"\n💡 Answer:")
+            print(result.get('answer', 'N/A'))
+            if 'confidence' in result:
+                print(f"\n🎯 Confidence: {result['confidence']:.2f}")
+            if result.get('references'):
+                print(f"\n📚 References:")
+                for i, ref in enumerate(result['references'][:3], 1):
+                    print(f"  {i}. {ref}")
+        
+        # Always show raw LLM output for transparency
+        if result.get('raw_response'):
+            print("\n\n=== 🤖 Raw LLM Output ===")
+            print("─" * 80)
+            print(result['raw_response'])
+            print("─" * 80)
+    
+    except Exception as format_error:
+        # FALLBACK: If ANY formatting error occurs, dump raw output
+        print(f"\n⚠️  Error formatting output: {format_error}")
+        print(f"\n=== 🤖 Raw Output ({flow_name}) ===")
+        print("─" * 80)
+        if result.get('raw_response'):
+            print(result['raw_response'])
+        else:
+            import json
+            try:
+                print(json.dumps(result, indent=2, default=str))
+            except:
+                print(str(result))
+        print("─" * 80)
+
+
 class MedicalAssistantOrchestrator:
     """
     Healthcare CLI Orchestrator with unified session management.
@@ -409,8 +569,21 @@ class MedicalAssistantOrchestrator:
 
 def run_cli_mode():
     """
-    Interactive Healthcare CLI Mode
-    Primary interface for healthcare professionals to analyze clinical data
+    Interactive Healthcare CLI Mode - Main CLI event loop.
+    
+    Primary command-line interface for healthcare professionals to analyze
+    clinical data through an interactive menu system. Provides access to all
+    analysis flows (text, image, query, multimodal) with session management.
+    
+    Features:
+    - Interactive menu with 7 options (4 analysis flows + 3 session commands)
+    - Automatic session creation and tracking
+    - Safe output formatting with fallback to raw LLM responses
+    - Error handling and graceful degradation
+    - Resource cleanup on exit
+    
+    Returns:
+        None
     """
     orchestrator = MedicalAssistantOrchestrator()
     
@@ -474,40 +647,13 @@ def run_cli_mode():
                 print("\n--- Report Analysis Flow ---")
                 file_path = input("Enter report file path: ").strip()
                 result = orchestrator.analyze_report_flow(file_path)
-                
-                if "error" in result:
-                    print(f"\n❌ Error: {result['error']}")
-                elif result.get('parsed', True):
-                    print("\n=== 📊 Parsed Clinical Analysis ===")
-                    print(f"\n📋 Summary:\n{result['summary']}")
-                    print(f"\n🔍 Chief Complaints: {', '.join(result['chief_complaints']) if result['chief_complaints'] else 'None'}")
-                    print(f"\n🩺 Symptoms: {', '.join(result['symptoms']) if result['symptoms'] else 'None'}")
-                    print(f"\n📜 Medical History: {', '.join(result['medical_history']) if result['medical_history'] else 'None'}")
-                    print(f"\n💊 Medications: {', '.join(result['medications']) if result['medications'] else 'None'}")
-                    print(f"\n🔬 Lab Findings: {', '.join(result['lab_findings']) if result['lab_findings'] else 'None'}")
-                    
-                    # Show raw LLM output for transparency
-                    if result.get('raw_response'):
-                        print("\n\n=== 🤖 Raw LLM Output ===")
-                        print("─" * 80)
-                        print(result['raw_response'])
-                        print("─" * 80)
-                else:
-                    print("\n⚠️  Could not parse structured output. Showing raw response:\n")
-                    print("─" * 80)
-                    print(result.get('raw_response', 'No response'))
-                    print("─" * 80)
+                safe_print_result(result, "Report Analysis")
             
             elif command == "2":
                 print("\n--- Query Flow ---")
                 query = input("Enter your medical question: ").strip()
                 result = orchestrator.answer_query_flow(query)
-                
-                print("\n=== 📊 Query Results ===")
-                print(f"\n💡 Answer:\n{result['answer']}")
-                print(f"\n🎯 Confidence: {result['confidence']:.2f}")
-                if result['references']:
-                    print(f"\n📚 References: {', '.join(result['references'][:3])}")
+                safe_print_result(result, "Query")
             
             elif command == "3":
                 print("\n--- Image Analysis Flow ---")
@@ -516,25 +662,7 @@ def run_cli_mode():
                 body_part = input("Enter body part (optional): ").strip() or None
                 
                 result = orchestrator.analyze_image_flow(image_path, modality, body_part)
-                
-                print("\n=== 📊 Parsed Image Analysis ===")
-                print(f"\n👁️  Observations ({len(result['observations'])}):")
-                for i, obs in enumerate(result['observations'][:5], 1):
-                    print(f"  {i}. {obs}")
-                
-                if result['potential_findings']:
-                    print(f"\n🔍 Potential Findings ({len(result['potential_findings'])}):")
-                    for i, finding in enumerate(result['potential_findings'][:3], 1):
-                        print(f"  {i}. {finding}")
-                
-                print(f"\n📊 Confidence: {result['confidence_score']}")
-                
-                # Show raw LLM output for transparency
-                if result.get('raw_response'):
-                    print("\n\n=== 🤖 Raw LLM Output ===")
-                    print("─" * 80)
-                    print(result['raw_response'])
-                    print("─" * 80)
+                safe_print_result(result, "Image Analysis")
             
             elif command == "4":
                 print("\n--- Multimodal Fusion Analysis ---")
@@ -567,44 +695,7 @@ def run_cli_mode():
                         image_file=image_file
                     )
                 
-                print("\n=== 📊 Multimodal Analysis Results ===")
-                
-                # Display routed flow results
-                if result.get('flow') == 'query':
-                    print(f"\n💡 Answer:\n{result['answer']}")
-                    print(f"\n🎯 Confidence: {result['confidence']:.2f}")
-                elif result.get('flow') == 'image_analysis':
-                    print(f"\n👁️  Image Observations: {len(result['observations'])}")
-                    for i, obs in enumerate(result['observations'][:3], 1):
-                        print(f"  {i}. {obs}")
-                elif result.get('flow') == 'report_analysis':
-                    print(f"\n📋 Report Summary:\n{result.get('summary', 'N/A')}")
-                elif result.get('flow') == 'multimodal_fusion':
-                    # Integrated multimodal results
-                    print("\n🔬 Integrated Clinical Assessment:")
-                    print(f"{result.get('integrated_assessment', 'N/A')}")
-                    
-                    if result.get('differential_diagnosis'):
-                        print(f"\n🩺 Differential Diagnosis:")
-                        for i, dx in enumerate(result['differential_diagnosis'][:3], 1):
-                            print(f"  {i}. {dx}")
-                    
-                    if result.get('recommended_workup'):
-                        print(f"\n🔍 Recommended Workup:")
-                        for i, workup in enumerate(result['recommended_workup'][:3], 1):
-                            print(f"  {i}. {workup}")
-                    
-                    print(f"\n📊 Confidence: {result.get('confidence_level', 'N/A')}")
-                    
-                    # Show raw LLM output
-                    if result.get('raw_response'):
-                        print("\n\n=== 🤖 Raw LLM Output ===")
-                        print("─" * 80)
-                        print(result['raw_response'])
-                        print("─" * 80)
-                
-                if 'error' in result:
-                    print(f"\n❌ Error: {result['error']}")
+                safe_print_result(result, "Multimodal Fusion")
             
             else:
                 print("⚠️  Invalid command. Please select 1-7.")

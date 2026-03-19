@@ -306,9 +306,13 @@ class MultimodalFusion:
         
         parts = []
         if text_analysis.chief_complaints:
-            parts.append(f"Chief Complaints: {', '.join(text_analysis.chief_complaints[:3])}")
+            # Ensure all items are strings
+            complaints_strs = [str(c) if not isinstance(c, str) else c for c in text_analysis.chief_complaints[:3]]
+            parts.append(f"Chief Complaints: {', '.join(complaints_strs)}")
         if text_analysis.symptoms:
-            parts.append(f"Symptoms: {', '.join(text_analysis.symptoms[:5])}")
+            # Ensure all items are strings
+            symptoms_strs = [str(s) if not isinstance(s, str) else s for s in text_analysis.symptoms[:5]]
+            parts.append(f"Symptoms: {', '.join(symptoms_strs)}")
         if text_analysis.summary:
             parts.append(f"Summary: {text_analysis.summary}")
         
@@ -332,11 +336,26 @@ class MultimodalFusion:
         
         parts = []
         if image_analysis.observations:
-            parts.append(f"Observations: {', '.join(image_analysis.observations[:3])}")
+            # Ensure all items are strings
+            obs_strs = [str(o) if not isinstance(o, str) else o for o in image_analysis.observations[:3]]
+            parts.append(f"Observations: {', '.join(obs_strs)}")
         if image_analysis.potential_findings:
-            parts.append(f"Findings: {', '.join(image_analysis.potential_findings[:3])}")
+            # Ensure all items are strings
+            findings_strs = [str(f) if not isinstance(f, str) else f for f in image_analysis.potential_findings[:3]]
+            parts.append(f"Findings: {', '.join(findings_strs)}")
         if image_analysis.abnormalities:
-            parts.append(f"Abnormalities: {', '.join(image_analysis.abnormalities[:3])}")
+            # Handle abnormalities which can be dicts or strings
+            abnormalities_strs = []
+            for abn in image_analysis.abnormalities[:3]:
+                if isinstance(abn, dict):
+                    # Format dict as "type (confidence%)"
+                    abn_type = abn.get('type', 'unknown')
+                    abn_conf = abn.get('confidence', 0)
+                    abnormalities_strs.append(f"{abn_type} ({abn_conf:.1f}%)")
+                else:
+                    # Handle string abnormalities
+                    abnormalities_strs.append(str(abn))
+            parts.append(f"Abnormalities: {', '.join(abnormalities_strs)}")
         
         return " | ".join(parts) if parts else "No significant imaging findings"
     

@@ -3,7 +3,7 @@ Data models for Multimodal Medical Assistant
 Following SOLID principles with clear data structures
 """
 from dataclasses import dataclass, field
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Union
 from datetime import datetime
 from enum import Enum
 
@@ -163,7 +163,7 @@ class ImageAnalysisResult:
     """
     observations: List[str] = field(default_factory=list)
     potential_findings: List[str] = field(default_factory=list)
-    abnormalities: List[str] = field(default_factory=list)
+    abnormalities: List[Union[str, Dict[str, Any]]] = field(default_factory=list)
     confidence_score: float = 0.0
     recommendations: List[str] = field(default_factory=list)
     raw_response: Optional[str] = None
