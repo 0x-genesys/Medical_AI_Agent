@@ -37,24 +37,44 @@ class Colors:
     BOLD = '\033[1m'
 
 def print_header(text):
-    """Print formatted header"""
+    """Print formatted colored header with underline.
+    
+    Args:
+        text (str): Header text to display
+    """
     print(f"\n{Colors.BOLD}{Colors.CYAN}{text}{Colors.END}")
     print("=" * len(text))
 
 def print_success(text):
-    """Print success message"""
+    """Print success message in green with checkmark.
+    
+    Args:
+        text (str): Success message to display
+    """
     print(f"{Colors.GREEN}✓ {text}{Colors.END}")
 
 def print_warning(text):
-    """Print warning message"""
+    """Print warning message in yellow with warning icon.
+    
+    Args:
+        text (str): Warning message to display
+    """
     print(f"{Colors.YELLOW}⚠️  {text}{Colors.END}")
 
 def print_error(text):
-    """Print error message"""
+    """Print error message in red with X icon.
+    
+    Args:
+        text (str): Error message to display
+    """
     print(f"{Colors.RED}❌ {text}{Colors.END}")
 
 def print_info(text):
-    """Print info message"""
+    """Print info message in blue with info icon.
+    
+    Args:
+        text (str): Info message to display
+    """
     print(f"{Colors.BLUE}ℹ️  {text}{Colors.END}")
 
 class MedicalAssistantSetup:
@@ -143,7 +163,16 @@ class MedicalAssistantSetup:
             return False
     
     def setup_virtual_environment(self):
-        """Create and activate virtual environment"""
+        """
+        Create Python virtual environment for isolated dependencies.
+        
+        Creates a new virtual environment in the project root directory
+        to isolate package installations. Skips creation if already exists
+        or if running in Google Colab.
+        
+        Returns:
+            bool: True if venv exists or was created successfully, False on error
+        """
         print_header("📦 Setting Up Virtual Environment")
         
         if self.is_colab:
@@ -170,7 +199,15 @@ class MedicalAssistantSetup:
             return False
     
     def get_venv_python(self):
-        """Get path to Python executable in venv"""
+        """
+        Get path to Python executable in virtual environment.
+        
+        Returns platform-specific path to Python executable within the
+        virtual environment, or system Python if in Colab.
+        
+        Returns:
+            str: Absolute path to Python executable
+        """
         if self.is_colab:
             return sys.executable  # Use system Python in Colab
         if self.is_windows:
@@ -179,7 +216,15 @@ class MedicalAssistantSetup:
             return str(self.venv_dir / "bin" / "python")
     
     def get_venv_pip(self):
-        """Get path to pip in venv"""
+        """
+        Get path to pip executable in virtual environment.
+        
+        Returns platform-specific path to pip executable within the
+        virtual environment, or system pip if in Colab.
+        
+        Returns:
+            str: Absolute path to pip executable
+        """
         if self.is_colab:
             return "pip"  # Use system pip in Colab
         if self.is_windows:
@@ -188,7 +233,16 @@ class MedicalAssistantSetup:
             return str(self.venv_dir / "bin" / "pip")
     
     def install_dependencies(self):
-        """Install Python dependencies"""
+        """
+        Install all required Python packages from requirements.txt.
+        
+        Upgrades pip and installs all dependencies including PyTorch,
+        Transformers, Gradio, and medical NLP libraries. Shows progress
+        during installation and handles errors gracefully.
+        
+        Returns:
+            bool: True if installation successful, False on error
+        """
         print_header("📚 Installing Dependencies")
         
         pip_cmd = self.get_venv_pip()

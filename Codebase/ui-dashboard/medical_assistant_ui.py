@@ -218,14 +218,16 @@ def parse_medical_output(result: Dict[str, Any], flow_type: str) -> str:
             
             # Potential Findings
             if result.get('potential_findings'):
-                html_parts.append(f"""
+                html_parts.append("""
                 <div style="background: white; padding: 15px; margin-bottom: 15px; border-radius: 8px; border-left: 4px solid #f39c12;">
                     <h4 style="color: #2c3e50; margin-top: 0;">🔍 Potential Findings</h4>
                     <ul style="margin: 0; color: #34495e;">
-                        {''.join(f'<li style="color: #34495e;">{finding}</li>' for finding in result['potential_findings'])}
-                    </ul>
-                </div>
                 """)
+                for finding in result['potential_findings']:
+                    # Handle both string and dict findings
+                    finding_str = str(finding) if not isinstance(finding, str) else finding
+                    html_parts.append(f'<li style="color: #34495e;">{finding_str}</li>')
+                html_parts.append('</ul></div>')
             
             # Confidence
             confidence = result.get('confidence_score', 0)
@@ -517,7 +519,28 @@ def process_report(file_obj):
         html_output = parse_medical_output(result, "report_analysis")
         yield html_output, get_session_info(), gr.update(value="Analyze Report", interactive=True)
     except Exception as e:
-        yield f"❌ Error processing report: {str(e)}", get_session_info(), gr.update(value="Analyze Report", interactive=True)
+        # If error occurs, try to dump raw response if available
+        error_html = f"""
+        <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #f39c12;">
+            <h4 style="color: #856404; margin-top: 0;">⚠️ Error Processing Report</h4>
+            <p style="color: #856404; margin: 0;">Error: {str(e)}</p>
+        </div>
+        """
+        
+        # Try to show raw response if result exists
+        try:
+            if 'result' in locals() and result and isinstance(result, dict) and result.get('raw_response'):
+                error_html += f"""
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h4 style="color: #2c3e50; margin-top: 0;">🤖 Raw LLM Response (Debug Output)</h4>
+                    <pre style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 5px; 
+                                overflow-x: auto; font-size: 12px; max-height: 600px; overflow-y: auto; white-space: pre-wrap;">{result.get('raw_response', '')}</pre>
+                </div>
+                """
+        except:
+            pass
+        
+        yield error_html, get_session_info(), gr.update(value="Analyze Report", interactive=True)
 
 def process_query(query: str):
     """Process medical query with RAG - yields progress updates"""
@@ -645,7 +668,29 @@ def process_multimodal(report_file, image_file, modality: str, body_part: str):
         html_output = parse_medical_output(result, "multimodal_fusion")
         yield html_output, get_session_info(), gr.update(value="Fuse & Analyze", interactive=True)
     except Exception as e:
-        yield f"❌ Error processing multimodal: {str(e)}", get_session_info(), gr.update(value="Fuse & Analyze", interactive=True)
+        # If error occurs, try to dump raw response if available
+        error_html = f"""
+        <div style="background: #fff3cd; padding: 20px; border-radius: 8px; border-left: 4px solid #f39c12; margin-bottom: 15px;">
+            <h4 style="color: #856404; margin-top: 0;">⚠️ Error Processing Multimodal Analysis</h4>
+            <p style="color: #856404; margin: 0;">Error: {str(e)}</p>
+        </div>
+        """
+        
+        # Try to extract and show raw response if result exists
+        try:
+            if 'result' in locals() and result:
+                if isinstance(result, dict) and result.get('raw_response'):
+                    error_html += f"""
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                        <h4 style="color: #2c3e50; margin-top: 0;">🤖 Raw LLM Response (Debug Output)</h4>
+                        <pre style="background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 5px; 
+                                    overflow-x: auto; font-size: 12px; max-height: 600px; overflow-y: auto; white-space: pre-wrap;">{result.get('raw_response', 'No raw response available')}</pre>
+                    </div>
+                    """
+        except:
+            pass
+        
+        yield error_html, get_session_info(), gr.update(value="Fuse & Analyze", interactive=True)
 
 def reset_session() -> Tuple[str, str]:
     """Reset current session"""
