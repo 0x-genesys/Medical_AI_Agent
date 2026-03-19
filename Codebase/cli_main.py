@@ -35,11 +35,40 @@ logger = get_logger(__name__)
 
 class MedicalAssistantOrchestrator:
     """
-    Healthcare CLI Orchestrator
-    Provides intelligent routing and unified session management for clinical workflows
+    Healthcare CLI Orchestrator with unified session management.
+    
+    Central orchestration layer that coordinates all clinical workflows (text analysis,
+    image analysis, queries, multimodal fusion) with shared session management.
+    Implements Dependency Injection pattern to ensure single model loading and
+    consistent context across all analysis flows.
+    
+    Key Features:
+    - Unified session management across all clinical workflows
+    - Intelligent routing between text, image, and multimodal analysis
+    - Shared processor instances (single model loading)
+    - Cross-flow conversation context (queries reference previous analyses)
+    - HIPAA-compliant session tracking
+    
+    Attributes:
+        text_processor (TextProcessor): Shared BioBERT text processor
+        image_processor (ImageProcessor): Shared BiomedCLIP image processor
+        multimodal_fusion (MultimodalFusion): Integrated multimodal analyzer
+        shared_session_manager (SessionManager): Session manager shared by all processors
     """
     
     def __init__(self):
+        """
+        Initialize orchestrator with shared session management and processors.
+        
+        Creates a single instance of each processor with dependency injection
+        to ensure:
+        - Models are loaded only once
+        - Session context is shared across all workflows
+        - Memory usage is optimized
+        
+        Returns:
+            None
+        """
         # Create SHARED session manager first
         from session_manager import SessionManager
         self.shared_session_manager = SessionManager()
@@ -62,7 +91,16 @@ class MedicalAssistantOrchestrator:
         logger.info("✓ Medical Assistant initialized with SHARED session management across all processors")
     
     def get_session_id(self) -> str:
-        """Get or create shared session ID for all flows"""
+        """
+        Get or create shared session ID for all clinical workflows.
+        
+        Lazy initialization of session ID - creates on first access.
+        The same session ID is used across text, image, and query flows
+        to maintain conversation continuity.
+        
+        Returns:
+            str: UUID session identifier
+        """
         if self._session_id is None:
             self._session_id = str(uuid.uuid4())
             self._session_name = f"Session-{datetime.now().strftime('%H:%M')}"
@@ -71,7 +109,13 @@ class MedicalAssistantOrchestrator:
         return self._session_id
     
     def get_session_info(self) -> dict:
-        """Get current session information"""
+        """
+        Get current session information and statistics.
+        
+        Returns:
+            dict: Session information including active status, name, truncated ID,
+                 and interaction count
+        """
         if self._session_id is None:
             return {"active": False, "name": "No active session", "id": None, "interactions": 0}
         return {
@@ -82,7 +126,15 @@ class MedicalAssistantOrchestrator:
         }
     
     def reset_session(self):
-        """Clear current session and start fresh"""
+        """
+        Clear current session and start fresh conversation.
+        
+        Clears session from shared session manager and resets local session state.
+        All conversation context is lost after reset.
+        
+        Returns:
+            None
+        """
         if self._session_id:
             # Clear from shared session manager
             self.shared_session_manager.clear_session(self._session_id)
@@ -94,7 +146,18 @@ class MedicalAssistantOrchestrator:
         logger.info("✓ Session reset - ready for new conversation")
     
     def set_session_name(self, name: str):
-        """Set intelligent session name based on content"""
+        """
+        Set intelligent session name based on content.
+        
+        Updates session name with meaningful description (e.g., patient condition).
+        Only updates if not already customized.
+        
+        Args:
+            name (str): Session name (truncated to 50 chars)
+        
+        Returns:
+            None
+        """
         if self._session_id and not self._session_name.startswith("Session-"):
             return  # Already has custom name
         self._session_name = name[:50]  # Limit length

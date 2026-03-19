@@ -27,12 +27,49 @@ logging.getLogger("transformers.modeling_utils").setLevel(logging.ERROR)
 
 class TextProcessor:
     """
-    Processes medical text using BioBERT/ClinicalBERT for embeddings
-    Uses LangChain for orchestration as per PDF requirements
-    Implements semantic search and matching for clinical data
+    Medical text processing service using BioBERT/ClinicalBERT embeddings.
+    
+    Provides comprehensive text analysis for clinical documents using BioBERT
+    for semantic embeddings, FAISS for vector search, and LangChain for LLM
+    orchestration. Implements Retrieval-Augmented Generation (RAG) with a
+    medical knowledge base for enhanced clinical reasoning.
+    
+    Key Features:
+    - BioBERT/ClinicalBERT embeddings for medical text understanding
+    - FAISS-based semantic search for knowledge retrieval
+    - LangChain orchestration with Ollama LLM
+    - Session-aware conversation management
+    - Automatic GPU detection and utilization
+    
+    Attributes:
+        embedder (SentenceTransformer): BioBERT model for text embeddings
+        llm (OllamaLLM): LangChain LLM for text generation
+        index (faiss.Index): FAISS index for semantic search
+        documents (List[Document]): Indexed document chunks
+        session_manager (SessionManager): Session management for context
+        device (str): Compute device ('cuda', 'mps', or 'cpu')
     """
     
     def __init__(self, model_name: Optional[str] = None, embedding_model: str = "emilyalsentzer/Bio_ClinicalBERT", session_manager=None):
+        """
+        Initialize text processor with BioBERT and LangChain components.
+        
+        Sets up the complete text processing pipeline including:
+        - BioBERT/ClinicalBERT for embeddings (auto GPU detection)
+        - Ollama LLM via LangChain for text generation
+        - FAISS index for medical knowledge base retrieval
+        - Session manager for conversation context
+        
+        Args:
+            model_name (Optional[str]): Override LLM model name (defaults from config)
+            embedding_model (str): HuggingFace model for embeddings
+                                 (default: Bio_ClinicalBERT)
+            session_manager (Optional[SessionManager]): Shared session manager instance
+                                                       (creates new if None)
+        
+        Returns:
+            None
+        """
         self.model_name = model_name or config.model.llm_model
         self.logger = get_logger(__name__)
         
@@ -72,15 +109,25 @@ class TextProcessor:
     
     def _retrieve_rag_context(self, query_text: str, top_k: int = 3) -> str:
         """
-        Helper method to retrieve RAG context from FAISS knowledge base
-        Follows DRY principle to avoid code duplication
+        Retrieve Retrieval-Augmented Generation (RAG) context from FAISS knowledge base.
+        
+        Helper method implementing the RAG pattern: retrieves relevant medical knowledge
+        from the pre-indexed FAISS vector database using BioBERT semantic similarity.
+        Follows DRY principle to centralize RAG retrieval logic used across multiple
+        analysis methods.
+        
+        Process:
+        1. Encode query text with BioBERT
+        2. Search FAISS index for top-k similar documents
+        3. Format retrieved documents for prompt injection
         
         Args:
-            query_text: Text to use for semantic search
-            top_k: Number of top documents to retrieve
+            query_text (str): Clinical text to use for semantic search
+            top_k (int): Number of most relevant documents to retrieve (default: 3)
             
         Returns:
-            Formatted context string with retrieved documents
+            str: Formatted context string with numbered retrieved documents,
+                or message indicating no retrieval (if index not loaded)
         """
         if self.index is not None:
             self.logger.info("Retrieving from FAISS knowledge base using BioBERT embeddings")
@@ -96,15 +143,31 @@ class TextProcessor:
     
     def analyze_clinical_text(self, medical_text: MedicalText, session_id: Optional[str] = None) -> TextAnalysisResult:
         """
-        Analyze clinical text using LangChain and BioBERT embeddings
-        Stores anonymized history if session_id provided (privacy-compliant)
+        Analyze clinical text using BioBERT embeddings and LangChain LLM.
+        
+        Comprehensive clinical text analysis that:
+        1. Generates BioBERT embeddings for the input text
+        2. Retrieves relevant medical knowledge via RAG (FAISS search)
+        3. Extracts structured clinical information using LLM:
+           - Chief complaints
+           - Symptoms
+           - Medical history
+           - Medications
+           - Lab findings
+           - Clinical entities (with types and confidence)
+        4. Stores interaction in session (PHI-sanitized)
+        
+        Uses a single LLM call for efficiency, combining entity extraction
+        with structured field extraction.
         
         Args:
-            medical_text: MedicalText object containing clinical notes
-            session_id: Optional session ID for history tracking (anonymized)
+            medical_text (MedicalText): Clinical text data to analyze
+            session_id (Optional[str]): Session ID for conversation context tracking
+                                       (history is PHI-sanitized before storage)
             
         Returns:
-            TextAnalysisResult with extracted information
+            TextAnalysisResult: Structured analysis with chief complaints, symptoms,
+                              medications, entities, and clinical summary
         """
         if not medical_text.is_valid():
             self.logger.error("Invalid medical text provided")
@@ -189,13 +252,26 @@ As a medical AI assistant, analyze this clinical text and extract structured inf
     
     def answer_query(self, query_request: QueryRequest, session_id: Optional[str] = None) -> QueryResponse:
         """
-        Answer medical knowledge questions using LangChain QA chain with semantic search
+        Answer medical knowledge questions using RAG and LangChain.
+        
+        Implements a question-answering system that:
+        1. Encodes the query with BioBERT
+        2. Retrieves relevant medical knowledge from FAISS index
+        3. Combines retrieved knowledge with user-provided context
+        4. Generates evidence-based answer using LLM
+        5. Calculates dynamic confidence score
+        6. Extracts references from response
+        
+        Uses session context to maintain conversation continuity, allowing
+        follow-up questions that reference previous interactions.
         
         Args:
-            query_request: QueryRequest with question and context
+            query_request (QueryRequest): Query object with question, optional context,
+                                         and reference preferences
+            session_id (Optional[str]): Session ID for conversation context
             
         Returns:
-            QueryResponse with answer and references
+            QueryResponse: Answer with confidence score, references, and timestamp
         """
         self.logger.info(f"Processing query with BioBERT semantic search: {query_request.query[:50]}...")
         
@@ -274,17 +350,24 @@ As a medical AI assistant, analyze this clinical text and extract structured inf
     
     def _semantic_search(self, context: str, query: str, top_k: int = 3, use_persistent_index: bool = True) -> List[Document]:
         """
-        Perform semantic search using BioBERT embeddings and FAISS
-        Implements semantic matching as per PDF requirements
+        Perform semantic search using BioBERT embeddings and FAISS vector database.
+        
+        Implements semantic matching with two strategies:
+        1. Persistent index: Uses pre-built FAISS index (fast, for knowledge base)
+        2. Temporary index: Creates ephemeral index from context (for ad-hoc search)
+        
+        Uses L2 distance similarity in embedding space to find semantically
+        similar documents based on BioBERT representations.
         
         Args:
-            context: Context text to search within (used only if no persistent index)
-            query: Search query
-            top_k: Number of top results to return
-            use_persistent_index: Whether to use pre-built index (if available)
-            ry
+            context (str): Context text to search within (used only if no persistent index)
+            query (str): Search query text
+            top_k (int): Number of top results to return (default: 3)
+            use_persistent_index (bool): Whether to use pre-built index if available
+                                        (default: True)
+            
         Returns:
-            List of relevant Document objects
+            List[Document]: List of relevant Document objects ranked by similarity
         """
         self.logger.info("Performing semantic search with BioBERT embeddings")
         
@@ -327,8 +410,17 @@ As a medical AI assistant, analyze this clinical text and extract structured inf
     
     def _load_medical_knowledge_base(self):
         """
-        Load and index medical knowledge base at startup for RAG
-        Uses in-memory FAISS for fast retrieval without disk I/O
+        Load and index medical knowledge base at startup for RAG.
+        
+        Automatically loads the medical knowledge base from
+        data/medical_knowledge.txt during initialization. Creates an
+        in-memory FAISS index for fast semantic retrieval without disk I/O.
+        
+        The knowledge base is split by document separators (---) and
+        indexed using BioBERT embeddings for later RAG retrieval.
+        
+        Returns:
+            None
         """
         from pathlib import Path
         
@@ -359,18 +451,28 @@ As a medical AI assistant, analyze this clinical text and extract structured inf
     
     def index_documents(self, documents: List[str]):
         """
-        Pre-index documents for fast semantic search using BioBERT embeddings
-        Creates persistent FAISS index that's reused across queries
+        Pre-index documents for fast semantic search using BioBERT embeddings.
         
-        Use this to index a knowledge base (e.g., medical guidelines, FAQs)
-        before handling user queries for much faster retrieval.
+        Creates a persistent in-memory FAISS index that enables O(log N) semantic
+        search without re-embedding documents on every query. This dramatically
+        improves performance for knowledge bases.
         
-        Performance:
+        Process:
+        1. Split documents into chunks using RecursiveCharacterTextSplitter
+        2. Generate BioBERT embeddings for all chunks
+        3. Build FAISS L2 index from embeddings
+        4. Store index and documents for future queries
+        
+        Performance Impact:
         - Without indexing: O(N) embedding cost per query
         - With indexing: O(1) embedding cost per query (amortized)
+        - Search time: O(log N) with FAISS index
         
         Args:
-            documents: List of document texts to index
+            documents (List[str]): List of document texts to index
+        
+        Returns:
+            None
         """
         self.logger.info(f"Indexing {len(documents)} documents with BioBERT")
         
@@ -391,7 +493,23 @@ As a medical AI assistant, analyze this clinical text and extract structured inf
     
     def _parse_analysis_response(self, response: str) -> TextAnalysisResult:
         """
-        Robust LLM response parser - handles markdown, extra text, flexible JSON
+        Parse LLM response into structured TextAnalysisResult.
+        
+        Robust parser that handles multiple response formats:
+        - JSON in markdown code blocks (```json ... ```)
+        - Raw JSON objects
+        - JSON embedded in prose
+        - Malformed responses (fallback to text summary)
+        
+        Extracts clinical entities and normalizes all list fields to
+        consistent string arrays.
+        
+        Args:
+            response (str): Raw LLM response string
+        
+        Returns:
+            TextAnalysisResult: Structured result with parsed fields or
+                              fallback result with raw response if parsing fails
         """
         import re
         
@@ -482,14 +600,23 @@ As a medical AI assistant, analyze this clinical text and extract structured inf
     
     def _calculate_query_confidence(self, retrieved_context: str, response: str) -> float:
         """
-        Calculate dynamic confidence score based on context availability and response quality
+        Calculate dynamic confidence score for query responses.
+        
+        Computes confidence based on multiple factors:
+        - Base confidence: 0.5
+        - +0.25 if relevant RAG context was retrieved
+        - +0.15 if response is substantial (>100 chars)
+        - +0.10 if response contains medical terminology
+        
+        Maximum confidence capped at 0.95 to indicate inherent uncertainty
+        in AI-generated medical content.
         
         Args:
-            retrieved_context: RAG context retrieved
-            response: Generated response
+            retrieved_context (str): RAG context retrieved from knowledge base
+            response (str): Generated LLM response
             
         Returns:
-            Confidence score between 0.0 and 1.0
+            float: Confidence score between 0.0 and 0.95
         """
         confidence = 0.5  # Base confidence
         
@@ -509,7 +636,18 @@ As a medical AI assistant, analyze this clinical text and extract structured inf
         return min(confidence, 0.95)  # Cap at 0.95
     
     def _extract_references(self, text: str) -> List[str]:
-        """Extract references from response text"""
+        """
+        Extract references and citations from LLM response text.
+        
+        Searches for lines containing keywords like 'reference', 'source',
+        'study', or 'research' to identify potential citations in the response.
+        
+        Args:
+            text (str): LLM response text
+        
+        Returns:
+            List[str]: List of up to 5 extracted reference lines
+        """
         references = []
         lines = text.split('\n')
         for line in lines:

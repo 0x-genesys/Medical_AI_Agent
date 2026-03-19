@@ -12,27 +12,47 @@ logger = get_logger(__name__)
 
 class SessionManager:
     """
-    Manages conversation sessions across all flows (text, image, query)
-    Uses ConversationBufferMemory to preserve full conversation history
-    (Llama3 has 8K+ token context, no need for premature summarization)
+    Manages conversation sessions across all flows (text, image, query).
+    
+    Provides unified session management for maintaining conversation context
+    across different analysis flows. Uses LangChain's ConversationBufferMemory
+    to preserve full conversation history without premature summarization.
+    
+    The session manager ensures:
+    - Cross-flow context continuity (queries can reference previous reports)
+    - Privacy-compliant storage (PHI sanitized before storage)
+    - Multi-session support (multiple concurrent patient contexts)
+    
+    Attributes:
+        sessions (Dict[str, ConversationBufferMemory]): Map of session IDs to memory buffers
     """
     
     def __init__(self):
         """
-        Initialize session manager with full conversation buffer
+        Initialize session manager with empty session dictionary.
+        
+        Creates the internal sessions dictionary for storing conversation
+        buffers keyed by session ID.
+        
+        Returns:
+            None
         """
         self.sessions: Dict[str, ConversationBufferMemory] = {}
         logger.info("✓ SessionManager initialized with full conversation buffer (no summarization)")
     
     def get_or_create_session(self, session_id: str) -> ConversationBufferMemory:
         """
-        Get existing session or create new one
+        Get existing session memory or create a new one if it doesn't exist.
+        
+        Retrieves the conversation buffer for the specified session ID.
+        If no session exists with that ID, creates a new ConversationBufferMemory
+        instance configured with message return format.
         
         Args:
-            session_id: Unique session identifier
+            session_id (str): Unique session identifier (typically UUID)
             
         Returns:
-            ConversationBufferMemory instance with full history
+            ConversationBufferMemory: LangChain memory buffer for this session
         """
         if session_id not in self.sessions:
             self.sessions[session_id] = ConversationBufferMemory(
@@ -51,13 +71,21 @@ class SessionManager:
         flow_type: str = "general"
     ):
         """
-        Add user-AI interaction to session memory with PHI sanitization
+        Add a user-AI interaction to session memory with automatic PHI sanitization.
+        
+        Stores the conversation turn in the session's memory after removing PHI
+        to ensure HIPAA compliance. Tags the input with the flow type (e.g., [REPORT],
+        [QUERY]) to provide context for future interactions.
         
         Args:
-            session_id: Session identifier
-            user_input: User's input (will be sanitized)
-            ai_response: AI's response (will be sanitized)
-            flow_type: Type of flow (report/query/image)
+            session_id (str): Session identifier
+            user_input (str): User's input text (will be sanitized for PHI)
+            ai_response (str): AI's response text (will be sanitized for PHI)
+            flow_type (str): Type of flow that generated this interaction
+                           (e.g., 'report', 'query', 'image')
+        
+        Returns:
+            None
         """
         memory = self.get_or_create_session(session_id)
         
@@ -78,13 +106,18 @@ class SessionManager:
     
     def get_context(self, session_id: str) -> str:
         """
-        Get conversation context for a session
+        Get formatted conversation context for a session.
+        
+        Retrieves the conversation history from the session's memory and
+        formats it as a readable string. Returns the last 5 messages to
+        keep context relevant without overwhelming the prompt.
         
         Args:
-            session_id: Session identifier
+            session_id (str): Session identifier
             
         Returns:
-            Formatted conversation history string
+            str: Formatted conversation history with role labels (User/Assistant)
+                Returns "No previous context" if session doesn't exist or is empty
         """
         if session_id not in self.sessions:
             return "No previous context in this session."
@@ -117,10 +150,16 @@ class SessionManager:
     
     def clear_session(self, session_id: str):
         """
-        Clear a session's memory
+        Clear and delete a session's memory.
+        
+        Removes the session from the internal sessions dictionary,
+        freeing memory and resetting context for that session ID.
         
         Args:
-            session_id: Session identifier
+            session_id (str): Session identifier to clear
+        
+        Returns:
+            None
         """
         if session_id in self.sessions:
             del self.sessions[session_id]
@@ -128,13 +167,16 @@ class SessionManager:
     
     def get_session_summary(self, session_id: str) -> str:
         """
-        Get a summary of the session
+        Get a human-readable summary of the session.
+        
+        Provides basic information about the session including its ID
+        and the amount of context stored.
         
         Args:
-            session_id: Session identifier
+            session_id (str): Session identifier
             
         Returns:
-            Human-readable summary
+            str: Summary string with session info or "No active session"
         """
         if session_id not in self.sessions:
             return "No active session."

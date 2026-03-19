@@ -45,11 +45,51 @@ from session_manager import SessionManager
 
 class ImageProcessor:
     """
-    Processes medical images using MedCLIP for specialized clinical image understanding
-    Uses LangChain for orchestration as per PDF requirements
+    Medical image processing service using Microsoft BiomedCLIP.
+    
+    Provides comprehensive medical image analysis using BiomedCLIP, a vision-language
+    model pre-trained on 15M medical image-caption pairs from PubMed Central.
+    Integrates with LangChain for orchestration and uses FAISS-based knowledge
+    retrieval for condition matching.
+    
+    Key Features:
+    - BiomedCLIP vision-language model for medical image understanding
+    - Zero-shot condition matching against medical knowledge base
+    - DICOM format support for radiology images
+    - Automatic GPU detection and utilization
+    - RAG integration with text processor for knowledge retrieval
+    - Session-aware conversation management
+    
+    Attributes:
+        clip_model: BiomedCLIP model for image-text similarity
+        preprocess: Image preprocessing pipeline
+        tokenizer: Text tokenizer for BiomedCLIP
+        llm (OllamaLLM): LangChain LLM for analysis synthesis
+        medical_conditions (List[str]): Medical conditions for zero-shot matching
+        session_manager (SessionManager): Session management for context
+        device (torch.device): Compute device ('cuda' or 'cpu')
     """
 
     def __init__(self, model_name: Optional[str] = None, vision_model: str = "BiomedCLIP", session_manager=None):
+        """
+        Initialize image processor with BiomedCLIP and LangChain components.
+        
+        Sets up the complete image processing pipeline including:
+        - Microsoft BiomedCLIP model (auto GPU detection)
+        - Medical condition knowledge base loading
+        - Ollama LLM via LangChain for analysis generation
+        - DICOM and OpenCV support (if available)
+        - Session manager for conversation context
+        
+        Args:
+            model_name (Optional[str]): Override LLM model name (defaults from config)
+            vision_model (str): Vision model identifier (default: 'BiomedCLIP')
+            session_manager (Optional[SessionManager]): Shared session manager instance
+                                                       (creates new if None)
+        
+        Returns:
+            None
+        """
         self.model_name = model_name or config.model.llm_model
         self.logger = get_logger(__name__)
 
@@ -132,11 +172,20 @@ class ImageProcessor:
 
     def _load_medical_conditions(self) -> list:
         """
-        Load imaging-specific medical conditions for MedCLIP matching
-        Uses dedicated imaging_conditions.txt optimized for CT, X-ray, and MRI analysis
+        Load imaging-specific medical conditions for BiomedCLIP zero-shot matching.
+        
+        Loads a curated list of medical conditions from data/imaging_conditions.txt
+        that are optimized for radiological findings. These conditions are used
+        for zero-shot classification by computing image-text similarity scores
+        with BiomedCLIP.
+        
+        The conditions cover common radiological findings across modalities:
+        - X-ray findings (pneumonia, fractures, etc.)
+        - CT findings (masses, hemorrhages, etc.)
+        - MRI findings (lesions, edema, etc.)
         
         Returns:
-            List of condition names
+            list: List of medical condition strings for zero-shot matching
         """
         conditions = []
         imaging_conditions_file = Path(__file__).parent / "data" / "imaging_conditions.txt"
@@ -362,14 +411,29 @@ class ImageProcessor:
 
     def compute_image_text_similarity(self, image_path: str, text_descriptions: list) -> np.ndarray:
         """
-        Compute similarity between image and text descriptions using BiomedCLIP
+        Compute zero-shot image-text similarity using BiomedCLIP.
+        
+        Core capability for medical condition matching without training data.
+        Uses BiomedCLIP's vision-language alignment to score how well each
+        text label describes the medical image.
+        
+        Process:
+        1. Load and preprocess image
+        2. Encode image with vision encoder
+        3. Encode text labels with text encoder
+        4. Compute cosine similarity in shared embedding space
+        5. Scale with learned logit_scale parameter
+        
+        This enables zero-shot classification on any medical conditions without
+        fine-tuning, leveraging BiomedCLIP's pre-training on 15M medical images.
         
         Args:
-            image_path: Path to medical image
-            text_descriptions: List of text descriptions
+            image_path (str): File system path to medical image
+            text_descriptions (list): List of medical condition text descriptions
             
         Returns:
-            Similarity scores as numpy array
+            np.ndarray: Array of similarity scores (logit values before softmax),
+                       one score per text label
         """
         if self.clip_model is None:
             raise ValueError("BiomedCLIP model not loaded")
@@ -451,7 +515,26 @@ class ImageProcessor:
         return image_array
 
     def _load_image(self, image_path: str) -> Tuple[np.ndarray, Dict[str, Any]]:
-        """Load image and extract metadata"""
+        """
+        Load medical image with automatic format detection and metadata extraction.
+        
+        Supports multiple medical image formats:
+        - DICOM (.dcm) - with metadata extraction from DICOM tags
+        - Standard formats (PNG, JPG, JPEG, BMP, TIFF)
+        
+        For DICOM files, extracts clinical metadata including patient information,
+        imaging modality, and study descriptions.
+        
+        Args:
+            image_path (str): File system path to image file
+            
+        Returns:
+            Tuple[np.ndarray, Dict[str, Any]]: Image array and metadata dictionary
+        
+        Raises:
+            FileNotFoundError: If image file doesn't exist
+            ImportError: If DICOM file requires pydicom but it's not installed
+        """
         path = Path(image_path)
 
         if not path.exists():
@@ -495,7 +578,20 @@ class ImageProcessor:
             return clahe.apply(image_array)
 
     def _parse_image_analysis_response(self, response: str) -> ImageAnalysisResult:
-        """Robust parser - handles markdown code blocks"""
+        """
+        Parse LLM response into structured ImageAnalysisResult.
+        
+        Robust parser that handles multiple response formats including JSON
+        in markdown code blocks and raw JSON objects. Falls back to basic
+        parsing if JSON is malformed.
+        
+        Args:
+            response (str): Raw LLM response string (expected to be JSON)
+        
+        Returns:
+            ImageAnalysisResult: Structured result with observations, findings,
+                               and recommendations
+        """
         import re
         import json
         try:

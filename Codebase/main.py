@@ -58,9 +58,34 @@ def print_info(text):
     print(f"{Colors.BLUE}ℹ️  {text}{Colors.END}")
 
 class MedicalAssistantSetup:
-    """Automated setup and launcher for Medical Assistant"""
+    """
+    Automated setup and launcher for Medical Assistant.
+    
+    Handles complete environment setup including Python version checking,
+    virtual environment creation, dependency installation, Ollama setup,
+    and application launching. Supports multiple platforms (Windows, macOS,
+    Linux, Google Colab).
+    
+    Attributes:
+        script_dir (Path): Directory containing this script (Codebase/)
+        project_root (Path): Root project directory
+        venv_dir (Path): Virtual environment directory
+        ui_dir (Path): UI dashboard directory
+        is_windows (bool): Whether running on Windows
+        is_colab (bool): Whether running in Google Colab
+        python_cmd (str): Python command ('python' or 'python3')
+    """
     
     def __init__(self):
+        """
+        Initialize setup manager with platform detection.
+        
+        Detects platform, sets up directory paths, and determines
+        appropriate Python command for the environment.
+        
+        Returns:
+            None
+        """
         self.script_dir = Path(__file__).parent.resolve()
         self.project_root = self.script_dir.parent
         self.venv_dir = self.project_root / "venv"
@@ -72,7 +97,15 @@ class MedicalAssistantSetup:
         self.is_colab = self._detect_colab()
     
     def _detect_colab(self):
-        """Detect if running in Google Colab"""
+        """
+        Detect if running in Google Colab environment.
+        
+        Attempts to import google.colab module to determine if
+        code is running in Colab notebook environment.
+        
+        Returns:
+            bool: True if running in Colab, False otherwise
+        """
         try:
             import google.colab
             return True
@@ -80,7 +113,16 @@ class MedicalAssistantSetup:
             return False
         
     def check_python_version(self):
-        """Check if Python version is compatible"""
+        """
+        Check if Python version meets minimum requirements.
+        
+        Verifies that Python 3.9 or higher is installed. Prints
+        version information and installation guidance if version
+        is too old.
+        
+        Returns:
+            bool: True if Python version is compatible (3.9+), False otherwise
+        """
         print_header("📋 Checking Python Version")
         
         try:
