@@ -1,0 +1,426 @@
+================================================================================
+  MULTIMODAL MEDICAL ASSISTANT - CAPSTONE PROJECT
+  SETUP & EXECUTION GUIDE
+================================================================================
+
+A. Simple SETUP RUN >>>>>>>>>
+================================================================================
+For ease of setup and reducing complexity these steps are also added in main file
+Simply run :
+
+python main.py
+
+And project setup should happen, assuming :
+1. Python 3.9 or higher required (Python 3.11+ recommended)
+2. HUGGINGFACE TOKEN added in .env file (Required for BiomedCLIP model)
+3. OLLAMA is present (Required for LLM) - this should be downloaded on run if not present
+
+Once python env and codebase comes up you will be prompted for :
+
+1. ui
+2. cli
+
+you can choose either, both should work
+================================================================================
+
+
+
+
+B. Detailed SETUP RUN >>>>>>>>>
+================================================================================
+
+
+This guide provides step-by-step instructions to set up and run the Multimodal
+Medical Assistant on a new environment.
+
+
+================================================================================
+PREREQUISITES
+================================================================================
+
+1. PYTHON VERSION
+   - Python 3.9 or higher required (Python 3.11+ recommended)
+   - Check version: python3 --version
+   - Download from: https://www.python.org/downloads/
+
+2. OLLAMA (Required for LLM)
+   - macOS:   curl -fsSL https://ollama.com/install.sh | sh
+              OR: brew install ollama
+   - Linux:   curl -fsSL https://ollama.com/install.sh | sh
+   - Windows: Download from https://ollama.com/download
+   - Google Colab: !curl -fsSL https://ollama.com/install.sh | sh
+
+3. HUGGINGFACE TOKEN (Required for BiomedCLIP model)
+   - Create account at: https://huggingface.co/
+   - Get token from: https://huggingface.co/settings/tokens
+   - Create a READ access token
+   - Add token to .env file (see step 5 below)
+
+================================================================================
+SETUP STEPS
+================================================================================
+
+STEP 1: CLONE/DOWNLOAD PROJECT
+-------------------------------
+Download the Capstone_Project-CS[04] directory to your local machine.
+
+Navigate to the Codebase directory:
+   cd /path/to/Capstone_Project-CS[04]/Codebase
+
+
+STEP 2: CREATE VIRTUAL ENVIRONMENT
+-----------------------------------
+Create a Python virtual environment to isolate dependencies:
+
+   # macOS/Linux
+   python3 -m venv ../venv
+   
+   # Windows
+   python -m venv ../venv
+
+Activate the virtual environment:
+
+   # macOS/Linux
+   source ../venv/bin/activate
+   
+   # Windows
+   ../venv/Scripts/activate
+
+Note: You should see (venv) in your terminal prompt when activated.
+
+
+STEP 3: UPGRADE PIP
+-------------------
+Upgrade pip to the latest version:
+
+   pip install --upgrade pip
+
+
+STEP 4: INSTALL PYTHON DEPENDENCIES
+------------------------------------
+Install all required Python packages from requirements.txt:
+
+   pip install -r requirements.txt
+
+This will install:
+   - PyTorch (Deep learning framework)
+   - Transformers (HuggingFace models)
+   - LangChain (LLM orchestration)
+   - Sentence-Transformers (BioBERT embeddings)
+   - BiomedCLIP dependencies (open_clip, etc.)
+   - FAISS (Vector database for semantic search)
+   - Gradio (Web UI framework)
+   - Other medical AI dependencies
+
+Note: This may take several minutes depending on your internet connection.
+      Total download size: ~2-3 GB
+
+
+STEP 5: CONFIGURE ENVIRONMENT VARIABLES
+----------------------------------------
+Create or update the .env file in Codebase/ directory:
+
+   # Copy from example if it exists
+   cp .env.example .env
+   
+   # OR create new .env file with the following content:
+
+   ====== .env file content ======
+   # Model Configuration
+   LLM_MODEL=llama3.2
+   MODEL_TEMPERATURE=0.1
+   MODEL_MAX_TOKENS=2000
+
+   # HuggingFace Configuration
+   # IMPORTANT: Add your HuggingFace token here
+   # Get token from: https://huggingface.co/settings/tokens (Read access)
+   HF_TOKEN=your_huggingface_token_here
+   SKIP_BIOMEDCLIP=false
+
+   # API Configuration
+   API_HOST=0.0.0.0
+   API_PORT=8000
+   DEBUG=false
+
+   # Storage Configuration
+   TEMP_DIR=temp
+   UPLOAD_DIR=uploads
+   OUTPUT_DIR=output
+   MAX_FILE_SIZE_MB=50
+
+   # Security Configuration
+   ENABLE_DEIDENTIFICATION=true
+   ENABLE_AUDIT_LOGGING=true
+   HIPAA_COMPLIANT=true
+
+   # Logging
+   LOG_LEVEL=INFO
+   LOG_DIR=logs
+   ================================
+
+   **CRITICAL**: Replace 'your_huggingface_token_here' with your actual token!
+
+
+STEP 6: INSTALL & START OLLAMA SERVICE
+---------------------------------------
+Start the Ollama service in the background:
+
+   # macOS/Linux
+   ollama serve &
+   
+   # Windows
+   ollama serve
+   
+   # Google Colab
+   !nohup ollama serve > /dev/null 2>&1 &
+
+Verify Ollama is running:
+
+   ollama list
+
+
+STEP 7: DOWNLOAD LLAMA 3 MODEL
+-------------------------------
+Pull the Llama 3.2 model (recommended - 2GB) or Llama 3 (4.7GB):
+
+   # Llama 3.2 (smaller, newer - recommended)
+   ollama pull llama3.2
+   
+   # OR Llama 3 (larger, more capable)
+   ollama pull llama3
+
+Verify model is downloaded:
+
+   ollama list
+
+
+STEP 8: VERIFY SETUP
+--------------------
+The system will auto-verify on first run, but you can manually check:
+
+   # Check Python version
+   python3 --version
+   
+   # Check virtual environment is activated
+   which python  # Should show path to venv/bin/python
+   
+   # Check Ollama is running
+   ollama list
+   
+   # Check installed packages
+   pip list | grep -E "torch|transformers|langchain|gradio"
+
+
+================================================================================
+RUNNING THE APPLICATION
+================================================================================
+
+METHOD 1: AUTOMATIC SETUP & LAUNCH (Recommended)
+-------------------------------------------------
+The main.py script will automatically:
+   - Check Python version
+   - Create virtual environment
+   - Install dependencies
+   - Configure environment
+   - Check Ollama installation
+   - Download Llama 3 model
+   - Launch your chosen interface
+
+Run the setup and launcher:
+
+   python3 main.py
+
+Then select:
+   1. Web UI (Gradio Dashboard) - Browser-based interface
+   2. CLI Interface - Terminal-based interface
+
+
+METHOD 2: DIRECT LAUNCH
+------------------------
+If setup is already complete, launch directly:
+
+   # Launch Web UI
+   python3 main.py --ui
+   
+   # Launch CLI Interface
+   python3 main.py --cli
+   
+   # Run tests
+   python3 main.py --test
+
+
+METHOD 3: MANUAL LAUNCH
+-----------------------
+Manually run specific components:
+
+   # Web UI (Gradio Dashboard)
+   python3 ui-dashboard/medical_assistant_ui.py
+   
+   # CLI Interface
+   python3 cli_main.py
+
+
+================================================================================
+FIRST-TIME MODEL DOWNLOAD
+================================================================================
+
+On first run, the system will automatically download:
+
+1. BiomedCLIP Model (~500MB)
+   - Downloaded from HuggingFace
+   - Cached in: ~/.cache/huggingface/hub/
+   - Requires HF_TOKEN in .env file
+   - One-time download
+
+2. BioBERT/ClinicalBERT (~400MB)
+   - Downloaded from HuggingFace
+   - Cached in: ~/.cache/huggingface/hub/
+   - Automatic download on first use
+
+3. Medical Knowledge Base
+   - Loaded from: data/medical_texts.json
+   - Indexed with FAISS for semantic search
+
+
+================================================================================
+USAGE EXAMPLES
+================================================================================
+
+WEB UI (Gradio Dashboard):
+--------------------------
+1. Launch: python3 main.py --ui
+2. Open browser: http://localhost:7860
+3. Upload medical images or enter text queries
+4. View parsed clinical analysis
+
+
+CLI INTERFACE:
+--------------
+1. Launch: python3 main.py --cli
+2. Interactive menu with options:
+   - Report Analysis: Analyze clinical report files
+   - Query: Ask medical questions
+   - Image Analysis: Analyze medical images
+   - Multimodal: Combined text + image analysis
+   - Session Management: New/Reset sessions
+
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+ISSUE: "Ollama not found"
+SOLUTION: Install Ollama following step 6, then restart terminal
+
+ISSUE: "Llama 3 model not found"
+SOLUTION: Run: ollama pull llama3.2
+
+ISSUE: "HuggingFace token error"
+SOLUTION: Add valid HF_TOKEN to .env file (step 5)
+
+ISSUE: "Module not found" errors
+SOLUTION: Ensure virtual environment is activated and run:
+          pip install -r requirements.txt
+
+ISSUE: "CUDA/GPU errors"
+SOLUTION: System will auto-detect GPU. If issues persist, models will
+          fall back to CPU mode automatically.
+
+ISSUE: "OpenMP library crash"
+SOLUTION: Environment variables are pre-configured in code to handle this.
+          If issues persist, ensure KMP_DUPLICATE_LIB_OK=TRUE is set.
+
+ISSUE: "Port 7860 already in use"
+SOLUTION: Stop other Gradio instances or change port in medical_assistant_ui.py
+
+
+================================================================================
+SYSTEM REQUIREMENTS
+================================================================================
+
+MINIMUM:
+   - CPU: 4+ cores
+   - RAM: 8 GB
+   - Storage: 10 GB free space
+   - Internet: Required for initial downloads
+
+RECOMMENDED:
+   - CPU: 8+ cores
+   - RAM: 16 GB
+   - GPU: NVIDIA GPU with 6GB+ VRAM (optional, improves speed)
+   - Storage: 20 GB free space
+
+
+================================================================================
+DIRECTORY STRUCTURE
+================================================================================
+
+Codebase/
+├── main.py                    # Setup & launcher
+├── cli_main.py               # CLI interface
+├── config.py                 # Configuration
+├── models.py                 # Data models
+├── text_processor.py         # Text processing (BioBERT)
+├── image_processor.py        # Image processing (BiomedCLIP)
+├── multimodal_fusion.py      # Multimodal fusion
+├── logger.py                 # Logging utilities
+├── session_manager.py        # Session management
+├── privacy_utils.py          # HIPAA compliance
+├── requirements.txt          # Python dependencies
+├── .env                      # Environment configuration
+├── data/                     # Medical knowledge base
+├── logs/                     # Application logs
+├── ui-dashboard/             # Gradio web interface
+└── tests/                    # Test suite
+
+
+================================================================================
+RUNNING TESTS
+================================================================================
+
+Run the full test suite:
+
+   python3 main.py --test
+   
+   # OR manually with pytest
+   pytest tests/ -v
+
+
+================================================================================
+STOPPING THE APPLICATION
+================================================================================
+
+Web UI / CLI:
+   - Press Ctrl+C in the terminal
+
+Ollama Service:
+   # macOS/Linux
+   pkill ollama
+   
+   # Windows
+   Stop Ollama from Task Manager or terminal
+
+
+================================================================================
+ADDITIONAL RESOURCES
+================================================================================
+
+- HuggingFace: https://huggingface.co/
+- Ollama: https://ollama.com/
+- BiomedCLIP: https://huggingface.co/microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224
+- LangChain: https://python.langchain.com/
+- Gradio: https://gradio.app/
+
+
+================================================================================
+SUPPORT & CONTACT
+================================================================================
+
+For issues, please refer to:
+   - README.md in project root
+   - Code comments in individual modules
+   - Test cases in tests/ directory
+
+================================================================================
+END OF SETUP GUIDE
+================================================================================

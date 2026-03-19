@@ -20,20 +20,39 @@ from config import config
 
 class MultimodalFusion:
     """
-    Fuses multimodal information using LangChain chains
-    Orchestrates cross-modal queries and retrieval as per PDF requirements
-    Uses LangChain for pipeline integration instead of custom code
+    Fuses multimodal information using LangChain chains.
+    
+    Integrates text and image analysis pipelines using LangChain's orchestration
+    capabilities. Implements cross-modal queries and retrieval combining BioBERT
+    text embeddings with BiomedCLIP image embeddings for comprehensive medical
+    assessment.
+    
+    Uses Dependency Injection pattern to share processor instances across the
+    application, ensuring consistent session management and avoiding duplicate
+    model loading.
+    
+    Attributes:
+        text_processor (TextProcessor): Shared text processing instance
+        image_processor (ImageProcessor): Shared image processing instance
+        session_manager (SessionManager): Shared session management instance
+        llm (OllamaLLM): LangChain LLM for synthesis
     """
     
     def __init__(self, text_processor, image_processor, session_manager, model_name: Optional[str] = None):
         """
-        Initialize with shared dependencies (Dependency Injection)
+        Initialize multimodal fusion with shared dependencies (Dependency Injection).
+        
+        Accepts pre-initialized processor instances to ensure single model loading
+        and shared session management across all analysis flows.
         
         Args:
-            text_processor: Shared TextProcessor instance
-            image_processor: Shared ImageProcessor instance
-            session_manager: Shared SessionManager instance
-            model_name: Optional LLM model name
+            text_processor (TextProcessor): Shared TextProcessor instance with BioBERT
+            image_processor (ImageProcessor): Shared ImageProcessor instance with BiomedCLIP
+            session_manager (SessionManager): Shared SessionManager for cross-flow context
+            model_name (Optional[str]): Override LLM model name (defaults from config)
+        
+        Returns:
+            None
         """
         self.model_name = model_name or config.model.llm_model
         self.text_processor = text_processor  # Use shared instance
@@ -52,14 +71,26 @@ class MultimodalFusion:
         session_id: Optional[str] = None
     ) -> MultimodalAnalysisResult:
         """
-        Perform integrated multimodal analysis using LangChain chains
+        Perform integrated multimodal analysis combining text and image data.
+        
+        Analyzes both clinical text (using BioBERT) and medical images (using BiomedCLIP)
+        then synthesizes the findings into a unified clinical assessment with differential
+        diagnosis and recommendations.
+        
+        Process:
+        1. Analyze text component with BioBERT embeddings and RAG
+        2. Analyze image component with BiomedCLIP and medical condition matching
+        3. Synthesize both analyses using LangChain chains
+        4. Generate integrated assessment with differential diagnosis
         
         Args:
-            medical_text: Optional clinical text data
-            medical_image: Optional medical image data
+            medical_text (Optional[MedicalText]): Clinical text data to analyze
+            medical_image (Optional[MedicalImage]): Medical image data to analyze
+            session_id (Optional[str]): Session ID for context tracking
             
         Returns:
-            MultimodalAnalysisResult with integrated findings
+            MultimodalAnalysisResult: Integrated analysis with text results, image results,
+                                     differential diagnosis, and recommendations
         """
         self.logger.info("Starting LangChain multimodal analysis")
         
@@ -106,15 +137,27 @@ class MultimodalFusion:
         session_id: Optional[str] = None
     ) -> dict:
         """
-        Synthesize findings using LangChain sequential chain
-        Implements cross-modal integration as per PDF requirements
+        Synthesize text and image findings using LangChain sequential chain.
+        
+        Implements cross-modal integration by combining text analysis results
+        (symptoms, medications, history) with image analysis results (observations,
+        findings) into a unified clinical assessment.
+        
+        Uses LangChain's prompt templates and chain orchestration to generate:
+        - Integrated clinical picture
+        - Differential diagnosis list (ranked)
+        - Recommended diagnostic workup
+        - Clinical summary
+        - Confidence level
         
         Args:
-            text_analysis: Results from text processing
-            image_analysis: Results from image processing
+            text_analysis (Optional[TextAnalysisResult]): Results from BioBERT text analysis
+            image_analysis (Optional[ImageAnalysisResult]): Results from BiomedCLIP image analysis
+            session_id (Optional[str]): Session ID to retrieve conversation context
             
         Returns:
-            Dictionary with integrated findings
+            dict: Dictionary containing integrated_assessment, differential_diagnosis,
+                 recommended_workup, clinical_summary, confidence_level, and raw_response
         """
         self.logger.info("Synthesizing multimodal findings with LangChain chains")
         
@@ -192,11 +235,18 @@ class MultimodalFusion:
     
     def create_multimodal_chain(self):
         """
-        Create a LangChain runnable sequence for multimodal processing
-        Demonstrates modern LangChain orchestration capability
+        Create a LangChain runnable sequence for multimodal processing.
+        
+        Demonstrates modern LangChain Expression Language (LCEL) orchestration
+        using RunnableParallel to process text and image in parallel, then
+        synthesize results in a sequential chain.
+        
+        This method showcases LangChain's composability and is an example of
+        how to build complex AI pipelines declaratively.
         
         Returns:
-            RunnableSequence for multimodal analysis
+            RunnableSequence: LangChain runnable that processes multimodal inputs
+                            and returns integrated analysis
         """
         from langchain_core.runnables import RunnablePassthrough, RunnableParallel
         
@@ -238,7 +288,19 @@ class MultimodalFusion:
         return overall_chain
     
     def _prepare_text_summary(self, text_analysis: Optional[TextAnalysisResult]) -> str:
-        """Prepare text analysis summary for synthesis"""
+        """
+        Prepare a concise text analysis summary for multimodal synthesis.
+        
+        Extracts key information from text analysis results and formats it
+        into a compact summary string suitable for inclusion in the synthesis
+        prompt.
+        
+        Args:
+            text_analysis (Optional[TextAnalysisResult]): Text analysis results
+        
+        Returns:
+            str: Formatted summary of text findings or "No text analysis available"
+        """
         if not text_analysis:
             return "No text analysis available"
         
@@ -253,7 +315,18 @@ class MultimodalFusion:
         return " | ".join(parts) if parts else "No significant text findings"
     
     def _prepare_image_summary(self, image_analysis: Optional[ImageAnalysisResult]) -> str:
-        """Prepare image analysis summary for synthesis"""
+        """
+        Prepare a concise image analysis summary for multimodal synthesis.
+        
+        Extracts key observations, findings, and abnormalities from image analysis
+        and formats them into a compact summary string.
+        
+        Args:
+            image_analysis (Optional[ImageAnalysisResult]): Image analysis results
+        
+        Returns:
+            str: Formatted summary of imaging findings or "No image analysis available"
+        """
         if not image_analysis:
             return "No image analysis available"
         
@@ -268,7 +341,20 @@ class MultimodalFusion:
         return " | ".join(parts) if parts else "No significant imaging findings"
     
     def _parse_synthesis_response(self, response: str) -> dict:
-        """Parse synthesis response"""
+        """
+        Parse LLM synthesis response into structured dictionary.
+        
+        Attempts to parse the LLM's JSON response. If parsing fails,
+        creates a fallback dictionary with truncated response text.
+        
+        Args:
+            response (str): Raw LLM response string (expected to be JSON)
+        
+        Returns:
+            dict: Parsed synthesis results with keys: integrated_assessment,
+                 differential_diagnosis, recommended_workup, clinical_summary,
+                 confidence_level
+        """
         try:
             return json.loads(response)
         except json.JSONDecodeError:
@@ -286,7 +372,20 @@ class MultimodalFusion:
         text_analysis: Optional[TextAnalysisResult],
         image_analysis: Optional[ImageAnalysisResult]
     ) -> dict:
-        """Create fallback synthesis when LangChain fails"""
+        """
+        Create a basic fallback synthesis when LangChain processing fails.
+        
+        Provides a simple text-based synthesis by concatenating summaries
+        from text and image analysis without complex integration. Used as
+        a graceful degradation when the LLM synthesis fails.
+        
+        Args:
+            text_analysis (Optional[TextAnalysisResult]): Text analysis results
+            image_analysis (Optional[ImageAnalysisResult]): Image analysis results
+        
+        Returns:
+            dict: Basic synthesis dictionary with minimal integration
+        """
         summary_parts = []
         
         if text_analysis and text_analysis.summary:

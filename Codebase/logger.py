@@ -10,9 +10,31 @@ from typing import Optional
 
 
 class MedicalLogger:
-    """Custom logger with medical compliance features"""
+    """
+    Custom logger with medical compliance and audit trail features.
+    
+    Provides structured logging for the medical assistant with support for
+    both file and console logging. Includes special audit logging methods
+    for HIPAA compliance tracking.
+    
+    Attributes:
+        logger (logging.Logger): Underlying Python logger instance
+    """
     
     def __init__(self, name: str, log_dir: Optional[Path] = None):
+        """
+        Initialize a medical logger with file and console handlers.
+        
+        Creates a logger with formatted output to both file (if log_dir provided)
+        and console. Prevents duplicate handlers if logger already configured.
+        
+        Args:
+            name (str): Name for this logger (typically module name)
+            log_dir (Optional[Path]): Directory for log files (None = console only)
+        
+        Returns:
+            None
+        """
         self.logger = logging.getLogger(name)
         self.logger.setLevel(logging.INFO)
         
@@ -44,23 +66,85 @@ class MedicalLogger:
         self.logger.addHandler(console_handler)
     
     def audit_log(self, action: str, details: dict):
-        """Special audit logging for compliance"""
+        """
+        Log an audit trail entry for compliance tracking.
+        
+        Creates special audit log entries prefixed with 'AUDIT:' for
+        tracking medical data access and operations. Used for HIPAA
+        compliance and security monitoring.
+        
+        Args:
+            action (str): Description of the action being audited
+            details (dict): Dictionary of relevant details for the action
+        
+        Returns:
+            None
+        """
         audit_message = f"AUDIT: {action} | Details: {details}"
         self.logger.info(audit_message)
     
     def info(self, message: str):
+        """
+        Log an informational message.
+        
+        Args:
+            message (str): The information message to log
+        
+        Returns:
+            None
+        """
         self.logger.info(message)
     
     def error(self, message: str, exc_info: bool = False):
+        """
+        Log an error message with optional exception traceback.
+        
+        Args:
+            message (str): The error message to log
+            exc_info (bool): If True, include full exception traceback
+        
+        Returns:
+            None
+        """
         self.logger.error(message, exc_info=exc_info)
     
     def warning(self, message: str):
+        """
+        Log a warning message.
+        
+        Args:
+            message (str): The warning message to log
+        
+        Returns:
+            None
+        """
         self.logger.warning(message)
     
     def debug(self, message: str):
+        """
+        Log a debug message.
+        
+        Args:
+            message (str): The debug message to log
+        
+        Returns:
+            None
+        """
         self.logger.debug(message)
 
 
 def get_logger(name: str) -> MedicalLogger:
-    """Factory function to get logger instance"""
+    """
+    Factory function to create or retrieve a MedicalLogger instance.
+    
+    Creates a new MedicalLogger with the specified name and default
+    log directory (logs/). This is the preferred way to get loggers
+    throughout the application.
+    
+    Args:
+        name (str): Name for the logger (typically __name__ of calling module)
+    
+    Returns:
+        MedicalLogger: Configured logger instance
+    """
     return MedicalLogger(name, log_dir=Path("logs"))

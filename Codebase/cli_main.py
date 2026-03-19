@@ -9,10 +9,12 @@ Features:
 4. HIPAA-compliant PHI handling
 5. Multimodal analysis: text, images, and integrated assessments
 """
-# CRITICAL: Set OpenMP environment BEFORE any imports
+# CRITICAL: Set environment variables BEFORE any imports
 import os
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
 os.environ['OMP_NUM_THREADS'] = '4'
+# CRITICAL FIX: Disable tokenizers parallelism to prevent BiomedCLIP crash
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 from datetime import datetime
 from typing import Optional, Dict
@@ -33,11 +35,40 @@ logger = get_logger(__name__)
 
 class MedicalAssistantOrchestrator:
     """
-    Healthcare CLI Orchestrator
-    Provides intelligent routing and unified session management for clinical workflows
+    Healthcare CLI Orchestrator with unified session management.
+    
+    Central orchestration layer that coordinates all clinical workflows (text analysis,
+    image analysis, queries, multimodal fusion) with shared session management.
+    Implements Dependency Injection pattern to ensure single model loading and
+    consistent context across all analysis flows.
+    
+    Key Features:
+    - Unified session management across all clinical workflows
+    - Intelligent routing between text, image, and multimodal analysis
+    - Shared processor instances (single model loading)
+    - Cross-flow conversation context (queries reference previous analyses)
+    - HIPAA-compliant session tracking
+    
+    Attributes:
+        text_processor (TextProcessor): Shared BioBERT text processor
+        image_processor (ImageProcessor): Shared BiomedCLIP image processor
+        multimodal_fusion (MultimodalFusion): Integrated multimodal analyzer
+        shared_session_manager (SessionManager): Session manager shared by all processors
     """
     
     def __init__(self):
+        """
+        Initialize orchestrator with shared session management and processors.
+        
+        Creates a single instance of each processor with dependency injection
+        to ensure:
+        - Models are loaded only once
+        - Session context is shared across all workflows
+        - Memory usage is optimized
+        
+        Returns:
+            None
+        """
         # Create SHARED session manager first
         from session_manager import SessionManager
         self.shared_session_manager = SessionManager()
@@ -60,7 +91,16 @@ class MedicalAssistantOrchestrator:
         logger.info("✓ Medical Assistant initialized with SHARED session management across all processors")
     
     def get_session_id(self) -> str:
-        """Get or create shared session ID for all flows"""
+        """
+        Get or create shared session ID for all clinical workflows.
+        
+        Lazy initialization of session ID - creates on first access.
+        The same session ID is used across text, image, and query flows
+        to maintain conversation continuity.
+        
+        Returns:
+            str: UUID session identifier
+        """
         if self._session_id is None:
             self._session_id = str(uuid.uuid4())
             self._session_name = f"Session-{datetime.now().strftime('%H:%M')}"
@@ -69,7 +109,13 @@ class MedicalAssistantOrchestrator:
         return self._session_id
     
     def get_session_info(self) -> dict:
-        """Get current session information"""
+        """
+        Get current session information and statistics.
+        
+        Returns:
+            dict: Session information including active status, name, truncated ID,
+                 and interaction count
+        """
         if self._session_id is None:
             return {"active": False, "name": "No active session", "id": None, "interactions": 0}
         return {
@@ -80,7 +126,15 @@ class MedicalAssistantOrchestrator:
         }
     
     def reset_session(self):
-        """Clear current session and start fresh"""
+        """
+        Clear current session and start fresh conversation.
+        
+        Clears session from shared session manager and resets local session state.
+        All conversation context is lost after reset.
+        
+        Returns:
+            None
+        """
         if self._session_id:
             # Clear from shared session manager
             self.shared_session_manager.clear_session(self._session_id)
@@ -92,7 +146,18 @@ class MedicalAssistantOrchestrator:
         logger.info("✓ Session reset - ready for new conversation")
     
     def set_session_name(self, name: str):
-        """Set intelligent session name based on content"""
+        """
+        Set intelligent session name based on content.
+        
+        Updates session name with meaningful description (e.g., patient condition).
+        Only updates if not already customized.
+        
+        Args:
+            name (str): Session name (truncated to 50 chars)
+        
+        Returns:
+            None
+        """
         if self._session_id and not self._session_name.startswith("Session-"):
             return  # Already has custom name
         self._session_name = name[:50]  # Limit length
@@ -101,6 +166,30 @@ class MedicalAssistantOrchestrator:
     def increment_interaction(self):
         """Track interaction count for session"""
         self._interaction_count += 1
+    
+    def cleanup(self):
+        """Cleanup resources to prevent semaphore leaks"""
+        try:
+            logger.info("Cleaning up resources...")
+            
+            # Clear CUDA cache if available
+            import torch
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                logger.info("✓ Cleared CUDA cache")
+            
+            # Clear session manager
+            if self._session_id:
+                self.shared_session_manager.clear_session(self._session_id)
+            
+            # Delete heavy model references
+            del self.text_processor
+            del self.image_processor
+            del self.multimodal_fusion
+            
+            logger.info("✓ Cleanup complete")
+        except Exception as e:
+            logger.warning(f"Cleanup error (non-critical): {e}")
     
     def analyze_report_flow(self, file_path: str, data_type: str = "clinical_note") -> dict:
         """
@@ -526,6 +615,11 @@ def run_cli_mode():
         except Exception as e:
             logger.error(f"Error in CLI: {str(e)}", exc_info=True)
             print(f"\n❌ Error: {str(e)}")
+    
+    # Cleanup resources before exit
+    print("\n🧹 Cleaning up resources...")
+    orchestrator.cleanup()
+    print("✓ Cleanup complete. Goodbye!\n")
 
 
 if __name__ == "__main__":
@@ -537,4 +631,9 @@ if __name__ == "__main__":
         print("Usage: python main.py")
         sys.exit(1)
     
-    run_cli_mode()
+    try:
+        run_cli_mode()
+    except Exception as e:
+        print(f"\n❌ Fatal error: {e}")
+        import traceback
+        traceback.print_exc()
